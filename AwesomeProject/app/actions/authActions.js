@@ -2,30 +2,26 @@
 import {
     DETAILS,
     FETCH_POSTS,
-    LOGIN_FORM,
     LOGIN_REQUEST,
-    TEST
+    SET_EMAIL,
+    SET_PASSWORD
 } from './types';
 
-// export const username = (text) => dispatch => {
-//     dispatch({
-//         type: LOGIN_FORM,
-//         payload: text
-//     });
-// };
-
-export const getData = () => dispatch => {
-    fetch('http://178.128.177.180/api')
-        .then(res => res.json())
-        .then(posts =>
-              dispatch({
-                  type: FETCH_POSTS,
-                  payload: posts
-              })
-             );
+export const setEmail = (text) => dispatch => {
+    dispatch({
+        type: SET_EMAIL,
+        payload: text
+    });
 };
 
-export const login = () => dispatch => {
+export const setPassword = (text) => dispatch => {
+    dispatch({
+        type: SET_PASSWORD,
+        payload: text
+    });
+};
+
+export const login = (email, password) => dispatch => {
     fetch('http://178.128.177.180/api/login', {
         method: 'POST',
         headers: {
@@ -33,8 +29,10 @@ export const login = () => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+            // email: email,
+            // password: password
             email: 'dillon@ching.com',
-            password: 'asdf',
+            password: 'asdf'
         }),
     }).then(res => res.json())
         .then(login_cred =>
@@ -43,7 +41,6 @@ export const login = () => dispatch => {
                   payload: login_cred
               })
              )
-        .then(console.log('login successful'))
         .catch((error) => {
             console.error(error);
         });
@@ -58,7 +55,6 @@ export const details = (login_cred) => dispatch => {
             'Content-Type': 'application/json',
         },
     }).then(res => res.json())
-        .then(res => console.log('details', res))
         .then(user =>
               dispatch({
                   type: DETAILS,
@@ -68,6 +64,17 @@ export const details = (login_cred) => dispatch => {
         .catch((error) => {
             console.error(error);
         });
+};
+
+export const getData = () => dispatch => {
+    fetch('http://178.128.177.180/api')
+        .then(res => res.json())
+        .then(posts =>
+              dispatch({
+                  type: FETCH_POSTS,
+                  payload: posts
+              })
+             );
 };
 
 

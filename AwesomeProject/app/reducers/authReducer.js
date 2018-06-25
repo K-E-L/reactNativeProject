@@ -2,40 +2,45 @@
 import {
     DETAILS,
     FETCH_POSTS,
-    LOGIN_FORM,
     LOGIN_REQUEST,
-    TEST
-} from './types';
+    SET_EMAIL,
+    SET_PASSWORD
+} from '../actions/types';
 
 const initialState = {
-    items: [],
+    items: {},
     token: {},
-    login_info: {}
+    email: '',
+    password: ''
 };
 
 function authReducer (state = initialState, action) {
     switch (action.type) {
-    case FETCH_POSTS:
+    case SET_EMAIL:
         return {
             ...state,
-            items: action.payload
+            email: action.payload
         };
-        return state;
+    case SET_PASSWORD:
+        return {
+            ...state,
+            password: action.payload
+        };
     case LOGIN_REQUEST:
         console.log(action.payload);
         return {
             ...state,
-            // items: action.payload
-            token: action.payload
-        };
-    case LOGIN_FORM:
-        console.log(action.payload);
-        return {
-            ...state,
-            // items: action.payload
             token: action.payload
         };
     case DETAILS:
+        return {
+            ...state,
+            items: action.payload
+        };
+
+        
+    case FETCH_POSTS:
+        console.log(action.payload);
         return {
             ...state,
             items: action.payload

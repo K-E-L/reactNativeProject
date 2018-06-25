@@ -5,51 +5,54 @@ import { connect } from 'react-redux';
 import {
     Button,
     FlatList,
+    ListItem,
     StyleSheet,
     Text,
     TextInput,
-    View,
+    View
 } from 'react-native';
 
 // import: actions
-import * as Actions from '../actions'; 
+import * as authActions from '../actions/authActions';
 
 class Profile extends Component {
     static navigationOptions = {
-        title: 'Login',
+        title: 'Profile',
     };
 
-    componentDidMount() {
+    componentWillMount() {
+        this.props.details(this.props.token);
+        // this.props.getData();
     }
 
     render() {
         return (
             <View>
-              <Button
-                onPress={() => this.props.login()}
-                title="Login"
+              // stopped here, cant output items json on display
+              <FlatList
+                data={this.props.items}
+                renderItem={({ item }) => (
+                    <ListItem
+                      title={item.name}
+                      />)}
                 />
-                              
-              <Button
-                onPress={() => this.props.details(this.props.login_cred)}
-                title="Details"
-                />
-            </View>
+                </View>
         );
     }
 };
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    console.log(state.authReducer.items.success);
     return {
-        posts: state.postReducer.items,
-        login_cred: state.postReducer.token,
+        items: state.authReducer.items.success,
+        token: state.authReducer.token
     };
 }
 
 // Pass: redux actions to props
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(Actions, dispatch);
+    return bindActionCreators(authActions, dispatch);
 }
 
 // Connect: everything
