@@ -1,16 +1,18 @@
-import { FETCH_POSTS, LOGIN, DETAILS, TEST } from './types';
+// import: types
+import {
+    DETAILS,
+    FETCH_POSTS,
+    LOGIN_FORM,
+    LOGIN_REQUEST,
+    TEST
+} from './types';
 
-export const testFunc = (text) => dispatch => {
-    // return {
-    //     type: TEST,
-    //     payload: 'Dillon'
-    // };
-    
-    dispatch({
-        type: TEST,
-        payload: text
-    });
-};
+// export const username = (text) => dispatch => {
+//     dispatch({
+//         type: LOGIN_FORM,
+//         payload: text
+//     });
+// };
 
 export const getData = () => dispatch => {
     fetch('http://178.128.177.180/api')
@@ -37,7 +39,7 @@ export const login = () => dispatch => {
     }).then(res => res.json())
         .then(login_cred =>
               dispatch({
-                  type: LOGIN,
+                  type: LOGIN_REQUEST,
                   payload: login_cred
               })
              )

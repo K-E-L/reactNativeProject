@@ -1,4 +1,7 @@
+// import: basics
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import {
     Button,
     FlatList,
@@ -7,11 +10,23 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from '../actions'; // Import your actions
 
-class Home extends Component {
+// import: actions
+import * as Actions from '../actions'; 
+
+class Login extends Component {
+    static navigationOptions = {
+        title: 'Login',
+    };
+
+    // constructor () {
+    //     super();
+    //     this.state = {
+    //         username: '',
+    //         password: ''
+    //     };
+    // }
+
     componentDidMount() {
         // this.props.login();
         
@@ -26,41 +41,43 @@ class Home extends Component {
         //                                  keyExtractor={(item, id) => id.toString()}
         //                                  />
 
+                //       <Button
+                // onPress={() => this.props.login()}
+                // title="Login"
+                // />
     }
 
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <View>
-              <Button
-                onPress={() => this.props.login()}
-                title="Login"
+              <TextInput
+                // onChangeText={(text) => this.setState({username : text})}
+                onChangeText={(text) => {this.props.username();}}
+                value='hello'
                 />
-                              
+              
               <Button
-                onPress={() => this.props.details(this.props.login_cred)}
-                title="Details"
+                onPress={() => navigate('Profile')}
+                title="Login"
                 />
             </View>
         );
     }
 };
 
-// The function takes data from the app current state,
-// and insert/links it into the props of our component.
-// This function makes Redux know that this component needs to be passed a piece of the state
+// Pass: redux state to props
 function mapStateToProps(state, props) {
     return {
-        posts: state.postReducer.items,
-        login_cred: state.postReducer.token,
+        posts: state.authReducer.items,
+        login_cred: state.authReducer.token,
     };
 }
 
-// Doing this merges our actions into the component’s props,
-// while wrapping them in dispatch() so that they immediately dispatch an Action.
-// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
+// Pass: redux actions to props
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(Actions, dispatch);
 }
 
 //Connect everything
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

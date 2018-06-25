@@ -1,11 +1,19 @@
-import { FETCH_POSTS, LOGIN, DETAILS, TEST } from '../actions/types';
+// import: types
+import {
+    DETAILS,
+    FETCH_POSTS,
+    LOGIN_FORM,
+    LOGIN_REQUEST,
+    TEST
+} from './types';
 
 const initialState = {
     items: [],
-    token: {}
+    token: {},
+    login_info: {}
 };
 
-function postReducer (state = initialState, action) {
+function authReducer (state = initialState, action) {
     switch (action.type) {
     case FETCH_POSTS:
         return {
@@ -13,7 +21,14 @@ function postReducer (state = initialState, action) {
             items: action.payload
         };
         return state;
-    case LOGIN:
+    case LOGIN_REQUEST:
+        console.log(action.payload);
+        return {
+            ...state,
+            // items: action.payload
+            token: action.payload
+        };
+    case LOGIN_FORM:
         console.log(action.payload);
         return {
             ...state,
@@ -30,4 +45,4 @@ function postReducer (state = initialState, action) {
     }
 };
 
-export default postReducer;
+export default authReducer;
