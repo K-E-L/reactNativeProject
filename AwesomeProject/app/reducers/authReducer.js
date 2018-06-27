@@ -1,17 +1,16 @@
 // import: types
 import {
-    DETAILS,
     FETCH_POSTS,
-    LOGIN_REQUEST,
+    LOGIN,
     SET_EMAIL,
     SET_PASSWORD
-} from '../actions/types';
+} from '../types';
 
 const initialState = {
-    items: {},
     token: {},
     email: '',
-    password: ''
+    password: '',
+    logged_in: false
 };
 
 function authReducer (state = initialState, action) {
@@ -26,24 +25,11 @@ function authReducer (state = initialState, action) {
             ...state,
             password: action.payload
         };
-    case LOGIN_REQUEST:
-        console.log(action.payload);
+    case LOGIN:
         return {
             ...state,
-            token: action.payload
-        };
-    case DETAILS:
-        return {
-            ...state,
-            items: action.payload
-        };
-
-        
-    case FETCH_POSTS:
-        console.log(action.payload);
-        return {
-            ...state,
-            items: action.payload
+            token: action.payload,
+            logged_in: true
         };
     default:
         return state;

@@ -15,38 +15,30 @@ import {
 // import: actions
 import * as authActions from '../actions/authActions';
 
-class Profile extends Component {
-    static navigationOptions = {
-        title: 'Profile',
-    };
+class Mojis extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Mojis'
+    });
 
-    componentWillMount() {
-        this.props.details(this.props.token);
+    componentDidMount() {
+        // this.props.details(this.props.token);
         // this.props.getData();
     }
 
     render() {
         return (
             <View>
-              // stopped here, cant output items json on display
-              <FlatList
-                data={this.props.items}
-                renderItem={({ item }) => (
-                    <ListItem
-                      title={item.name}
-                      />)}
-                />
-                </View>
+              <Text>Mojis Here</Text>
+            </View>
         );
     }
 };
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.authReducer.items.success);
     return {
-        items: state.authReducer.items.success,
-        token: state.authReducer.token
+        // items: state.authReducer.items,
+        // token: state.authReducer.token,
     };
 }
 
@@ -56,4 +48,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Mojis);

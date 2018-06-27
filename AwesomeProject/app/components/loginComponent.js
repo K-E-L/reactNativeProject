@@ -19,39 +19,40 @@ import {
 // import: actions
 import * as authActions from '../actions/authActions';
 
-class Login extends Component {
-    static navigationOptions = {
-        title: 'Login',
-    };
+// import: components
+import { TabNavigator } from './navComponent';
 
+class Login extends Component {
     render() {
+        if (!this.props.logged_in) {
+            return (
+                <View>
+                  <Text>Login</Text>
+                  <TextInput
+                    onChangeText={(text) => this.props.setEmail(text)}
+                    value={this.props.email}
+                    placeholder='email'
+                    />
+                   <TextInput
+                     onChangeText={(text) => this.props.setPassword(text)}
+                     value={this.props.password}
+                     placeholder='password'
+                     secureTextEntry={true}
+                     autoCapitalize = 'none'
+                     />
+                      
+                    <Button
+                      onPress={() => this.props.login(
+                          this.props.email,
+                          this.props.password
+                      )}
+                      title="Login"
+                      />
+                </View>
+            );
+        }
         return (
-            <View>
-              <TextInput
-                onChangeText={(text) => this.props.setEmail(text)}
-                value={this.props.email}
-                placeholder='email'
-                />
-              <TextInput
-                onChangeText={(text) => this.props.setPassword(text)}
-                value={this.props.password}
-                placeholder='password'
-                secureTextEntry={true}
-                autoCapitalize = 'none'
-                />
-                
-                <Button
-                  onPress={() => this.props.login(
-                      this.props.email,
-                      this.props.password
-                  )}
-                  title="Login"
-                  />
-                <Button
-                  onPress={() => this.props.navigation.navigate('Profile')}
-                  title="Profile"
-                  />
-            </View>
+            <TabNavigator />
         );
     }
 };
@@ -60,7 +61,8 @@ class Login extends Component {
 function mapStateToProps(state, props) {
     return {
         email: state.authReducer.email,
-        password: state.authReducer.password
+        password: state.authReducer.password,
+        logged_in: state.authReducer.logged_in
     };
 }
 

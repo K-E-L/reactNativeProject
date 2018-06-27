@@ -1,20 +1,69 @@
-import React, { Component } from 'react';
-import { AppNavigator } from '../reducers/nav';
-import { Provider, connect } from 'react-redux';
+// not using root for now, implement redux-navigator later
 
-import {
-    reduxifyNavigator,
-    createReactNavigationReduxMiddleware
-} from 'react-navigation-redux-helpers';
+// import React, { Component } from 'react';
+// import { AppNavigator } from '../reducers/nav';
+// import { Provider, connect } from 'react-redux';
 
-const middleware = createReactNavigationReduxMiddleware(
-  "root",
-  state => state.nav,
-);
+// import {
+//     reduxifyNavigator,
+//     createReactNavigationReduxMiddleware
+// } from 'react-navigation-redux-helpers';
 
-const Root = reduxifyNavigator(AppNavigator, "root");
-const mapStateToProps = (state) => ({
-  state: state.nav,
+// const middleware = createReactNavigationReduxMiddleware(
+//   "root",
+//   state => state.nav,
+// );
+
+// const Root = reduxifyNavigator(AppNavigator, "root");
+// const mapStateToProps = (state) => ({
+//   state: state.nav,
+// });
+
+// export default connect(mapStateToProps)(Root);
+
+import Authuser from './authuserComponent';
+import Authusertab from './authusertabComponent';
+import Convo from './convoComponent';
+import Convos from './convosComponent';
+import Convostab from './convostabComponent';
+import Login from './loginComponent';
+import Mojis from './mojisComponent';
+import Mojistab from './mojistabComponent';
+import User from './userComponent';
+
+// import: navigator
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+
+// export: tab navigator
+export const TabNavigator = createBottomTabNavigator({
+    Convostab: { screen: Convostab },
+    Authusertab: { screen: Authusertab },
+    Mojistab: { screen: Mojistab }
+}, {
+    initialRouteName: 'Authusertab',
+    tabBarPosition: 'bottom'
 });
 
-export default connect(mapStateToProps)(Root);
+// export: user navigator
+export const UserStackNavigator = createStackNavigator({
+    Authuser: { screen: Authuser },
+    User: { screen: User }
+}, {
+    initialRouteName: 'Authuser',
+});
+
+// export: convo navigator
+export const ConvoStackNavigator = createStackNavigator({
+    Convos: { screen: Convos },
+    Convo: { screen: Convo },
+    User: { screen: User }
+}, {
+    initialRouteName: 'Convos',
+});
+
+export const MojiStackNavigator = createStackNavigator({
+    Mojis: { screen: Mojis }
+}, {
+    initialRouteName: 'Mojis',
+});
+

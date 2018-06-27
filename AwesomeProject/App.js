@@ -7,31 +7,20 @@ import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 import store from './app/store';
 
 // import: components
-import Login from './app/components/loginComponent';
-import Profile from './app/components/profileComponent';
+// import { AuthStackNavigator } from './app/components/navComponent';
+// import { TabNavigator } from './app/components/navComponent';
 
-// not using root for now, implement redux-navigator later
-// import Root from './app/components/navComponent';
+import Login from './app/components/loginComponent.js';
 
-// import: navigator
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 // disable navigator warning.. kinda sux
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
-
-// export: navigator
-export const StackNavigator = createStackNavigator({
-    Login: { screen: Login },
-    Profile: { screen: Profile },
-}, {
-    initialRouteName: 'Login' 
-});
 
 export default class App extends Component {
     render() {
         return (
             <Provider store={store}>
-              <StackNavigator />
+              <Login/>
             </Provider>
         );
     }

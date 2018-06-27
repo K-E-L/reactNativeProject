@@ -1,11 +1,9 @@
 // import: types
 import {
-    DETAILS,
-    FETCH_POSTS,
-    LOGIN_REQUEST,
+    LOGIN,
     SET_EMAIL,
     SET_PASSWORD
-} from './types';
+} from '../types';
 
 export const setEmail = (text) => dispatch => {
     dispatch({
@@ -37,7 +35,7 @@ export const login = (email, password) => dispatch => {
     }).then(res => res.json())
         .then(login_cred =>
               dispatch({
-                  type: LOGIN_REQUEST,
+                  type: LOGIN,
                   payload: login_cred
               })
              )
@@ -45,36 +43,3 @@ export const login = (email, password) => dispatch => {
             console.error(error);
         });
 };
-
-export const details = (login_cred) => dispatch => {
-    fetch('http://178.128.177.180/api/details', {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + login_cred.success.token,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-    }).then(res => res.json())
-        .then(user =>
-              dispatch({
-                  type: DETAILS,
-                  payload: user
-              })
-             )
-        .catch((error) => {
-            console.error(error);
-        });
-};
-
-export const getData = () => dispatch => {
-    fetch('http://178.128.177.180/api')
-        .then(res => res.json())
-        .then(posts =>
-              dispatch({
-                  type: FETCH_POSTS,
-                  payload: posts
-              })
-             );
-};
-
-
