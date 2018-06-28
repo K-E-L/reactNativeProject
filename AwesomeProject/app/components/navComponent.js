@@ -26,6 +26,8 @@ import Authusertab from './authusertabComponent';
 import Convo from './convoComponent';
 import Convos from './convosComponent';
 import Convostab from './convostabComponent';
+import Followers from './followersComponent';
+import Followings from './followingsComponent';
 import Login from './loginComponent';
 import Mojis from './mojisComponent';
 import Mojistab from './mojistabComponent';
@@ -47,7 +49,9 @@ export const TabNavigator = createBottomTabNavigator({
 // export: user navigator
 export const UserStackNavigator = createStackNavigator({
     Authuser: { screen: Authuser },
-    User: { screen: User }
+    User: { screen: User },
+    Followings: { screen: Followings },
+    Followers: { screen: Followers }
 }, {
     initialRouteName: 'Authuser',
 });
@@ -56,7 +60,9 @@ export const UserStackNavigator = createStackNavigator({
 export const ConvoStackNavigator = createStackNavigator({
     Convos: { screen: Convos },
     Convo: { screen: Convo },
-    User: { screen: User }
+    User: { screen: User },
+    Followings: { screen: Followings },
+    Followers: { screen: Followers }
 }, {
     initialRouteName: 'Convos',
 });

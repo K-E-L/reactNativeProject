@@ -20,6 +20,10 @@ import * as userActions from '../actions/userActions';
 import { MojiStackNavigator } from './navComponent';
 
 class Mojistab extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Mojis'
+    });
+
     render() {
         return (
             <MojiStackNavigator/>

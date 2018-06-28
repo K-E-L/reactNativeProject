@@ -22,7 +22,6 @@ class Convos extends Component {
 
     componentWillMount() {
         this.props.getConvos(this.props.token);
-        
     }
 
     render() {
@@ -32,7 +31,8 @@ class Convos extends Component {
                 data={this.props.all.convos}
                 renderItem={({item}) =>
                             <Text
-                                  onPress={() => this.props.navigation.navigate('Convo', {id: item.id})}>
+                                  onPress={() => this.props.navigation.navigate('Convo', {id: item.id})}
+                                  style={styles.text}>
                                   {item.name}
                             </Text>}
                             keyExtractor={item => item.id.toString()}
@@ -41,6 +41,15 @@ class Convos extends Component {
         );
     }
 };
+
+const styles = StyleSheet.create({
+  h3: {
+      fontSize: 30,
+  },
+  text: {
+      fontSize: 15,
+  }
+});
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {

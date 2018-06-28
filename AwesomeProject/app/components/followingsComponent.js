@@ -13,41 +13,40 @@ import {
 } from 'react-native';
 
 // import: actions
-import * as convoActions from '../actions/convoActions';
+import * as userActions from '../actions/userActions';
 
-class Convo extends Component {
+class Followings extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Convo'
+        title: 'Followings'
     });
 
-    componentWillMount() {
-        this.props.getConvo(this.props.token, this.props.navigation.state.params.id);
-        this.props.getMessages(this.props.token, this.props.navigation.state.params.id);
+    componentDidMount() {
+        this.props.getFollowings(this.props.token, this.props.navigation.state.params.id);
     }
 
     render() {
         return (
             <View>
-              <Text style={styles.h3}>{this.props.specific.convo.name}</Text>
               <FlatList
-                data={this.props.specific.convo.users}
+                data={this.props.followings.authFollowings}
                 renderItem={({item}) =>
                             <Text
                                   onPress={() => this.props.navigation.push('User', {id: item.id})}
                                   style={styles.text}>
-                                  {item.name}
+                                  {item.name}: Follow
                             </Text>}
                             keyExtractor={item => item.id.toString()}
                             />
-             <FlatList
-               data={this.props.specificMessages.messages}
-               renderItem={({item}) =>
-                           <Text
-                                 style={styles.text}>
-                                 {item.creator_id}: {item.body}: {item.created_at}
-                           </Text>}
-                           keyExtractor={item => item.id.toString()}
-                           />
+               <FlatList
+                 data={this.props.followings.authFollowers}
+                 renderItem={({item}) =>
+                             <Text
+                                   onPress={() => this.props.navigation.push('User', {id: item.id})}
+                                   style={styles.text}>
+                                   {item.name}: Unfollow
+                             </Text>}
+                             keyExtractor={item => item.id.toString()}
+                             />
             </View>
         );
     }
@@ -64,17 +63,17 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    console.log('hello', state.userReducer.followings);
     return {
-        specific: state.convoReducer.specific,
-        specificMessages: state.convoReducer.specificMessages,
+        followings: state.userReducer.followings,
         token: state.authReducer.token,
     };
 }
 
 // Pass: redux actions to props
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(convoActions, dispatch);
+    return bindActionCreators(userActions, dispatch);
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Convo);
+export default connect(mapStateToProps, mapDispatchToProps)(Followings);

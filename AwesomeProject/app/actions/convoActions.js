@@ -1,7 +1,8 @@
 // import: types
 import {
+    GET_CONVO,
     GET_CONVOS,
-    GET_CONVO
+    GET_MESSAGES
 } from '../types';
 
 export const getConvos = (login_cred) => dispatch => {
@@ -43,4 +44,27 @@ export const getConvo = (login_cred, id) => dispatch => {
             console.error(error);
         });
 };
+
+export const getMessages = (login_cred, id) => dispatch => {
+    fetch('http://178.128.177.180/api/convos/' +
+          id +
+          '/messages', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(messages =>
+              dispatch({
+                  type: GET_MESSAGES,
+                  payload: messages
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
 

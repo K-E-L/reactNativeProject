@@ -20,6 +20,10 @@ import * as userActions from '../actions/userActions';
 import { ConvoStackNavigator } from './navComponent';
 
 class Convostab extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Convos'
+    });
+
     render() {
         return (
             <ConvoStackNavigator/>

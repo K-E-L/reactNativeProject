@@ -1,6 +1,9 @@
 export const GET_AUTH_USER = 'GET_AUTH_USER';
-export const GET_CONVOS = 'GET_CONVOS';
 export const GET_CONVO = 'GET_CONVO';
+export const GET_CONVOS = 'GET_CONVOS';
+export const GET_FOLLOWERS = 'GET_FOLLOWERS';
+export const GET_FOLLOWINGS = 'GET_FOLLOWINGS';
+export const GET_MESSAGES = 'GET_MESSAGES';
 export const GET_USER = 'GET_USER';
 export const LOGIN = 'LOGIN';
 export const SET_EMAIL = 'SET_EMAIL';

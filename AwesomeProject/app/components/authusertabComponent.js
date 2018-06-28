@@ -20,6 +20,10 @@ import * as userActions from '../actions/userActions';
 import { UserStackNavigator } from './navComponent';
 
 class Authusertab extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Profile'
+    });
+
     render() {
         return (
             <UserStackNavigator/>

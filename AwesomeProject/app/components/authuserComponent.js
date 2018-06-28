@@ -22,51 +22,47 @@ class Authuser extends Component {
     });
 
     componentWillMount() {
-        this.props.getAuthUser(this.props.token);        
+        this.props.getAuthUser(this.props.token);
     }
 
     render() {
         return (
             <View>
-              <Text>About</Text>
-              <Text>Name: {this.props.auth.user.name}</Text>
-              <Text>Username: {this.props.auth.user.username}</Text>
-              <Text>Email: {this.props.auth.user.email}</Text>
+              <Text style={styles.h3}>{this.props.authUser.name}</Text>
+              <Text style={styles.text}>Username: {this.props.authUser.username}</Text>
+              <Text style={styles.text}>Email: {this.props.authUser.email}</Text>
 
-              <Text>Following</Text>
-              <FlatList
-                data={this.props.auth.followings}
-                renderItem={({item}) =>
-                            <Text
-                                  onPress={() => this.props.navigation.navigate('User', {id: item.id})}>
-                                  {item.name}
-                            </Text>}
-                            keyExtractor={item => item.id.toString()}
-                            />
-              <Text>Followers</Text>
-              <FlatList
-                data={this.props.auth.followers}
-                renderItem={({item}) =>
-                            <Text
-                                  onPress={() => this.props.navigation.navigate('User', {id: item.id})}>
-                                  {item.name}
-                            </Text>}
-                            keyExtractor={item => item.id.toString()}
-                            />
-               <Text>Messagable</Text>
-               <Text>Public Mojis</Text>
-               <Text>Private Mojis</Text>
-               <Text>Collection</Text>
-               <Text>Notifications</Text>
+              <Text
+                onPress={() => this.props.navigation.navigate('Followings', {id: this.props.authUser.id})}
+                style={styles.h3}>Followings: {this.props.authUser.followingsCount}</Text>
+
+              <Text
+                onPress={() => this.props.navigation.navigate('Followers', {id: this.props.authUser.id})}
+                style={styles.h3}>Followers: {this.props.authUser.followersCount}</Text>
+              
+              <Text style={styles.text}>Messagable</Text>
+              <Text style={styles.text}>Public Mojis</Text>
+              <Text style={styles.text}>Private Mojis</Text>
+              <Text style={styles.text}>Collection</Text>
+              <Text style={styles.text}>Notifications</Text>
             </View>
         );
     }
 };
 
+const styles = StyleSheet.create({
+  h3: {
+      fontSize: 30,
+  },
+  text: {
+      fontSize: 15,
+  }
+});
+
 // Pass: redux state to props
 function mapStateToProps(state, props) {
     return {
-        auth: state.userReducer.auth,
+        authUser: state.userReducer.authUser,
         token: state.authReducer.token,
     };
 }

@@ -23,47 +23,43 @@ class User extends Component {
     
     componentWillMount() {
         this.props.getUser(this.props.token, this.props.navigation.state.params.id);
-        
     }
 
     render() {
         return (
             <View>
-              <Text>About</Text>
-              <Text>Name: {this.props.other.user.name}</Text>
-              <Text>Username: {this.props.other.user.username}</Text>
-              <Text>Email: {this.props.other.user.email}</Text>
-              <Text>Following</Text>
-              <FlatList
-                data={this.props.other.followings}
-                renderItem={({item}) =>
-                            <Text
-                                  onPress={() => this.props.navigation.push('User', {id: item.id})}>
-                                  {item.name}
-                            </Text>}
-                            keyExtractor={item => item.id.toString()}
-                            />
-               <Text>Followers</Text>
-               <FlatList
-                 data={this.props.other.followers}
-                 renderItem={({item}) =>
-                             <Text
-                                   onPress={() => this.props.navigation.push('User', {id: item.id})}>
-                                   {item.name}
-                             </Text>}
-                             keyExtractor={item => item.id.toString()}
-                             />
-                <Text>Public Mojis</Text>
-                <Text>Collection</Text>
+              <Text style={styles.h3}>{this.props.user.name}</Text>
+              <Text style={styles.text}>Username: {this.props.user.username}</Text>
+              <Text style={styles.text}>Email: {this.props.user.email}</Text>
+              
+              <Text
+                onPress={() => this.props.navigation.push('Followings', {id: this.props.user.id})}
+                style={styles.h3}>Followings</Text>
+
+              <Text
+                onPress={() => this.props.navigation.push('Followers', {id: this.props.user.id})}
+                style={styles.h3}>Followers</Text>
+
+              <Text style={styles.text}>Public Mojis</Text>
+              <Text style={styles.text}>Collection</Text>
             </View>
         );
     }
 };
 
+const styles = StyleSheet.create({
+  h3: {
+      fontSize: 30,
+  },
+  text: {
+      fontSize: 15,
+  }
+});
+
 // Pass: redux state to props
 function mapStateToProps(state, props) {
     return {
-        other: state.userReducer.other,
+        user: state.userReducer.user,
         token: state.authReducer.token,
     };
 }
