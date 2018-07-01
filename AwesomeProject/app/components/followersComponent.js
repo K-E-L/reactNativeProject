@@ -28,25 +28,15 @@ class Followers extends Component {
         return (
             <View>
               <FlatList
-                data={this.props.followers.authFollowings}
+                data={this.props.followers.data}
                 renderItem={({item}) =>
                             <Text
                                   onPress={() => this.props.navigation.push('User', {id: item.id})}
                                   style={styles.text}>
-                                  {item.name}: Follow
+                                  {item.name}: {item.username}
                             </Text>}
                             keyExtractor={item => item.id.toString()}
                             />
-               <FlatList
-                 data={this.props.followers.authFollowers}
-                 renderItem={({item}) =>
-                             <Text
-                                   onPress={() => this.props.navigation.push('User', {id: item.id})}
-                                   style={styles.text}>
-                                   {item.name}: Unfollow
-                             </Text>}
-                             keyExtractor={item => item.id.toString()}
-                             />
             </View>
         );
     }
@@ -63,7 +53,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.authReducer.followers);
+    console.log(state.userReducer.followings);
     return {
         followers: state.userReducer.followers,
         token: state.authReducer.token,

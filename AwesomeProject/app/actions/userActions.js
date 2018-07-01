@@ -7,7 +7,7 @@ import {
 } from '../types';
 
 export const getAuthUser = (login_cred) => dispatch => {
-    fetch('http://178.128.177.180/api/users/auth', {
+    fetch('http://167.99.162.15/api/users/auth', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -27,7 +27,7 @@ export const getAuthUser = (login_cred) => dispatch => {
 };
 
 export const getUser = (login_cred, id) => dispatch => {
-    fetch('http://178.128.177.180/api/users/' + id.toString(), {
+    fetch('http://167.99.162.15/api/users/' + id.toString(), {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -47,7 +47,7 @@ export const getUser = (login_cred, id) => dispatch => {
 };
 
 export const getFollowings = (login_cred, id) => dispatch => {
-    fetch('http://178.128.177.180/api/users/'
+    fetch('http://167.99.162.15/api/users/'
           + id.toString()
           + '/followings', {
               method: 'POST',
@@ -69,7 +69,7 @@ export const getFollowings = (login_cred, id) => dispatch => {
 };
 
 export const getFollowers = (login_cred, id) => dispatch => {
-    fetch('http://178.128.177.180/api/users/'
+    fetch('http://167.99.162.15/api/users/'
           + id.toString()
           + '/followers', {
               method: 'POST',
@@ -89,3 +89,18 @@ export const getFollowers = (login_cred, id) => dispatch => {
             console.error(error);
         });
 };
+
+// import {
+//     STACK_HISTORY
+// } from '../types';
+
+// export const refreshBack = (login_cred, id, been, navBack) => dispatch => {
+//     navBack();
+    
+//     dispatch({
+//         type: STACK_HISTORY,
+//         payload: been
+//     });
+// };
+
+

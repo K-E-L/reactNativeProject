@@ -16,11 +16,29 @@ import {
     FormValidationMessage
 } from 'react-native-elements';
 
+// import: components
+// import {
+//     reduxifyNavigator,
+//     createReactNavigationReduxMiddleware,
+//     createNavigationReducer,
+// } from 'react-navigation-redux-helpers';
+
+
 // import: actions
 import * as authActions from '../actions/authActions';
 
 // import: components
 import { TabNavigator } from './navComponent';
+
+// const middleware = createReactNavigationReduxMiddleware(
+//     "root",
+//     state => state.navReducer,
+// );
+// const App = reduxifyNavigator(TabNavigator, "root");
+
+// Pass: redux state to props
+
+// const AppWithNavigationState = connect(mapStateToProps)(App);
 
 class Login extends Component {
     render() {
@@ -40,7 +58,7 @@ class Login extends Component {
                      secureTextEntry={true}
                      autoCapitalize = 'none'
                      />
-                      
+                     
                     <Button
                       onPress={() => this.props.login(
                           this.props.email,
@@ -57,12 +75,12 @@ class Login extends Component {
     }
 };
 
-// Pass: redux state to props
 function mapStateToProps(state, props) {
     return {
         email: state.authReducer.email,
         password: state.authReducer.password,
-        logged_in: state.authReducer.logged_in
+        logged_in: state.authReducer.logged_in,
+        // state: state.navReducer
     };
 }
 

@@ -22,29 +22,30 @@ class Convo extends Component {
 
     componentWillMount() {
         this.props.getConvo(this.props.token, this.props.navigation.state.params.id);
-        this.props.getMessages(this.props.token, this.props.navigation.state.params.id);
+        this.props.getConvoMessages(this.props.token, this.props.navigation.state.params.id);
+        this.props.getConvoUsers(this.props.token, this.props.navigation.state.params.id);
     }
 
     render() {
         return (
             <View>
-              <Text style={styles.h3}>{this.props.specific.convo.name}</Text>
+              <Text style={styles.h3}>{this.props.convo.name}</Text>
               <FlatList
-                data={this.props.specific.convo.users}
-                renderItem={({item}) =>
-                            <Text
-                                  onPress={() => this.props.navigation.push('User', {id: item.id})}
-                                  style={styles.text}>
-                                  {item.name}
-                            </Text>}
-                            keyExtractor={item => item.id.toString()}
-                            />
+               data={this.props.convoUsers.data}
+               renderItem={({item}) =>
+                           <Text
+                                 onPress={() => this.props.navigation.push('User', {id: item.id})}
+                                 style={styles.text}>
+                                 {item.name}
+                           </Text>}
+                           keyExtractor={item => item.id.toString()}
+                           />
              <FlatList
-               data={this.props.specificMessages.messages}
+               data={this.props.convoMessages.data}
                renderItem={({item}) =>
                            <Text
                                  style={styles.text}>
-                                 {item.creator_id}: {item.body}: {item.created_at}
+                                 {item.creator_name}: {item.body}: {item.created_at}: Likes {item.like_count}
                            </Text>}
                            keyExtractor={item => item.id.toString()}
                            />
@@ -64,9 +65,11 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    console.log(state.convoReducer);
     return {
-        specific: state.convoReducer.specific,
-        specificMessages: state.convoReducer.specificMessages,
+        convo: state.convoReducer.convo,
+        convoMessages: state.convoReducer.convoMessages,
+        convoUsers: state.convoReducer.convoUsers,
         token: state.authReducer.token,
     };
 }

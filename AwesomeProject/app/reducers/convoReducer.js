@@ -2,16 +2,20 @@
 import {
     GET_CONVO,
     GET_CONVOS,
-    GET_MESSAGES
+    GET_CONVO_USERS,
+    GET_CONVO_MESSAGES
 } from '../types';
 
 const initialState = {
-    all: { convos: {} },
-    specific: {
-        convo: {}
+    all: {
+        data: []
     },
-    specificMessages: {
-        messages: {}
+    convo: {},
+    convoMessages: {
+        data: []
+    },
+    convoUsers: {
+       data: []
     }
 };
 
@@ -23,16 +27,19 @@ function convoReducer (state = initialState, action) {
             all: action.payload
         };
     case GET_CONVO:
-        // console.log(action.payload);
         return {
             ...state,
-            specific: action.payload
+            convo: action.payload
         };
-    case GET_MESSAGES:
-        // console.log(action.payload);
+    case GET_CONVO_MESSAGES:
         return {
             ...state,
-            specificMessages: action.payload
+            convoMessages: action.payload
+        };
+    case GET_CONVO_USERS:
+        return {
+            ...state,
+            convoUsers: action.payload
         };
 
     default:

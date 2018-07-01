@@ -3,34 +3,25 @@ import {
     GET_AUTH_USER,
     GET_FOLLOWINGS,
     GET_FOLLOWERS,
+    STACK_HISTORY,
     GET_USER
 } from '../types';
 
-// const initialState = {
-//     items: {
-//         user: {
-//             type: '',
-//             name: '',
-//             username: '',
-//             followingsCount: 0,
-//             followersCount: 0
-//         }
-//     },
-//     followings: {
-//         authFollowings: [],
-//         authFollowers: []
-//     },
-//     followers: {
-//         authFollowings: [],
-//         authFollowers: []
-//     },
-// };
-
 const initialState = {
-    authUser: [],
-    user: [],
-    followings: [],
-    followers: []
+    authUser: {
+        data: {}
+    },
+    user: {
+        data: {}
+    },
+    followings: {
+        data: []
+    },
+    followers: {
+        data: []
+    }
+
+    // stackHistory: ['root'],
 };
 
 function userReducer (state = initialState, action) {
@@ -46,19 +37,30 @@ function userReducer (state = initialState, action) {
             user: action.payload
         };
     case GET_FOLLOWINGS:
-        console.log('asdf', action.payload);
         return {
             ...state,
-            followings: [
-                ...state.followings,
-                action.payload
-            ]
+            followings: action.payload
+            // followings: [
+            //     ...state.followings,
+            //     action.payload
+            // ]
         };
     case GET_FOLLOWERS:
         return {
             ...state,
             followers: action.payload
         };
+
+    // case STACK_HISTORY:
+    //     console.log('stackHistory: ', state.stackHistory);
+    //     return {
+    //         ...state,
+    //         // followings: action.payload
+    //         stackHistory: [
+    //             ...state.stackHistory,
+    //             action.payload
+    //         ]
+    //     };
         
     default:
         return state;

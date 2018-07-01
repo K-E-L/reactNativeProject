@@ -28,17 +28,16 @@ class User extends Component {
     render() {
         return (
             <View>
-              <Text style={styles.h3}>{this.props.user.name}</Text>
-              <Text style={styles.text}>Username: {this.props.user.username}</Text>
-              <Text style={styles.text}>Email: {this.props.user.email}</Text>
-              
+              <Text style={styles.h3}>{this.props.user.data.name}</Text>
+              <Text style={styles.text}>Type: {this.props.user.type}</Text>
+              <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
               <Text
-                onPress={() => this.props.navigation.push('Followings', {id: this.props.user.id})}
-                style={styles.h3}>Followings</Text>
+                onPress={() => this.props.navigation.push('Followings', {id: this.props.user.data.id})}
+                style={styles.h3}>Followings: {this.props.user.data.followingsCount}</Text>
 
               <Text
-                onPress={() => this.props.navigation.push('Followers', {id: this.props.user.id})}
-                style={styles.h3}>Followers</Text>
+                onPress={() => this.props.navigation.push('Followers', {id: this.props.user.data.id})}
+                style={styles.h3}>Followers: {this.props.user.data.followersCount}</Text>
 
               <Text style={styles.text}>Public Mojis</Text>
               <Text style={styles.text}>Collection</Text>
@@ -58,6 +57,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    // console.log(state.userReducer);
     return {
         user: state.userReducer.user,
         token: state.authReducer.token,

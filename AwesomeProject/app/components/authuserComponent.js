@@ -28,17 +28,17 @@ class Authuser extends Component {
     render() {
         return (
             <View>
-              <Text style={styles.h3}>{this.props.authUser.name}</Text>
-              <Text style={styles.text}>Username: {this.props.authUser.username}</Text>
+              <Text style={styles.h3}>{this.props.authUser.data.name}</Text>
+              <Text style={styles.text}>Username: {this.props.authUser.data.username}</Text>
               <Text style={styles.text}>Email: {this.props.authUser.email}</Text>
 
               <Text
-                onPress={() => this.props.navigation.navigate('Followings', {id: this.props.authUser.id})}
-                style={styles.h3}>Followings: {this.props.authUser.followingsCount}</Text>
+                onPress={() => this.props.navigation.navigate('Followings', {id: this.props.authUser.data.id})}
+                style={styles.h3}>Followings: {this.props.authUser.data.followingsCount}</Text>
 
               <Text
-                onPress={() => this.props.navigation.navigate('Followers', {id: this.props.authUser.id})}
-                style={styles.h3}>Followers: {this.props.authUser.followersCount}</Text>
+                onPress={() => this.props.navigation.navigate('Followers', {id: this.props.authUser.data.id})}
+                style={styles.h3}>Followers: {this.props.authUser.data.followersCount}</Text>
               
               <Text style={styles.text}>Messagable</Text>
               <Text style={styles.text}>Public Mojis</Text>
@@ -61,9 +61,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    console.log(state.userReducer.authUser);
     return {
         authUser: state.userReducer.authUser,
-        token: state.authReducer.token,
+        token: state.authReducer.token
     };
 }
 

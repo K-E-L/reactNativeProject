@@ -1,12 +1,13 @@
 // import: types
 import {
     GET_CONVO,
+    GET_CONVO_USERS,
     GET_CONVOS,
-    GET_MESSAGES
+    GET_CONVO_MESSAGES
 } from '../types';
 
 export const getConvos = (login_cred) => dispatch => {
-    fetch('http://178.128.177.180/api/convos', {
+    fetch('http://167.99.162.15/api/convos', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -26,7 +27,7 @@ export const getConvos = (login_cred) => dispatch => {
 };
 
 export const getConvo = (login_cred, id) => dispatch => {
-    fetch('http://178.128.177.180/api/convos/' + id, {
+    fetch('http://167.99.162.15/api/convos/' + id, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -45,8 +46,8 @@ export const getConvo = (login_cred, id) => dispatch => {
         });
 };
 
-export const getMessages = (login_cred, id) => dispatch => {
-    fetch('http://178.128.177.180/api/convos/' +
+export const getConvoMessages = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/convos/' +
           id +
           '/messages', {
         method: 'POST',
@@ -58,7 +59,7 @@ export const getMessages = (login_cred, id) => dispatch => {
     }).then(res => res.json())
         .then(messages =>
               dispatch({
-                  type: GET_MESSAGES,
+                  type: GET_CONVO_MESSAGES,
                   payload: messages
               })
              )
@@ -67,4 +68,24 @@ export const getMessages = (login_cred, id) => dispatch => {
         });
 };
 
-
+export const getConvoUsers = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/convos/' +
+          id +
+          '/users', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(users =>
+              dispatch({
+                  type: GET_CONVO_USERS,
+                  payload: users
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};

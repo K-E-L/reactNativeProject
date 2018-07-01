@@ -20,7 +20,7 @@ export const setPassword = (text) => dispatch => {
 };
 
 export const login = (email, password) => dispatch => {
-    fetch('http://178.128.177.180/api/login', {
+    fetch('http://167.99.162.15/api/login', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
