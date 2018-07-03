@@ -90,17 +90,44 @@ export const getFollowers = (login_cred, id) => dispatch => {
         });
 };
 
-// import {
-//     STACK_HISTORY
-// } from '../types';
-
-// export const refreshBack = (login_cred, id, been, navBack) => dispatch => {
-//     navBack();
-    
-//     dispatch({
-//         type: STACK_HISTORY,
-//         payload: been
-//     });
-// };
-
-
+export const FollowUnfollow = (userType, id, login_cred) => dispatch => {
+    switch (userType) {
+    case 'Follow':
+        fetch('http://167.99.162.15/api/following', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + login_cred.success.token,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        }).then(res => res.json())
+            .catch((error) => {
+                console.error(error);
+            });
+        break;
+    case 'Unfollow':
+        fetch('http://167.99.162.15/api/following/destroy', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + login_cred.success.token,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        }).then(res => res.json())
+            .catch((error) => {
+                console.error(error);
+            });
+        break;
+    case 'Auth':
+        console.log('error: cant (un)follow yourself');
+        break;
+    default:
+        console.log('error: type not found');
+    }
+};

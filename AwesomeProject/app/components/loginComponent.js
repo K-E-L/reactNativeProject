@@ -16,29 +16,11 @@ import {
     FormValidationMessage
 } from 'react-native-elements';
 
-// import: components
-// import {
-//     reduxifyNavigator,
-//     createReactNavigationReduxMiddleware,
-//     createNavigationReducer,
-// } from 'react-navigation-redux-helpers';
-
-
 // import: actions
 import * as authActions from '../actions/authActions';
 
 // import: components
 import { TabNavigator } from './navComponent';
-
-// const middleware = createReactNavigationReduxMiddleware(
-//     "root",
-//     state => state.navReducer,
-// );
-// const App = reduxifyNavigator(TabNavigator, "root");
-
-// Pass: redux state to props
-
-// const AppWithNavigationState = connect(mapStateToProps)(App);
 
 class Login extends Component {
     render() {

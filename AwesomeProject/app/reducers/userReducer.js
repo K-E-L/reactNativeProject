@@ -51,16 +51,6 @@ function userReducer (state = initialState, action) {
             followers: action.payload
         };
 
-    // case STACK_HISTORY:
-    //     console.log('stackHistory: ', state.stackHistory);
-    //     return {
-    //         ...state,
-    //         // followings: action.payload
-    //         stackHistory: [
-    //             ...state.stackHistory,
-    //             action.payload
-    //         ]
-    //     };
         
     default:
         return state;

@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.userReducer.authUser);
+    // console.log(state.userReducer.authUser);
     return {
         authUser: state.userReducer.authUser,
         token: state.authReducer.token

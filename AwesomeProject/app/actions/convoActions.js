@@ -89,3 +89,24 @@ export const getConvoUsers = (login_cred, id) => dispatch => {
             console.error(error);
         });
 };
+
+export const createConvo = (id, login_cred) => dispatch => {
+    fetch('http://167.99.162.15/api/convos/create', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .then(res => console.log(res))
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+
+

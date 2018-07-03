@@ -23,14 +23,30 @@ class User extends Component {
     
     componentWillMount() {
         this.props.getUser(this.props.token, this.props.navigation.state.params.id);
+
+              // <Button
+              //   title="Start Convo"
+              //   onPress={() => this.props.createConvo(
+              //       this.props.user.data.id,
+              //       this.props.token
+              //   )}/>
     }
 
     render() {
         return (
             <View>
               <Text style={styles.h3}>{this.props.user.data.name}</Text>
-              <Text style={styles.text}>Type: {this.props.user.type}</Text>
               <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
+              <Text
+                style={styles.h3}
+                onPress={() => this.props.FollowUnfollow(
+                    this.props.user.type,
+                    this.props.user.data.id,
+                    this.props.token
+                )}>
+                {this.props.user.type}</Text>
+
+
               <Text
                 onPress={() => this.props.navigation.push('Followings', {id: this.props.user.data.id})}
                 style={styles.h3}>Followings: {this.props.user.data.followingsCount}</Text>
@@ -57,7 +73,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.userReducer);
+    console.log(state.userReducer.user);
     return {
         user: state.userReducer.user,
         token: state.authReducer.token,
