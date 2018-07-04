@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 // import: actions
-import * as userActions from '../actions/userActions';
+import * as Actions from '../actions/rootActions';
 
 class Followers extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -62,7 +62,7 @@ function mapStateToProps(state, props) {
 
 // Pass: redux actions to props
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(userActions, dispatch);
+    return bindActionCreators(Actions, dispatch);
 }
 
 // Connect: everything

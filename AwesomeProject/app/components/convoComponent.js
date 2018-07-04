@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 // import: actions
-import * as convoActions from '../actions/convoActions';
+import * as Actions from '../actions/rootActions';
 
 class Convo extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -49,6 +49,15 @@ class Convo extends Component {
                            </Text>}
                            keyExtractor={item => item.id.toString()}
                            />
+
+             <Text
+                style={styles.h3}
+                onPress={() => this.props.destroyConvo(
+                    this.props.convo.id,
+                    this.props.token
+               )}>Delete Convo</Text>
+
+
             </View>
         );
     }
@@ -76,7 +85,7 @@ function mapStateToProps(state, props) {
 
 // Pass: redux actions to props
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(convoActions, dispatch);
+    return bindActionCreators(Actions, dispatch);
 }
 
 // Connect: everything

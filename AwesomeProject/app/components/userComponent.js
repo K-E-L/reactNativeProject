@@ -77,7 +77,7 @@ class User extends Component {
                     this.props.user.data.id,
                     this.props.token
                 )}>Message</Text>
-
+              
 
               <Text style={styles.text}>Public Mojis</Text>
               <Text style={styles.text}>Collection</Text>

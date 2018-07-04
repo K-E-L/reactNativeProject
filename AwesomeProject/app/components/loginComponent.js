@@ -17,7 +17,7 @@ import {
 } from 'react-native-elements';
 
 // import: actions
-import * as authActions from '../actions/authActions';
+import * as Actions from '../actions/rootActions';
 
 // import: components
 import { TabNavigator } from './navComponent';
@@ -68,7 +68,7 @@ function mapStateToProps(state, props) {
 
 // Pass: redux actions to props
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(authActions, dispatch);
+    return bindActionCreators(Actions, dispatch);
 }
 
 //Connect everything
