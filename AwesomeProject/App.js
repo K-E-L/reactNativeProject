@@ -13,11 +13,15 @@ import Login from './app/components/loginComponent.js';
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
+import { MenuProvider } from 'react-native-popup-menu';
+
 class App extends Component {
     render() {
         return (
             <Provider store={store}>
-              <Login/>
+              <MenuProvider>
+                <Login/>
+              </MenuProvider>
             </Provider>
         );
     }

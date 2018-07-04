@@ -102,7 +102,6 @@ export const createConvo = (id, login_cred) => dispatch => {
             id: id
         })
     }).then(res => res.json())
-        .then(res => console.log(res))
         .catch((error) => {
             console.error(error);
         });
