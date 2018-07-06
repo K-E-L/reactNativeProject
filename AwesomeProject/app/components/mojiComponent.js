@@ -48,6 +48,33 @@ class Moji extends Component {
                              {item.creator_username} - {item.body} - {item.created_at} - Likes: {item.like_count} Dislikes: {item.dislike_count} Replies: {item.reply_count} </Text>}
                            keyExtractor={item => item.id.toString()}/>
 
+             <TextInput
+                onChangeText={(text) => this.props.setCommentBody(text)}
+                value={this.props.commentBody}
+                placeholder="Comment.."/>
+                
+             <Button
+                onPress={() => this.props.comment(
+                    this.props.token,
+                    this.props.navigation.state.params.id,
+                    this.props.commentBody
+                )}
+                title="Comment"/>
+
+             <TextInput
+               onChangeText={(text) => this.props.setReportBody(text)}
+               value={this.props.reportBody}
+               placeholder="Report.."/>
+
+            <Button
+              onPress={() => this.props.report(
+                  this.props.token,
+                  this.props.navigation.state.params.id,
+                  this.props.reportBody
+              )}
+              title="Report"/>
+
+
             </View>
         );
     }
@@ -64,10 +91,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.mojiReducer.mojiComments);
+    console.log(state.mojiReducer.reportBody);
     return {
         moji: state.mojiReducer.moji,
         mojiComments: state.mojiReducer.mojiComments,
+        commentBody: state.mojiReducer.commentBody,
+        reportBody: state.mojiReducer.reportBody,
         token: state.authReducer.token
     };
 }

@@ -172,7 +172,6 @@ export const message = (login_cred, id, body) => dispatch => {
             body: body
         })
     }).then(res => res.json())
-        .then(res => console.log(res))
         .then(convos =>
               dispatch({
                   type: MESSAGE,

@@ -1,8 +1,12 @@
 // import: types
 import {
+    COMMENT,
     GET_MOJI,
     GET_MOJIS,
-    GET_MOJI_COMMENTS
+    GET_MOJI_COMMENTS,
+    REPORT,
+    SET_COMMENT_BODY,
+    SET_REPORT_BODY
 } from '../types';
 
 const initialState = {
@@ -12,7 +16,9 @@ const initialState = {
     moji: {},
     mojiComments: {
         data: []
-    }
+    },
+    commentBody: '',
+    reportBody: ''
 };
 
 function mojiReducer (state = initialState, action) {
@@ -32,6 +38,27 @@ function mojiReducer (state = initialState, action) {
             ...state,
             mojiComments: action.payload
         };
+    case SET_COMMENT_BODY:
+        return {
+            ...state,
+            commentBody: action.payload
+        };
+    case COMMENT:
+        return {
+            ...state,
+            commentBody: ''
+        };
+    case SET_REPORT_BODY:
+        return {
+            ...state,
+            reportBody: action.payload
+        };
+    case REPORT:
+        return {
+            ...state,
+            reportBody: ''
+        };
+
         
     default:
         return state;

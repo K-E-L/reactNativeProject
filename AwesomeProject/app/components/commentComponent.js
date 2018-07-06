@@ -34,6 +34,21 @@ class Comment extends Component {
                                  style={styles.text}>
                              {item.creator_username} - {item.body} - {item.created_at} - Likes: {item.like_count} Dislikes: {item.dislike_count}</Text>}
                            keyExtractor={item => item.id.toString()}/>
+                           
+              <TextInput
+                onChangeText={(text) => this.props.setReplyBody(text)}
+                value={this.props.replyBody}
+                placeholder="Reply.."/>
+
+              <Button
+                onPress={() => this.props.reply(
+                    this.props.token,
+                    this.props.navigation.state.params.id,
+                    this.props.replyBody
+                )}
+                title="Reply"/>
+
+
             </View>
         );
     }
@@ -50,9 +65,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.commentReducer.replies);
+    console.log(state.commentReducer.replyBody);
     return {
         replies: state.commentReducer.replies,
+        replyBody: state.commentReducer.replyBody,
         token: state.authReducer.token
     };
 }
