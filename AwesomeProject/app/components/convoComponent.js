@@ -29,7 +29,20 @@ class Convo extends Component {
     render() {
         return (
             <View>
-              <Text style={styles.h3}>{this.props.convo.name}</Text>
+              <TextInput
+                style={styles.h3}
+                onChangeText={(text) => this.props.setRenameBody(text)}
+                value={this.props.renameBody}
+                placeholder="Rename Convo"/>
+
+              <Button
+                onPress={() => this.props.renameConvo(
+                    this.props.token,
+                    this.props.navigation.state.params.id,
+                    this.props.renameBody
+                )}
+                title="Rename Convo"/>
+                             
               <FlatList
                data={this.props.convoUsers.data}
                renderItem={({item}) =>
@@ -38,8 +51,7 @@ class Convo extends Component {
                                  style={styles.text}>
                                  {item.name}
                            </Text>}
-                           keyExtractor={item => item.id.toString()}
-                           />
+                           keyExtractor={item => item.id.toString()}/>
              <FlatList
                data={this.props.convoMessages.data}
                renderItem={({item}) =>
@@ -47,15 +59,27 @@ class Convo extends Component {
                                  style={styles.text}>
                                  {item.creator_name}: {item.body}: {item.created_at}: Likes {item.like_count}
                            </Text>}
-                           keyExtractor={item => item.id.toString()}
-                           />
+                           keyExtractor={item => item.id.toString()}/>
 
              <Text
-                style={styles.h3}
-                onPress={() => this.props.destroyConvo(
-                    this.props.convo.id,
-                    this.props.token
+               style={styles.h3}
+               onPress={() => this.props.destroyConvo(
+                   this.props.token,
+                   this.props.convo.id
                )}>Delete Convo</Text>
+
+             <TextInput
+               onChangeText={(text) => this.props.setMessageBody(text)}
+               value={this.props.messageBody}
+               placeholder="Message.."/>
+
+             <Button
+               onPress={() => this.props.message(
+                   this.props.token,
+                   this.props.navigation.state.params.id,
+                   this.props.messageBody
+               )}
+               title="Message"/>
 
 
             </View>
@@ -74,12 +98,14 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.convoReducer);
+    console.log(state.convoReducer.renameBody);
     return {
         convo: state.convoReducer.convo,
         convoMessages: state.convoReducer.convoMessages,
         convoUsers: state.convoReducer.convoUsers,
-        token: state.authReducer.token,
+        renameBody: state.convoReducer.renameBody,
+        messageBody: state.convoReducer.messageBody,
+        token: state.authReducer.token
     };
 }
 

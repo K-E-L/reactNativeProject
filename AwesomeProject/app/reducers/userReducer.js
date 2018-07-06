@@ -3,7 +3,7 @@ import {
     GET_AUTH_USER,
     GET_FOLLOWINGS,
     GET_FOLLOWERS,
-    STACK_HISTORY,
+    GET_NOTIFS,
     GET_USER
 } from '../types';
 
@@ -19,9 +19,10 @@ const initialState = {
     },
     followers: {
         data: []
+    },
+    notifs: {
+        data: []
     }
-
-    // stackHistory: ['root'],
 };
 
 function userReducer (state = initialState, action) {
@@ -50,6 +51,12 @@ function userReducer (state = initialState, action) {
             ...state,
             followers: action.payload
         };
+    case GET_NOTIFS:
+        return {
+            ...state,
+            notifs: action.payload
+        };
+        
 
         
     default:

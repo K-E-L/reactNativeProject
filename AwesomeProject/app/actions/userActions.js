@@ -3,6 +3,7 @@ import {
     GET_AUTH_USER,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
+    GET_NOTIFS,
     GET_USER
 } from '../types';
 
@@ -90,7 +91,7 @@ export const getFollowers = (login_cred, id) => dispatch => {
         });
 };
 
-export const FollowUnfollow = (userType, id, login_cred) => dispatch => {
+export const FollowUnfollow = (login_cred, id, userType) => dispatch => {
     switch (userType) {
     case 'Follow':
         fetch('http://167.99.162.15/api/following', {
@@ -131,3 +132,41 @@ export const FollowUnfollow = (userType, id, login_cred) => dispatch => {
         console.log('error: type not found');
     }
 };
+
+export const getNotifs = (login_cred) => dispatch => {
+    fetch('http://167.99.162.15/api/users/auth/notifs', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+    }).then(res => res.json())
+        .then(notifs =>
+              dispatch({
+                  type: GET_NOTIFS,
+                  payload: notifs
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const destroyNotif = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/notif/destroy', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+

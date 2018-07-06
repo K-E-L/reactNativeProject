@@ -15,26 +15,25 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-class Mojis extends Component {
+class Comment extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Mojis'
+        title: 'Comment'
     });
 
     componentWillMount() {
-        this.props.getMojis(this.props.token);
+        this.props.getCommentReplies(this.props.token, this.props.navigation.state.params.id);
     }
 
     render() {
         return (
             <View>
               <FlatList
-                data={this.props.mojis.data}
-                renderItem={({item}) =>
-                            <Text
-                                  style={styles.text}
-                                  onPress={() => this.props.navigation.navigate('Moji', {id: item.id})}>
-                              {item.name}: {item.creator_username} : {item.created_at}</Text>}
-                            keyExtractor={item => item.id.toString()}/>
+               data={this.props.replies.data}
+               renderItem={({item}) =>
+                           <Text
+                                 style={styles.text}>
+                             {item.creator_username} - {item.body} - {item.created_at} - Likes: {item.like_count} Dislikes: {item.dislike_count}</Text>}
+                           keyExtractor={item => item.id.toString()}/>
             </View>
         );
     }
@@ -51,9 +50,9 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.mojiReducer.mojis);
+    // console.log(state.commentReducer.replies);
     return {
-        mojis: state.mojiReducer.mojis,
+        replies: state.commentReducer.replies,
         token: state.authReducer.token
     };
 }
@@ -64,4 +63,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Mojis);
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);

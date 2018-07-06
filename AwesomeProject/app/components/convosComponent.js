@@ -28,7 +28,7 @@ class Convos extends Component {
         return (
             <View>
               <FlatList
-                data={this.props.all.data}
+                data={this.props.convos.data}
                 renderItem={({item}) =>
                             <Text
                                   onPress={() => this.props.navigation.navigate('Convo', {id: item.id})}
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, props) {
     // console.log(state.convoReducer);
     return {
-        all: state.convoReducer.all,
+        convos: state.convoReducer.convos,
         token: state.authReducer.token,
     };
 }

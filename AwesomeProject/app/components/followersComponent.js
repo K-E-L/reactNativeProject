@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.userReducer.followings);
+    // console.log(state.userReducer.followings);
     return {
         followers: state.userReducer.followers,
         token: state.authReducer.token,

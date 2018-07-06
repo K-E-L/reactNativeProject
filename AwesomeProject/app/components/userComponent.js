@@ -34,13 +34,6 @@ class User extends Component {
     
     componentWillMount() {
         this.props.getUser(this.props.token, this.props.navigation.state.params.id);
-
-              // <Button
-              //   title="Start Convo"
-              //   onPress={() => this.props.createConvo(
-              //       this.props.user.data.id,
-              //       this.props.token
-              //   )}/>
     }
 
     state = {user: ''}
@@ -58,9 +51,9 @@ class User extends Component {
               <Text
                 style={styles.h3}
                 onPress={() => this.props.FollowUnfollow(
-                    this.props.user.type,
+                    this.props.token,
                     this.props.user.data.id,
-                    this.props.token
+                    this.props.user.type
                 )}>{this.props.user.type}</Text>
 
               <Text
@@ -74,8 +67,8 @@ class User extends Component {
               <Text
                 style={styles.h3}
                 onPress={() => this.props.createConvo(
-                    this.props.user.data.id,
-                    this.props.token
+                    this.props.token,
+                    this.props.user.data.id
                 )}>Message</Text>
               
 

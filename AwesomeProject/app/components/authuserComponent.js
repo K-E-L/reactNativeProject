@@ -44,7 +44,11 @@ class Authuser extends Component {
               <Text style={styles.text}>Public Mojis</Text>
               <Text style={styles.text}>Private Mojis</Text>
               <Text style={styles.text}>Collection</Text>
-              <Text style={styles.text}>Notifications</Text>
+
+              <Text
+                onPress={() => this.props.navigation.navigate('Notifs')}
+                style={styles.h3}>Notifs: {this.props.authUser.data.notifsCount}</Text>
+
             </View>
         );
     }

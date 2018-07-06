@@ -15,26 +15,34 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-class Mojis extends Component {
+class Notifs extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Mojis'
+        title: 'Notifs'
     });
 
-    componentWillMount() {
-        this.props.getMojis(this.props.token);
+    componentDidMount() {
+        this.props.getNotifs(this.props.token);
     }
-
+    
     render() {
         return (
             <View>
               <FlatList
-                data={this.props.mojis.data}
+                data={this.props.notifs.data}
                 renderItem={({item}) =>
                             <Text
                                   style={styles.text}
-                                  onPress={() => this.props.navigation.navigate('Moji', {id: item.id})}>
-                              {item.name}: {item.creator_username} : {item.created_at}</Text>}
+                                  onPress={() => this.props.navigation.navigate('Convos')}>
+                              {item.body}: {item.created_at}</Text>}
                             keyExtractor={item => item.id.toString()}/>
+              <Button
+               onPress={() => this.props.message(
+                   this.props.token,
+                   this.props.navigation.state.params.id,
+                   this.props.messageBody
+               )}
+               title="Message"/>
+
             </View>
         );
     }
@@ -51,10 +59,9 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.mojiReducer.mojis);
     return {
-        mojis: state.mojiReducer.mojis,
-        token: state.authReducer.token
+        notifs: state.userReducer.notifs,
+        token: state.authReducer.token,
     };
 }
 
@@ -64,4 +71,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Mojis);
+export default connect(mapStateToProps, mapDispatchToProps)(Notifs);

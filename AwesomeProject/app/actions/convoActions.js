@@ -3,7 +3,10 @@ import {
     GET_CONVO,
     GET_CONVO_USERS,
     GET_CONVOS,
-    GET_CONVO_MESSAGES
+    GET_CONVO_MESSAGES,
+    MESSAGE,
+    SET_MESSAGE_BODY,
+    SET_RENAME_BODY
 } from '../types';
 
 export const getConvos = (login_cred) => dispatch => {
@@ -90,7 +93,7 @@ export const getConvoUsers = (login_cred, id) => dispatch => {
         });
 };
 
-export const createConvo = (id, login_cred) => dispatch => {
+export const createConvo = (login_cred, id) => dispatch => {
     fetch('http://167.99.162.15/api/convos/create', {
         method: 'POST',
         headers: {
@@ -107,7 +110,7 @@ export const createConvo = (id, login_cred) => dispatch => {
         });
 };
 
-export const destroyConvo = (id, login_cred) => dispatch => {
+export const destroyConvo = (login_cred, id) => dispatch => {
     fetch('http://167.99.162.15/api/convos/destroy', {
         method: 'POST',
         headers: {
@@ -119,12 +122,65 @@ export const destroyConvo = (id, login_cred) => dispatch => {
             id: id
         })
     }).then(res => res.json())
-        .then(res => console.log(res))
         .catch((error) => {
             console.error(error);
         });
 };
 
+export const setRenameBody = (text) => dispatch => {
+    dispatch({
+        type: SET_RENAME_BODY,
+        payload: text
+    });
+};
 
+export const renameConvo = (login_cred, id, body) => dispatch => {
+    fetch('http://167.99.162.15/api/convos/rename', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id,
+            body: body
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
 
+export const setMessageBody = (text) => dispatch => {
+    dispatch({
+        type: SET_MESSAGE_BODY,
+        payload: text
+    });
+};
+
+export const message = (login_cred, id, body) => dispatch => {
+    fetch('http://167.99.162.15/api/message', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id,
+            body: body
+        })
+    }).then(res => res.json())
+        .then(res => console.log(res))
+        .then(convos =>
+              dispatch({
+                  type: MESSAGE,
+                  payload: convos
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
 

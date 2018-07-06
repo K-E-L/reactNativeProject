@@ -1,10 +1,13 @@
 import Authuser from './authuserComponent';
+import Comment from './commentComponent';
 import Convo from './convoComponent';
 import Convos from './convosComponent';
 import Followers from './followersComponent';
 import Followings from './followingsComponent';
 import Login from './loginComponent';
+import Moji from './mojiComponent';
 import Mojis from './mojisComponent';
+import Notifs from './notifsComponent';
 import User from './userComponent';
 
 // import: navigator
@@ -15,7 +18,8 @@ export const UserStackNavigator = createStackNavigator({
     Authuser: { screen: Authuser },
     User: { screen: User },
     Followings: { screen: Followings },
-    Followers: { screen: Followers }
+    Followers: { screen: Followers },
+    Notifs: { screen: Notifs }
 }, {
     initialRouteName: 'Authuser',
 });
@@ -33,7 +37,12 @@ export const ConvoStackNavigator = createStackNavigator({
 
 // export: moji navigator
 export const MojiStackNavigator = createStackNavigator({
-    Mojis: { screen: Mojis }
+    Mojis: { screen: Mojis },
+    Moji: { screen: Moji },
+    User: { screen: User },
+    Followings: { screen: Followings },
+    Followers: { screen: Followers },
+    Comment: { screen: Comment }
 }, {
     initialRouteName: 'Mojis',
 });

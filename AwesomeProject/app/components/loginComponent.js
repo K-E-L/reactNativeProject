@@ -61,7 +61,7 @@ function mapStateToProps(state, props) {
     return {
         email: state.authReducer.email,
         password: state.authReducer.password,
-        logged_in: state.authReducer.logged_in,
+        logged_in: state.authReducer.logged_in
         // state: state.navReducer
     };
 }
