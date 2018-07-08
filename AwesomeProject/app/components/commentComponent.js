@@ -15,9 +15,11 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+import ReplyItem from './replyItemComponent';
+
 class Comment extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Comment'
+        title: 'Comment Replies'
     });
 
     componentWillMount() {
@@ -28,13 +30,10 @@ class Comment extends Component {
         return (
             <View>
               <FlatList
-               data={this.props.replies.data}
-               renderItem={({item}) =>
-                           <Text
-                                 style={styles.text}>
-                             {item.creator_username} - {item.body} - {item.created_at} - Likes: {item.like_count} Dislikes: {item.dislike_count}</Text>}
-                           keyExtractor={item => item.id.toString()}/>
-                           
+                data={this.props.replies.data}
+                renderItem={({item}) =>
+                <ReplyItem item={item} navigation={this.props.navigation}/>}
+                keyExtractor={item => item.id.toString()}/>
               <TextInput
                 onChangeText={(text) => this.props.setReplyBody(text)}
                 value={this.props.replyBody}
@@ -47,7 +46,6 @@ class Comment extends Component {
                     this.props.replyBody
                 )}
                 title="Reply"/>
-
 
             </View>
         );
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.commentReducer.replyBody);
+    // console.log(state.commentReducer.replyBody);
     return {
         replies: state.commentReducer.replies,
         replyBody: state.commentReducer.replyBody,

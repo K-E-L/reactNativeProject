@@ -132,3 +132,113 @@ export const report = (login_cred, id, body) => dispatch => {
             console.error(error);
         });
 };
+
+export const likeMoji = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/likes/moji', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const dislikeMoji = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/dislikes/moji', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const likeComment = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/likes/comment', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const dislikeComment = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/dislikes/comment', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const CollecUncollec = (login_cred, id, collecType) => dispatch => {
+    switch (collecType) {
+    case 'Collec':
+        fetch('http://167.99.162.15/api/collec', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + login_cred.success.token,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        }).then(res => res.json())
+            .then(res => console.log('action', res))
+            .catch((error) => {
+                console.error(error);
+            });
+        break;
+    case 'Uncollec':
+        fetch('http://167.99.162.15/api/collec/remove', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + login_cred.success.token,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        }).then(res => res.json())
+            .then(res => console.log('action', res))
+            .catch((error) => {
+                console.error(error);
+            });
+        break;
+    default:
+        console.log('error: type not found');
+    }
+};
+

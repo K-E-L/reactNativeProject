@@ -58,4 +58,39 @@ export const reply = (login_cred, id, body) => dispatch => {
         });
 };
 
+export const likeReply = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/likes/reply', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const dislikeReply = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/dislikes/reply', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+
 

@@ -15,6 +15,8 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+import MessageItem from'./messageItemComponent';
+
 class Convo extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Convo'
@@ -54,12 +56,8 @@ class Convo extends Component {
                            keyExtractor={item => item.id.toString()}/>
              <FlatList
                data={this.props.convoMessages.data}
-               renderItem={({item}) =>
-                           <Text
-                                 style={styles.text}>
-                                 {item.creator_name}: {item.body}: {item.created_at}: Likes {item.like_count}
-                           </Text>}
-                           keyExtractor={item => item.id.toString()}/>
+               renderItem={({item}) => <MessageItem item={item} navigation={this.props.navigation}/> }
+               keyExtractor={item => item.id.toString()}/>
 
              <Text
                style={styles.h3}

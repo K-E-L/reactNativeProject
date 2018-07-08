@@ -6,6 +6,7 @@ import {
     Button,
     FlatList,
     Header,
+    Image,
     ListItem,
     StyleSheet,
     Text,
@@ -43,12 +44,15 @@ class Authuser extends Component {
               <Text style={styles.text}>Messagable</Text>
               <Text style={styles.text}>Public Mojis</Text>
               <Text style={styles.text}>Private Mojis</Text>
-              <Text style={styles.text}>Collection</Text>
+
+              <Text
+                onPress={() => this.props.navigation.navigate('Collec', {id: this.props.authUser.data.id})}
+                style={styles.h3}>Collection</Text>
 
               <Text
                 onPress={() => this.props.navigation.navigate('Notifs')}
                 style={styles.h3}>Notifs: {this.props.authUser.data.notifsCount}</Text>
-
+              
             </View>
         );
     }

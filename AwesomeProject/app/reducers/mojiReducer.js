@@ -13,7 +13,9 @@ const initialState = {
     mojis: {
         data: []
     },
-    moji: {},
+    moji: {
+        data: {}
+    },
     mojiComments: {
         data: []
     },

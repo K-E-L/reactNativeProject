@@ -36,12 +36,10 @@ class User extends Component {
         this.props.getUser(this.props.token, this.props.navigation.state.params.id);
     }
 
-    state = {user: ''}
-    updateUser = (user) => {
-        this.setState({ user: user });
-    }
-
-    
+    // state = {user: ''}
+    // updateUser = (user) => {
+    //     this.setState({ user: user });
+    // }
 
     render() {        
         return (
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.userReducer.user);
+    console.log(state.userReducer.user);
     return {
         user: state.userReducer.user,
         token: state.authReducer.token,

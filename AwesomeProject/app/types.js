@@ -8,6 +8,7 @@ export const COMMENT = 'COMMENT';
 export const GET_FOLLOWERS = 'GET_FOLLOWERS';
 export const GET_FOLLOWINGS = 'GET_FOLLOWINGS';
 export const GET_MOJI = 'GET_MOJI';
+export const GET_COLLEC = 'GET_COLLEC';
 export const GET_MOJIS = 'GET_MOJIS';
 export const GET_MOJI_COMMENTS = 'GET_MOJI_COMMENTS';
 export const GET_NOTIFS = 'GET_NOTIFS';

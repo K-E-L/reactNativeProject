@@ -15,26 +15,23 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-// import: dumb component
-import MojiItem from './mojiItemComponent';
-
-class Mojis extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: 'Mojis'
-    });
-
-    componentWillMount() {
-        this.props.getMojis(this.props.token);
-    }
-
+class MessageItem extends Component {
     render() {
         return (
             <View>
-              <FlatList
-                data={this.props.mojis.data}
-                renderItem={({item}) =>
-                <MojiItem item={item} navigation={this.props.navigation}/>}
-                keyExtractor={item => item.id.toString()}/>
+              <Text
+                style={styles.text}>
+                {this.props.item.creator_name}: {this.props.item.body}: {this.props.item.created_at}: Likes {this.props.item.like_count}
+              </Text>
+            <Button
+                onPress={() => this.props.likeMessage(
+                    this.props.token,
+                    this.props.item.id
+                )}
+                title="LikeMessage"/>
+                
+
+
             </View>
         );
     }
@@ -51,9 +48,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.mojiReducer.mojis);
     return {
-        mojis: state.mojiReducer.mojis,
         token: state.authReducer.token
     };
 }
@@ -64,4 +59,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Mojis);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageItem);

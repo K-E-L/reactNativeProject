@@ -1,4 +1,5 @@
 import Authuser from './authuserComponent';
+import Collec from './collecComponent';
 import Comment from './commentComponent';
 import Convo from './convoComponent';
 import Convos from './convosComponent';
@@ -19,7 +20,8 @@ export const UserStackNavigator = createStackNavigator({
     User: { screen: User },
     Followings: { screen: Followings },
     Followers: { screen: Followers },
-    Notifs: { screen: Notifs }
+    Notifs: { screen: Notifs },
+    Collec: { screen: Collec }
 }, {
     initialRouteName: 'Authuser',
 });

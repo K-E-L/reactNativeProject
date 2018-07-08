@@ -5,36 +5,35 @@ import { connect } from 'react-redux';
 import {
     Button,
     FlatList,
+    Image,
     ListItem,
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-// import: dumb component
-import MojiItem from './mojiItemComponent';
-
-class Mojis extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: 'Mojis'
-    });
-
-    componentWillMount() {
-        this.props.getMojis(this.props.token);
-    }
-
+class MojiItem extends Component {
     render() {
         return (
-            <View>
-              <FlatList
-                data={this.props.mojis.data}
-                renderItem={({item}) =>
-                <MojiItem item={item} navigation={this.props.navigation}/>}
-                keyExtractor={item => item.id.toString()}/>
+            <View>              
+              <Text
+                style={styles.text}>
+                {this.props.item.name}: {this.props.item.creator_username} : {this.props.item.created_at}</Text>
+
+             <TouchableOpacity onPress={() => this.props.navigation.navigate('Moji', {id: this.props.item.id})}>
+                <Image
+                  style={{width: 20, height: 20}}
+                  source={{uri: 'http://167.99.162.15/mojiStorage/' +
+                           this.props.item.creator_id + '/' +
+                  this.props.item.path}}
+                  />
+             </TouchableOpacity>
+
             </View>
         );
     }
@@ -51,9 +50,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.mojiReducer.mojis);
     return {
-        mojis: state.mojiReducer.mojis,
         token: state.authReducer.token
     };
 }
@@ -64,4 +61,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Mojis);
+export default connect(mapStateToProps, mapDispatchToProps)(MojiItem);

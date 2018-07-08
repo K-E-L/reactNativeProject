@@ -1,6 +1,7 @@
 // import: types
 import {
     GET_AUTH_USER,
+    GET_COLLEC,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
     GET_NOTIFS,
@@ -170,3 +171,22 @@ export const destroyNotif = (login_cred, id) => dispatch => {
         });
 };
 
+export const getCollec = (login_cred) => dispatch => {
+    fetch('http://167.99.162.15/api/users/auth/collec', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+    }).then(res => res.json())
+        .then(collec =>
+              dispatch({
+                  type: GET_COLLEC,
+                  payload: collec
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};

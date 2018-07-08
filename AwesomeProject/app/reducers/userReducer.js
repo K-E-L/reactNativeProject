@@ -1,8 +1,9 @@
 // import: types
 import {
     GET_AUTH_USER,
-    GET_FOLLOWINGS,
+    GET_COLLEC,
     GET_FOLLOWERS,
+    GET_FOLLOWINGS,
     GET_NOTIFS,
     GET_USER
 } from '../types';
@@ -21,6 +22,9 @@ const initialState = {
         data: []
     },
     notifs: {
+        data: []
+    },
+    collec: {
         data: []
     }
 };
@@ -41,10 +45,6 @@ function userReducer (state = initialState, action) {
         return {
             ...state,
             followings: action.payload
-            // followings: [
-            //     ...state.followings,
-            //     action.payload
-            // ]
         };
     case GET_FOLLOWERS:
         return {
@@ -55,6 +55,11 @@ function userReducer (state = initialState, action) {
         return {
             ...state,
             notifs: action.payload
+        };
+    case GET_COLLEC:
+        return {
+            ...state,
+            collec: action.payload
         };
         
 

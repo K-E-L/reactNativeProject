@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
     Button,
     FlatList,
+    Image,
     ListItem,
     StyleSheet,
     Text,
@@ -14,6 +15,9 @@ import {
 
 // import: actions
 import * as Actions from '../actions/rootActions';
+
+// import: dumb component
+import CommentItem from './commentItemComponent';
 
 class Moji extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -28,24 +32,48 @@ class Moji extends Component {
     render() {
         return (
             <View>
-              <Text style={styles.h3}>{this.props.moji.name}</Text>
+              <Text style={styles.h3}>{this.props.moji.data.name}</Text>
+              <Image
+                style={{width: 20, height: 20}}
+                source={{uri: 'http://167.99.162.15/mojiStorage/' +
+                         this.props.moji.data.creator_id + '/' +
+                this.props.moji.data.path}}/>
               <Text
                 style={styles.text}
-                onPress={() => this.props.navigation.push('User', {id: this.props.moji.creator_id})}
-                >{this.props.moji.creator_username}</Text>
+                onPress={() => this.props.navigation.push('User', {id: this.props.moji.data.creator_id})}
+                >{this.props.moji.data.creator_username}</Text>
               <Text
-                style={styles.text}>Likes: {this.props.moji.like_count}</Text>
+                style={styles.text}>Collecs: {this.props.moji.data.collec_count}</Text>
               <Text
-                style={styles.text}>Dislikes: {this.props.moji.dislike_count}</Text>
+                style={styles.text}>Likes: {this.props.moji.data.like_count}</Text>
               <Text
-                style={styles.text}>Collecs: {this.props.moji.collec_count}</Text>
+                style={styles.text}>Dislikes: {this.props.moji.data.dislike_count}</Text>
+              <Text
+                style={styles.h3}
+                onPress={() => this.props.CollecUncollec(
+                      this.props.token,
+                      this.props.navigation.state.params.id,
+                      this.props.moji.type
+                )}>{this.props.moji.type}</Text>
+
+              <Button
+                onPress={() => this.props.likeMoji(
+                    this.props.token,
+                    this.props.navigation.state.params.id
+                )}
+                title="LikeMoji"/>
+                
+              <Button
+                onPress={() => this.props.dislikeMoji(
+                    this.props.token,
+                    this.props.navigation.state.params.id
+                )}
+                title="DislikeMoji"/>
+
               <FlatList
                data={this.props.mojiComments.data}
                renderItem={({item}) =>
-                           <Text
-                                 style={styles.text}
-                                 onPress={() => this.props.navigation.navigate('Comment', {id: item.id})}>
-                             {item.creator_username} - {item.body} - {item.created_at} - Likes: {item.like_count} Dislikes: {item.dislike_count} Replies: {item.reply_count} </Text>}
+                <CommentItem item={item} navigation={this.props.navigation}/>}
                            keyExtractor={item => item.id.toString()}/>
 
              <TextInput
@@ -75,6 +103,7 @@ class Moji extends Component {
               title="Report"/>
 
 
+
             </View>
         );
     }
@@ -91,7 +120,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.mojiReducer.reportBody);
+    console.log(state.mojiReducer.moji);
     return {
         moji: state.mojiReducer.moji,
         mojiComments: state.mojiReducer.mojiComments,

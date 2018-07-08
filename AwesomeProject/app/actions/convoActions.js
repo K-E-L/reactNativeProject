@@ -183,3 +183,22 @@ export const message = (login_cred, id, body) => dispatch => {
         });
 };
 
+export const likeMessage = (login_cred, id) => dispatch => {
+    fetch('http://167.99.162.15/api/likes/message', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => res.json())
+        .then(res => console.log('action', res))
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+
