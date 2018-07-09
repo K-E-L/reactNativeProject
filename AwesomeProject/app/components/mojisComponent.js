@@ -24,12 +24,28 @@ class Mojis extends Component {
     });
 
     componentWillMount() {
-        this.props.getMojis(this.props.token);
+        switch (this.props.navigation.state.params.type) {
+        case 'Popular':
+            this.props.getPopularMojis(this.props.token);
+            break;
+        case 'Recent':
+            this.props.getRecentMojis(this.props.token);
+            break;
+        case 'Following':
+            this.props.getFollowingMojis(this.props.token);
+            break;
+        default:
+            console.log('error: type not found');
+        }
     }
 
     render() {
         return (
             <View>
+              <Text
+                style={styles.h3}>{this.props.navigation.state.params.type}
+              </Text>
+              
               <FlatList
                 data={this.props.mojis.data}
                 renderItem={({item}) =>

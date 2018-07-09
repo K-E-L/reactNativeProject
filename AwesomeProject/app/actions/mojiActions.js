@@ -1,16 +1,18 @@
 // import: types
 import {
     COMMENT,
+    GET_FOLLOWING_MOJIS,
     GET_MOJI,
-    GET_MOJIS,
     GET_MOJI_COMMENTS,
+    GET_POPULAR_MOJIS,
+    GET_RECENT_MOJIS,
     REPORT,
     SET_COMMENT_BODY,
     SET_REPORT_BODY
 } from '../types';
 
-export const getMojis = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/mojis', {
+export const getPopularMojis = (login_cred) => dispatch => {
+    fetch('http://167.99.162.15/api/mojis/popular', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -20,7 +22,47 @@ export const getMojis = (login_cred) => dispatch => {
     }).then(res => res.json())
         .then(mojis =>
               dispatch({
-                  type: GET_MOJIS,
+                  type: GET_POPULAR_MOJIS,
+                  payload: mojis
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getRecentMojis = (login_cred) => dispatch => {
+    fetch('http://167.99.162.15/api/mojis/recent', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: GET_RECENT_MOJIS,
+                  payload: mojis
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getFollowingMojis = (login_cred) => dispatch => {
+    fetch('http://167.99.162.15/api/mojis/following', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: GET_FOLLOWING_MOJIS,
                   payload: mojis
               })
              )
@@ -241,4 +283,3 @@ export const CollecUncollec = (login_cred, id, collecType) => dispatch => {
         console.log('error: type not found');
     }
 };
-

@@ -8,6 +8,7 @@ import Followings from './followingsComponent';
 import Login from './loginComponent';
 import Moji from './mojiComponent';
 import Mojis from './mojisComponent';
+import MojiChoose from './mojiChooseComponent';
 import Notifs from './notifsComponent';
 import User from './userComponent';
 
@@ -39,6 +40,7 @@ export const ConvoStackNavigator = createStackNavigator({
 
 // export: moji navigator
 export const MojiStackNavigator = createStackNavigator({
+    MojiChoose: { screen: MojiChoose },
     Mojis: { screen: Mojis },
     Moji: { screen: Moji },
     User: { screen: User },
@@ -46,7 +48,7 @@ export const MojiStackNavigator = createStackNavigator({
     Followers: { screen: Followers },
     Comment: { screen: Comment }
 }, {
-    initialRouteName: 'Mojis',
+    initialRouteName: 'MojiChoose',
 });
 
 // export: tab navigator

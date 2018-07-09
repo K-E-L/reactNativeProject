@@ -1,9 +1,11 @@
 // import: types
 import {
     COMMENT,
+    GET_FOLLOWING_MOJIS,
     GET_MOJI,
-    GET_MOJIS,
     GET_MOJI_COMMENTS,
+    GET_POPULAR_MOJIS,
+    GET_RECENT_MOJIS,
     REPORT,
     SET_COMMENT_BODY,
     SET_REPORT_BODY
@@ -25,7 +27,18 @@ const initialState = {
 
 function mojiReducer (state = initialState, action) {
     switch (action.type) {
-    case GET_MOJIS:
+    case GET_POPULAR_MOJIS:
+        return {
+            ...state,
+            mojis: action.payload
+        };
+    case GET_RECENT_MOJIS:
+        return {
+            ...state,
+            mojis: action.payload
+        };
+    case GET_FOLLOWING_MOJIS:
+        console.log('reducer', action.payload);
         return {
             ...state,
             mojis: action.payload
