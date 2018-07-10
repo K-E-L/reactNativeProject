@@ -4,12 +4,13 @@ import {
     GET_COLLEC,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
+    GET_MESSAGABLE,
     GET_NOTIFS,
     GET_USER
 } from '../types';
 
 export const getAuthUser = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/users/auth', {
+    return fetch('http://167.99.162.15/api/users/auth', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -29,7 +30,7 @@ export const getAuthUser = (login_cred) => dispatch => {
 };
 
 export const getUser = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/users/' + id.toString(), {
+    return fetch('http://167.99.162.15/api/users/' + id.toString(), {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -49,7 +50,7 @@ export const getUser = (login_cred, id) => dispatch => {
 };
 
 export const getFollowings = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/users/'
+    return fetch('http://167.99.162.15/api/users/'
           + id.toString()
           + '/followings', {
               method: 'POST',
@@ -71,7 +72,7 @@ export const getFollowings = (login_cred, id) => dispatch => {
 };
 
 export const getFollowers = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/users/'
+    return fetch('http://167.99.162.15/api/users/'
           + id.toString()
           + '/followers', {
               method: 'POST',
@@ -92,7 +93,27 @@ export const getFollowers = (login_cred, id) => dispatch => {
         });
 };
 
-export const FollowUnfollow = (login_cred, id, userType) => dispatch => {
+export const getMessagable = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/auth/messagable', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+          }).then(res => res.json())
+        .then(messagable =>
+              dispatch({
+                  type: GET_MESSAGABLE,
+                  payload: messagable
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const FollowUnfollow = (login_cred, user_id, userType, auth_id) => dispatch => {
     switch (userType) {
     case 'Follow':
         fetch('http://167.99.162.15/api/following', {
@@ -103,9 +124,11 @@ export const FollowUnfollow = (login_cred, id, userType) => dispatch => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id: id
+                id: user_id
             })
         }).then(res => res.json())
+            .then(() => {dispatch(getFollowings(login_cred, auth_id));})
+            .then(() => {dispatch(getAuthUser(login_cred));})
             .catch((error) => {
                 console.error(error);
             });
@@ -119,9 +142,11 @@ export const FollowUnfollow = (login_cred, id, userType) => dispatch => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id: id
+                id: user_id
             })
         }).then(res => res.json())
+            .then(() => {dispatch(getFollowings(login_cred, auth_id));})
+            .then(() => {dispatch(getAuthUser(login_cred));})
             .catch((error) => {
                 console.error(error);
             });
@@ -135,7 +160,7 @@ export const FollowUnfollow = (login_cred, id, userType) => dispatch => {
 };
 
 export const getNotifs = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/users/auth/notifs', {
+    return fetch('http://167.99.162.15/api/users/auth/notifs', {
               method: 'POST',
               headers: {
                   'Authorization': 'Bearer ' + login_cred.success.token,
@@ -172,7 +197,7 @@ export const destroyNotif = (login_cred, id) => dispatch => {
 };
 
 export const getCollec = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/users/auth/collec', {
+    return fetch('http://167.99.162.15/api/users/auth/collec', {
               method: 'POST',
               headers: {
                   'Authorization': 'Bearer ' + login_cred.success.token,

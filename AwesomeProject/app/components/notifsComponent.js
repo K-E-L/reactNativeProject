@@ -15,17 +15,25 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: pull to refresh
+import PTRView from 'react-native-pull-to-refresh';
+
 class Notifs extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Notifs'
     });
 
-    componentDidMount() {
+    componentWillMount() {
+        this.props.getNotifs(this.props.token);
+    }
+
+    refresh = () => {
         this.props.getNotifs(this.props.token);
     }
     
     render() {
         return (
+            <PTRView onRefresh={this.refresh}>
             <View>
               <FlatList
                 data={this.props.notifs.data}
@@ -44,6 +52,7 @@ class Notifs extends Component {
                title="Message"/>
 
             </View>
+            </PTRView>
         );
     }
 };

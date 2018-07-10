@@ -5,12 +5,10 @@ import { connect } from 'react-redux';
 import {
     Button,
     FlatList,
-    Image,
     ListItem,
     StyleSheet,
     Text,
     TextInput,
-    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -20,36 +18,37 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
-class Collec extends Component {
+// import: dumb component
+import UserItem from './userItemComponent';
+
+class Messagable extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Collection'
+        title: 'Messagable'
     });
 
     componentWillMount() {
-        this.props.getCollec(this.props.token);
+        this.props.getMessagable(this.props.token, this.props.navigation.state.params.id);
     }
 
     refresh = () => {
-        this.props.getCollec(this.props.token);
+        this.props.getMessagable(this.props.token, this.props.navigation.state.params.id);
     }
-    
+
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
                 <FlatList
-                  data={this.props.collec.data}
+                  data={this.props.messagable.data}
                   renderItem={({item}) =>
-                              <TouchableOpacity onPress={() => this.props.navigation.navigate('Moji', {id: item.id})}>
-                                    <Image
-                                          style={{width: 20, height: 20}}
-                                          source={{uri: 'http://167.99.162.15/mojiStorage/' +
-                                                   item.creator_id + '/' +
-                                                   item.path}}
-                                          />
-                              </TouchableOpacity>}
-                              keyExtractor={item => item.id.toString()}
-                              />
+                              <UserItem
+                                    item={item}
+                                    type={this.props.navigation.state.params.type}
+                                    convoID={this.props.navigation.state.params.convoID}
+                                navigation={this.props.navigation}/>}
+                                keyExtractor={item => item.id.toString()}
+                  />
+
               </View>
             </PTRView>
         );
@@ -67,9 +66,9 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.userReducer.collec);
+    // console.log(state.userReducer.messagable);
     return {
-        collec: state.userReducer.collec,
+        messagable: state.userReducer.messagable,
         token: state.authReducer.token,
     };
 }
@@ -80,4 +79,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Collec);
+export default connect(mapStateToProps, mapDispatchToProps)(Messagable);

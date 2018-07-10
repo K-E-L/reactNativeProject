@@ -15,29 +15,39 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: pull to refresh
+import PTRView from 'react-native-pull-to-refresh';
+
 class Followings extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Followings'
     });
 
-    componentDidMount() {
+    componentWillMount() {
+        this.props.getFollowings(this.props.token, this.props.navigation.state.params.id);
+    }
+
+    refresh = () => {
         this.props.getFollowings(this.props.token, this.props.navigation.state.params.id);
     }
     
     render() {
         return (
-            <View>
-              <FlatList
-                data={this.props.followings.data}
-                renderItem={({item}) =>
-                            <Text
-                                  onPress={() => this.props.navigation.push('User', {id: item.id})}
-                                  style={styles.text}>
-                                  {item.name}: {item.username}
-                            </Text>}
-                            keyExtractor={item => item.id.toString()}
-                            />
-            </View>
+            <PTRView onRefresh={this.refresh}>
+              <View>
+                <FlatList
+                  data={this.props.followings.data}
+                  renderItem={({item}) =>
+                              <Text
+                                    onPress={() => this.props.navigation.push('User', {id: item.id})}
+                                    style={styles.text}>
+                                    {item.name}: {item.username}
+                              </Text>}
+                              keyExtractor={item => item.id.toString()}
+                              />
+
+              </View>
+            </PTRView>
         );
     }
 };

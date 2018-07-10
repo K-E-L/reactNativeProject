@@ -12,6 +12,9 @@ import {
     View
 } from 'react-native';
 
+// import: pull to refresh
+import PTRView from 'react-native-pull-to-refresh';
+
 // import: actions
 import * as Actions from '../actions/rootActions';
 
@@ -39,8 +42,25 @@ class Mojis extends Component {
         }
     }
 
+    refresh = () => {
+        switch (this.props.navigation.state.params.type) {
+        case 'Popular':
+            this.props.getPopularMojis(this.props.token);
+            break;
+        case 'Recent':
+            this.props.getRecentMojis(this.props.token);
+            break;
+        case 'Following':
+            this.props.getFollowingMojis(this.props.token);
+            break;
+        default:
+            console.log('error: type not found');
+        }
+    }
+    
     render() {
         return (
+            <PTRView onRefresh={this.refresh}>
             <View>
               <Text
                 style={styles.h3}>{this.props.navigation.state.params.type}
@@ -52,6 +72,7 @@ class Mojis extends Component {
                 <MojiItem item={item} navigation={this.props.navigation}/>}
                 keyExtractor={item => item.id.toString()}/>
             </View>
+            </PTRView>
         );
     }
 };

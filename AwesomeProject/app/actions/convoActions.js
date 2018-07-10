@@ -10,7 +10,7 @@ import {
 } from '../types';
 
 export const getConvos = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/convos', {
+    return fetch('http://167.99.162.15/api/convos', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -30,7 +30,7 @@ export const getConvos = (login_cred) => dispatch => {
 };
 
 export const getConvo = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/convos/' + id, {
+    return fetch('http://167.99.162.15/api/convos/' + id, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -50,7 +50,7 @@ export const getConvo = (login_cred, id) => dispatch => {
 };
 
 export const getConvoMessages = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/convos/' +
+    return fetch('http://167.99.162.15/api/convos/' +
           id +
           '/messages', {
         method: 'POST',
@@ -72,7 +72,7 @@ export const getConvoMessages = (login_cred, id) => dispatch => {
 };
 
 export const getConvoUsers = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/convos/' +
+    return fetch('http://167.99.162.15/api/convos/' +
           id +
           '/users', {
         method: 'POST',
@@ -105,6 +105,7 @@ export const createConvo = (login_cred, id) => dispatch => {
             id: id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getConvos(login_cred));})
         .catch((error) => {
             console.error(error);
         });
@@ -122,6 +123,7 @@ export const destroyConvo = (login_cred, id) => dispatch => {
             id: id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getConvos(login_cred));})
         .catch((error) => {
             console.error(error);
         });
@@ -147,6 +149,8 @@ export const renameConvo = (login_cred, id, body) => dispatch => {
             body: body
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getConvo(login_cred, id));})
+        .then(() => {dispatch(getConvoMessages(login_cred, id));})
         .catch((error) => {
             console.error(error);
         });
@@ -178,12 +182,13 @@ export const message = (login_cred, id, body) => dispatch => {
                   payload: convos
               })
              )
+        .then(() => {dispatch(getConvoMessages(login_cred, id));})
         .catch((error) => {
             console.error(error);
         });
 };
 
-export const likeMessage = (login_cred, id) => dispatch => {
+export const likeMessage = (login_cred, message_id, convo_id) => dispatch => {
     fetch('http://167.99.162.15/api/likes/message', {
         method: 'POST',
         headers: {
@@ -192,13 +197,32 @@ export const likeMessage = (login_cred, id) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id: id
+            id: message_id
         })
     }).then(res => res.json())
-        .then(res => console.log('action', res))
+        .then(() => {dispatch(getConvoMessages(login_cred, convo_id));})
         .catch((error) => {
             console.error(error);
         });
 };
 
-
+export const addUser = (login_cred, add_id, convo_id) => dispatch => {
+    fetch('http://167.99.162.15/api/convos/addUser', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            add_id: add_id,
+            convo_id: convo_id
+        })
+          }).then(res => res.json())
+        .then(() => {dispatch(getConvo(login_cred, convo_id));})
+        .then(() => {dispatch(getConvoUsers(login_cred, convo_id));})
+        .then(() => {dispatch(getConvoMessages(login_cred, convo_id));})
+        .catch((error) => {
+            console.error(error);
+        });
+};

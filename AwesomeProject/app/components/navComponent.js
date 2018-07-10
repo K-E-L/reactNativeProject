@@ -5,15 +5,16 @@ import Convo from './convoComponent';
 import Convos from './convosComponent';
 import Followers from './followersComponent';
 import Followings from './followingsComponent';
+import Messagable from './messagableComponent';
 import Login from './loginComponent';
 import Moji from './mojiComponent';
-import Mojis from './mojisComponent';
 import MojiChoose from './mojiChooseComponent';
+import Mojis from './mojisComponent';
 import Notifs from './notifsComponent';
 import User from './userComponent';
 
 // import: navigator
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, TabView } from 'react-navigation';
 
 // export: user navigator
 export const UserStackNavigator = createStackNavigator({
@@ -22,7 +23,7 @@ export const UserStackNavigator = createStackNavigator({
     Followings: { screen: Followings },
     Followers: { screen: Followers },
     Notifs: { screen: Notifs },
-    Collec: { screen: Collec }
+    Collec: { screen: Collec },
 }, {
     initialRouteName: 'Authuser',
 });
@@ -33,7 +34,8 @@ export const ConvoStackNavigator = createStackNavigator({
     Convo: { screen: Convo },
     User: { screen: User },
     Followings: { screen: Followings },
-    Followers: { screen: Followers }
+    Followers: { screen: Followers },
+    Messagable: { screen: Messagable }
 }, {
     initialRouteName: 'Convos',
 });

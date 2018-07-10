@@ -25,14 +25,16 @@ class ReplyItem extends Component {
             <Button
                 onPress={() => this.props.likeReply(
                     this.props.token,
-                    this.props.navigation.state.params.id
+                    this.props.item.id,
+                    this.props.commentID
                 )}
                 title="LikeReply"/>
                 
             <Button
                 onPress={() => this.props.dislikeReply(
                     this.props.token,
-                    this.props.navigation.state.params.id
+                    this.props.item.id,
+                    this.props.commentID
                 )}
                 title="DislikeReply"/>
                 

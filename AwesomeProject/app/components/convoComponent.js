@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
+    Alert,
     Button,
     FlatList,
     ListItem,
@@ -15,9 +16,18 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: dumb component
 import MessageItem from'./messageItemComponent';
 
+// import: pull to refresh
+import PTRView from 'react-native-pull-to-refresh';
+
 class Convo extends Component {
+    constructor(props) {
+        super(props);
+        this.destroyConvoHandler = this.destroyConvoHandler.bind(this);
+    }
+
     static navigationOptions = ({ navigation }) => ({
         title: 'Convo'
     });
@@ -28,59 +38,104 @@ class Convo extends Component {
         this.props.getConvoUsers(this.props.token, this.props.navigation.state.params.id);
     }
 
+    refresh = () => {
+        this.props.getConvo(this.props.token, this.props.navigation.state.params.id);
+        this.props.getConvoMessages(this.props.token, this.props.navigation.state.params.id);
+        this.props.getConvoUsers(this.props.token, this.props.navigation.state.params.id);
+    }
+
+    destroyConvoHandler(login_cred, id) {
+        // alert
+        Alert.alert(
+            'Left Convo',
+            'Left Convo',
+            [{text: 'Ok'}],
+            { cancelable: false }
+        );
+        
+        this.props.destroyConvo(login_cred, id);
+        this.props.navigation.navigate('Convos', {id: this.props.authUser.data.id});
+    }
+
     render() {
         return (
-            <View>
-              <TextInput
-                style={styles.h3}
-                onChangeText={(text) => this.props.setRenameBody(text)}
-                value={this.props.renameBody}
-                placeholder="Rename Convo"/>
+            <PTRView onRefresh={this.refresh}>
+              <View>
+                <TextInput
+                  style={styles.h3}
+                  onChangeText={(text) => this.props.setRenameBody(text)}
+                  value={this.props.renameBody}
+                  placeholder="Rename Convo"
+                  onSubmitEditing={() => this.props.renameConvo(
+                      this.props.token,
+                      this.props.navigation.state.params.id,
+                      this.props.renameBody
+                  )}/>
 
-              <Button
-                onPress={() => this.props.renameConvo(
-                    this.props.token,
-                    this.props.navigation.state.params.id,
-                    this.props.renameBody
-                )}
-                title="Rename Convo"/>
-                             
-              <FlatList
-               data={this.props.convoUsers.data}
-               renderItem={({item}) =>
-                           <Text
-                                 onPress={() => this.props.navigation.push('User', {id: item.id})}
-                                 style={styles.text}>
-                                 {item.name}
-                           </Text>}
-                           keyExtractor={item => item.id.toString()}/>
-             <FlatList
-               data={this.props.convoMessages.data}
-               renderItem={({item}) => <MessageItem item={item} navigation={this.props.navigation}/> }
-               keyExtractor={item => item.id.toString()}/>
+                <Button
+                  onPress={() => this.props.renameConvo(
+                      this.props.token,
+                      this.props.navigation.state.params.id,
+                      this.props.renameBody
+                  )}
+                  title="Rename Convo"/>
 
-             <Text
-               style={styles.h3}
-               onPress={() => this.props.destroyConvo(
-                   this.props.token,
-                   this.props.convo.id
-               )}>Delete Convo</Text>
+                                      
+                <FlatList
+                  data={this.props.convoUsers.data}
+                  renderItem={({item}) =>
+                              <Text
+                                    onPress={() => this.props.navigation.push('User', {id: item.id})}
+                                    style={styles.text}>
+                                    {item.name}
+                              </Text>}
+                              keyExtractor={item => item.id.toString()}/>
+                              
+                <Button
+                  onPress={() => this.props.navigation.push(
+                      'Messagable', {
+                          convoID: this.props.convo.id,
+                          type: 'addUser'
+                  })}
+                  title="Add User"/>
 
-             <TextInput
-               onChangeText={(text) => this.props.setMessageBody(text)}
-               value={this.props.messageBody}
-               placeholder="Message.."/>
+                <Text
+                  style={styles.h3}
+                  onPress={() => this.destroyConvoHandler(
+                      this.props.token,
+                      this.props.convo.id
+                  )}>Leave Convo</Text>
 
-             <Button
-               onPress={() => this.props.message(
-                   this.props.token,
-                   this.props.navigation.state.params.id,
-                   this.props.messageBody
-               )}
-               title="Message"/>
+                <TextInput
+                  onChangeText={(text) => this.props.setMessageBody(text)}
+                  value={this.props.messageBody}
+                  placeholder="Message.."
+                  onSubmitEditing={() => this.props.message(
+                      this.props.token,
+                      this.props.navigation.state.params.id,
+                      this.props.messageBody
+                  )}/>
 
+                <Button
+                  onPress={() => this.props.message(
+                      this.props.token,
+                      this.props.navigation.state.params.id,
+                      this.props.messageBody
+                  )}
+                  title="Message"/>
 
-            </View>
+                <FlatList
+                  data={this.props.convoMessages.data}
+                  renderItem={({item}) =>
+                              <MessageItem
+                                    item={item}
+                                    convoID={this.props.navigation.state.params.id}
+                                navigation={this.props.navigation}/>}
+                              keyExtractor={item => item.id.toString()}/>
+
+                  
+              </View>
+            </PTRView>
         );
     }
 };
@@ -103,6 +158,7 @@ function mapStateToProps(state, props) {
         convoUsers: state.convoReducer.convoUsers,
         renameBody: state.convoReducer.renameBody,
         messageBody: state.convoReducer.messageBody,
+        authUser: state.userReducer.authUser,
         token: state.authReducer.token
     };
 }

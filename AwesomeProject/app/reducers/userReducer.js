@@ -4,6 +4,7 @@ import {
     GET_COLLEC,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
+    GET_MESSAGABLE,
     GET_NOTIFS,
     GET_USER
 } from '../types';
@@ -19,6 +20,9 @@ const initialState = {
         data: []
     },
     followers: {
+        data: []
+    },
+    messagable: {
         data: []
     },
     notifs: {
@@ -50,6 +54,11 @@ function userReducer (state = initialState, action) {
         return {
             ...state,
             followers: action.payload
+        };
+    case GET_MESSAGABLE:
+        return {
+            ...state,
+            messagable: action.payload
         };
     case GET_NOTIFS:
         return {

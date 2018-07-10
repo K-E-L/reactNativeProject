@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
+    Alert,
     Button,
     FlatList,
     Header,
@@ -21,13 +22,22 @@ import {
 } from 'react-native-popup-menu';
 
 // import: actions
-// import * as userActions from '../actions/userActions';
 import * as Actions from '../actions/rootActions';
 
+// import: pull to refresh
+import PTRView from 'react-native-pull-to-refresh';
+
+// import: menu testing..
 import { renderers } from 'react-native-popup-menu';
 const { SlideInMenu } = renderers;
 
 class User extends Component {
+    constructor(props) {
+        super(props);
+        this.followUnfollowHandler = this.followUnfollowHandler.bind(this);
+        this.createConvoHandler = this.createConvoHandler.bind(this);
+    }
+    
     static navigationOptions = ({ navigation }) => ({
         title: 'User'
     });
@@ -36,22 +46,49 @@ class User extends Component {
         this.props.getUser(this.props.token, this.props.navigation.state.params.id);
     }
 
-    // state = {user: ''}
-    // updateUser = (user) => {
-    //     this.setState({ user: user });
-    // }
+    refresh = () => {
+        this.props.getUser(this.props.token, this.props.navigation.state.params.id);
+    }
+
+    followUnfollowHandler(login_cred, user_id, type, auth_id) {
+        // alert
+        Alert.alert(
+            this.props.user.type + 'ing',
+            this.props.user.type + 'ed',
+            [{text: 'Ok'}],
+            { cancelable: false }
+        );
+        
+        this.props.FollowUnfollow(login_cred, user_id, type, auth_id);
+        this.props.navigation.navigate('Authuser');
+    }
+
+    createConvoHandler(login_cred, id) {
+        // alert
+        Alert.alert(
+            'Messaging',
+            'Messaged',
+            [{text: 'Ok'}],
+            { cancelable: false }
+        );
+
+        this.props.createConvo(login_cred, id);
+        this.props.navigation.navigate('Convos', {id: this.props.authUser.data.id});
+    }
 
     render() {        
         return (
+            <PTRView onRefresh={this.refresh}>
             <View>
               <Text style={styles.h3}>{this.props.user.data.name}</Text>
               <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
               <Text
                 style={styles.h3}
-                onPress={() => this.props.FollowUnfollow(
+                onPress={() => this.followUnfollowHandler(
                     this.props.token,
                     this.props.user.data.id,
-                    this.props.user.type
+                    this.props.user.type,
+                    this.props.authUser.data.id
                 )}>{this.props.user.type}</Text>
 
               <Text
@@ -64,14 +101,13 @@ class User extends Component {
 
               <Text
                 style={styles.h3}
-                onPress={() => this.props.createConvo(
+                onPress={() => this.createConvoHandler(
                     this.props.token,
                     this.props.user.data.id
                 )}>Message</Text>
               
-
               <Text style={styles.text}>Public Mojis</Text>
-              <Text style={styles.text}>Collection</Text>
+              <Text style={styles.text}>Public Collection</Text>
 
               <Menu renderer={SlideInMenu}>
                 <MenuTrigger>
@@ -94,6 +130,7 @@ class User extends Component {
               </Menu>
 
             </View>
+            </PTRView>
         );
     }
 };
@@ -112,6 +149,7 @@ function mapStateToProps(state, props) {
     console.log(state.userReducer.user);
     return {
         user: state.userReducer.user,
+        authUser: state.userReducer.authUser,
         token: state.authReducer.token,
     };
 }

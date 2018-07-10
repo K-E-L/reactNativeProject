@@ -12,7 +12,7 @@ import {
 } from '../types';
 
 export const getPopularMojis = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/mojis/popular', {
+    return fetch('http://167.99.162.15/api/mojis/popular', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -32,7 +32,7 @@ export const getPopularMojis = (login_cred) => dispatch => {
 };
 
 export const getRecentMojis = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/mojis/recent', {
+    return fetch('http://167.99.162.15/api/mojis/recent', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -52,7 +52,7 @@ export const getRecentMojis = (login_cred) => dispatch => {
 };
 
 export const getFollowingMojis = (login_cred) => dispatch => {
-    fetch('http://167.99.162.15/api/mojis/following', {
+    return fetch('http://167.99.162.15/api/mojis/following', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -72,7 +72,7 @@ export const getFollowingMojis = (login_cred) => dispatch => {
 };
 
 export const getMoji = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/mojis/' + id, {
+    return fetch('http://167.99.162.15/api/mojis/' + id, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + login_cred.success.token,
@@ -92,7 +92,7 @@ export const getMoji = (login_cred, id) => dispatch => {
 };
 
 export const getMojiComments = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/mojis/' +
+    return fetch('http://167.99.162.15/api/mojis/' +
           id +
           '/comments', {
         method: 'POST',
@@ -108,6 +108,7 @@ export const getMojiComments = (login_cred, id) => dispatch => {
                   payload: comments
               })
              )
+        .then(console.log('get moji comments ran'))
         .catch((error) => {
             console.error(error);
         });
@@ -139,6 +140,7 @@ export const comment = (login_cred, id, body) => dispatch => {
                   payload: comment
               })
              )
+        .then(() => {dispatch(getMojiComments(login_cred, id));})
         .catch((error) => {
             console.error(error);
         });
@@ -187,6 +189,7 @@ export const likeMoji = (login_cred, id) => dispatch => {
             id: id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getMoji(login_cred, id));})
         .catch((error) => {
             console.error(error);
         });
@@ -204,12 +207,13 @@ export const dislikeMoji = (login_cred, id) => dispatch => {
             id: id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getMoji(login_cred, id));})
         .catch((error) => {
             console.error(error);
         });
 };
 
-export const likeComment = (login_cred, id) => dispatch => {
+export const likeComment = (login_cred, comment_id, moji_id) => dispatch => {
     fetch('http://167.99.162.15/api/likes/comment', {
         method: 'POST',
         headers: {
@@ -218,15 +222,16 @@ export const likeComment = (login_cred, id) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id: id
+            id: comment_id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getMojiComments(login_cred, moji_id));})
         .catch((error) => {
             console.error(error);
         });
 };
 
-export const dislikeComment = (login_cred, id) => dispatch => {
+export const dislikeComment = (login_cred, comment_id, moji_id) => dispatch => {
     fetch('http://167.99.162.15/api/dislikes/comment', {
         method: 'POST',
         headers: {
@@ -235,9 +240,10 @@ export const dislikeComment = (login_cred, id) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id: id
+            id: comment_id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getMojiComments(login_cred, moji_id));})
         .catch((error) => {
             console.error(error);
         });
@@ -255,9 +261,9 @@ export const CollecUncollec = (login_cred, id, collecType) => dispatch => {
             },
             body: JSON.stringify({
                 id: id
-            })
+            })            
         }).then(res => res.json())
-            .then(res => console.log('action', res))
+            .then(() => {dispatch(getMoji(login_cred, id));})
             .catch((error) => {
                 console.error(error);
             });
@@ -274,7 +280,7 @@ export const CollecUncollec = (login_cred, id, collecType) => dispatch => {
                 id: id
             })
         }).then(res => res.json())
-            .then(res => console.log('action', res))
+            .then(() => {dispatch(getMoji(login_cred, id));})
             .catch((error) => {
                 console.error(error);
             });

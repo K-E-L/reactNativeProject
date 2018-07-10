@@ -6,7 +6,7 @@ import {
 } from '../types';
 
 export const getCommentReplies = (login_cred, id) => dispatch => {
-    fetch('http://167.99.162.15/api/comments/' +
+    return fetch('http://167.99.162.15/api/comments/' +
           id +
           '/replies', {
               method: 'POST',
@@ -58,7 +58,7 @@ export const reply = (login_cred, id, body) => dispatch => {
         });
 };
 
-export const likeReply = (login_cred, id) => dispatch => {
+export const likeReply = (login_cred, reply_id, comment_id) => dispatch => {
     fetch('http://167.99.162.15/api/likes/reply', {
         method: 'POST',
         headers: {
@@ -67,15 +67,16 @@ export const likeReply = (login_cred, id) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id: id
+            id: reply_id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getCommentReplies(login_cred, comment_id));})
         .catch((error) => {
             console.error(error);
         });
 };
 
-export const dislikeReply = (login_cred, id) => dispatch => {
+export const dislikeReply = (login_cred, reply_id, comment_id) => dispatch => {
     fetch('http://167.99.162.15/api/dislikes/reply', {
         method: 'POST',
         headers: {
@@ -84,9 +85,10 @@ export const dislikeReply = (login_cred, id) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id: id
+            id: reply_id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getCommentReplies(login_cred, comment_id));})
         .catch((error) => {
             console.error(error);
         });

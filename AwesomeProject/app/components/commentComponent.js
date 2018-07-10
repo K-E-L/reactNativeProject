@@ -12,9 +12,13 @@ import {
     View
 } from 'react-native';
 
+// import: pull to refresh
+import PTRView from 'react-native-pull-to-refresh';
+
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: dumb component
 import ReplyItem from './replyItemComponent';
 
 class Comment extends Component {
@@ -26,18 +30,28 @@ class Comment extends Component {
         this.props.getCommentReplies(this.props.token, this.props.navigation.state.params.id);
     }
 
+    refresh = () => {
+        this.props.getCommentReplies(this.props.token, this.props.navigation.state.params.id);
+    }
+
     render() {
         return (
+            <PTRView onRefresh={this.refresh}>
             <View>
               <FlatList
                 data={this.props.replies.data}
                 renderItem={({item}) =>
-                <ReplyItem item={item} navigation={this.props.navigation}/>}
+                <ReplyItem item={item} commentID={this.props.navigation.state.params.id} navigation={this.props.navigation}/>}
                 keyExtractor={item => item.id.toString()}/>
               <TextInput
                 onChangeText={(text) => this.props.setReplyBody(text)}
                 value={this.props.replyBody}
-                placeholder="Reply.."/>
+                placeholder="Reply.."
+                onSubmitEditing={() => this.props.reply(
+                    this.props.token,
+                    this.props.navigation.state.params.id,
+                    this.props.replyBody
+                )}/>
 
               <Button
                 onPress={() => this.props.reply(
@@ -46,8 +60,8 @@ class Comment extends Component {
                     this.props.replyBody
                 )}
                 title="Reply"/>
-
             </View>
+            </PTRView>
         );
     }
 };

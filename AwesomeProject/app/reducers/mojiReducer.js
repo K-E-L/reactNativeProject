@@ -38,7 +38,6 @@ function mojiReducer (state = initialState, action) {
             mojis: action.payload
         };
     case GET_FOLLOWING_MOJIS:
-        console.log('reducer', action.payload);
         return {
             ...state,
             mojis: action.payload

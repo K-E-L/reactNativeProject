@@ -29,14 +29,16 @@ class CommentItem extends Component {
             <Button
                onPress={() => this.props.likeComment(
                    this.props.token,
-                   this.props.navigation.state.params.id
+                   this.props.item.id,
+                   this.props.moji.data.id
                )}
                title="LikeComment"/>
               
             <Button
               onPress={() => this.props.dislikeComment(
                   this.props.token,
-                  this.props.navigation.state.params.id
+                  this.props.item.id,
+                  this.props.moji.data.id
               )}
               title="DislikeComment"/>
 
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
 // Pass: redux state to props
 function mapStateToProps(state, props) {
     return {
+        moji: state.mojiReducer.moji,
         token: state.authReducer.token
     };
 }

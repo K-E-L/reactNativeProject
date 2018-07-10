@@ -26,7 +26,8 @@ class MessageItem extends Component {
             <Button
                 onPress={() => this.props.likeMessage(
                     this.props.token,
-                    this.props.item.id
+                    this.props.item.id,
+                    this.props.convoID
                 )}
                 title="LikeMessage"/>
                 
