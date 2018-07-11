@@ -10,6 +10,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -27,6 +28,7 @@ class Convo extends Component {
         super(props);
         this.destroyConvoHandler = this.destroyConvoHandler.bind(this);
         this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
+        this.backHandler = this.backHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
@@ -71,8 +73,9 @@ class Convo extends Component {
         return (
             <PTRView onRefresh={this.refresh}>              
               <View>
-                <Text style={styles.h3}
-                  onPress={() => this.backHandler()}>Back</Text>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
                 <TextInput
                   style={styles.h3}
                   onChangeText={(text) => this.props.setRenameBody(text)}
@@ -84,14 +87,14 @@ class Convo extends Component {
                       this.props.renameBody
                   )}/>
 
-                <Button
+                <TouchableOpacity
                   onPress={() => this.props.renameConvo(
                       this.props.token,
                       this.props.navigation.state.params.id,
                       this.props.renameBody
-                  )}
-                  title="Rename Convo"/>
-
+                  )}>
+                  <Text style={styles.link}>Rename Convo</Text>
+                </TouchableOpacity>
                                       
                 <FlatList
                   data={this.props.convoUsers.data}
@@ -103,20 +106,22 @@ class Convo extends Component {
                               </Text>}
                               keyExtractor={item => item.id.toString()}/>
                               
-                <Button
+                <TouchableOpacity
                   onPress={() => this.props.navigation.push(
                       'Messagable', {
                           convoID: this.props.convo.id,
                           type: 'addUser'
-                  })}
-                  title="Add User"/>
+                  })}>
+                  <Text style={styles.link}>Add User</Text>
+                </TouchableOpacity>
 
-                <Text
-                  style={styles.h3}
+                <TouchableOpacity
                   onPress={() => this.destroyConvoHandler(
                       this.props.token,
                       this.props.convo.id
-                  )}>Leave Convo</Text>
+                  )}>
+                  <Text style={styles.link}>Leave Convo</Text>
+                </TouchableOpacity>
 
                 <TextInput
                   onChangeText={(text) => this.props.setMessageBody(text)}
@@ -128,14 +133,15 @@ class Convo extends Component {
                       this.props.messageBody
                   )}/>
 
-                <Button
+                <TouchableOpacity
                   onPress={() => this.props.message(
                       this.props.token,
                       this.props.navigation.state.params.id,
                       this.props.messageBody
-                  )}
-                  title="Message"/>
-
+                  )}>
+                  <Text style={styles.link}>Message</Text>
+                </TouchableOpacity>
+                  
                 <FlatList
                   data={this.props.convoMessages.data}
                   renderItem={({item}) =>
@@ -153,12 +159,16 @@ class Convo extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

@@ -41,8 +41,10 @@ class Collec extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <Text style={styles.h3}
-                  onPress={() => this.backHandler()}>Back</Text>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
+
                 <FlatList
                   data={this.props.collec.data}
                   renderItem={({item}) =>

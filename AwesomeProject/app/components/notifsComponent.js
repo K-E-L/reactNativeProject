@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -44,8 +45,10 @@ class Notifs extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <Text style={styles.h3}
-                      onPress={() => this.backHandler()}>Back</Text>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
+
                 <Text style={styles.h3}>Notifs</Text>
               <FlatList
                 data={this.props.notifs.data}

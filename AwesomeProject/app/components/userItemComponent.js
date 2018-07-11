@@ -31,8 +31,8 @@ class UserItem extends Component {
     funcHandler(login_cred, user_id, convo_id) {
         // alert
         Alert.alert(
-            'Done',
-            'Done',
+            'Messaging',
+            'Messaged',
             [{text: 'Ok'}],
             { cancelable: false }
         );

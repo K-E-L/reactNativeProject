@@ -4,16 +4,20 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
     Button,
+    Dimensions,
     FlatList,
     ListItem,
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
 // import: actions
 import * as Actions from '../actions/rootActions';
+
+const ScreenHeight = Dimensions.get("window").height;
 
 class MojiChoose extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -23,29 +27,31 @@ class MojiChoose extends Component {
     render() {
         return (
             <View>
-              <Text
-                onPress={() => this.props.navigation.navigate('Mojis', {type: 'Popular'})}
-                style={styles.h3}>Most Popular</Text>
-              <Text
-                onPress={() => this.props.navigation.navigate('Mojis', {type: 'Recent'})}
-                style={styles.h3}>Recent</Text>
-              <Text
-                onPress={() => this.props.navigation.navigate('Mojis', {type: 'Following'})}
-                style={styles.h3}>Recent Following</Text>
-
-
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Mojis', {type: 'Popular'})}>
+                <Text style={styles.link}>Most Popular</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Mojis', {type: 'Recent'})}>
+                <Text style={styles.link}>Recent</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Mojis', {type: 'Following'})}>
+                <Text style={styles.link}>Recent Following</Text>
+              </TouchableOpacity>
             </View>
         );
     }
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

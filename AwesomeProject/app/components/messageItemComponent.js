@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -23,14 +24,14 @@ class MessageItem extends Component {
                 style={styles.text}>
                 {this.props.item.creator_name}: {this.props.item.body}: {this.props.item.created_at}: Likes {this.props.item.like_count}
               </Text>
-            <Button
-                onPress={() => this.props.likeMessage(
+                
+              <TouchableOpacity onPress={() => this.props.likeMessage(
                     this.props.token,
                     this.props.item.id,
                     this.props.convoID
-                )}
-                title="LikeMessage"/>
-                
+                )}>
+                <Text style={styles.link}>Like</Text>
+              </TouchableOpacity>
 
 
             </View>
@@ -39,12 +40,16 @@ class MessageItem extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

@@ -150,7 +150,9 @@ export const renameConvo = (login_cred, id, body) => dispatch => {
         })
     }).then(res => res.json())
         .then(() => {dispatch(getConvo(login_cred, id));})
+        .then(() => {dispatch(getConvos(login_cred));})
         .then(() => {dispatch(getConvoMessages(login_cred, id));})
+
         .catch((error) => {
             console.error(error);
         });

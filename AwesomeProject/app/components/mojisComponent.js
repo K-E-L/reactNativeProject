@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -71,8 +72,10 @@ class Mojis extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <Text style={styles.h3}
-                  onPress={() => this.backHandler()}>Back</Text>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
+
               <Text
                 style={styles.h3}>{this.props.navigation.state.params.type}
               </Text>

@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -46,45 +47,51 @@ class Comment extends Component {
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
-              <View>
-                <Text style={styles.h3}
-                      onPress={() => this.backHandler()}>Back</Text>
+              <View>                    
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
                 <Text style={styles.h3}>Replies</Text>
-              <FlatList
-                data={this.props.replies.data}
-                renderItem={({item}) =>
-                <ReplyItem item={item} commentID={this.props.navigation.state.params.id} navigation={this.props.navigation}/>}
-                keyExtractor={item => item.id.toString()}/>
-              <TextInput
-                onChangeText={(text) => this.props.setReplyBody(text)}
-                value={this.props.replyBody}
-                placeholder="Reply.."
-                onSubmitEditing={() => this.props.reply(
-                    this.props.token,
-                    this.props.navigation.state.params.id,
-                    this.props.replyBody
-                )}/>
+                <TextInput
+                  onChangeText={(text) => this.props.setReplyBody(text)}
+                  value={this.props.replyBody}
+                  placeholder="Reply.."
+                  onSubmitEditing={() => this.props.reply(
+                      this.props.token,
+                      this.props.navigation.state.params.id,
+                      this.props.replyBody
+                  )}/>
 
-              <Button
-                onPress={() => this.props.reply(
-                    this.props.token,
-                    this.props.navigation.state.params.id,
-                    this.props.replyBody
-                )}
-                title="Reply"/>
-            </View>
+                <TouchableOpacity onPress={() => this.props.reply(
+                      this.props.token,
+                      this.props.navigation.state.params.id,
+                      this.props.replyBody
+                  )}>
+                  <Text style={styles.link}>Reply To Comment</Text>
+                </TouchableOpacity>
+
+                <FlatList
+                  data={this.props.replies.data}
+                  renderItem={({item}) =>
+                  <ReplyItem item={item} commentID={this.props.navigation.state.params.id} navigation={this.props.navigation}/>}
+                  keyExtractor={item => item.id.toString()}/>
+              </View>
             </PTRView>
         );
     }
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

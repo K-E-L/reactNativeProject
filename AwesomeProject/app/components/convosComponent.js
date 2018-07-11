@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -36,17 +37,16 @@ class Convos extends Component {
             <PTRView onRefresh={this.refresh}>
               <View>
                 <Text style={styles.h3}>Convos</Text>
+                <TouchableOpacity onPress={() => this.props.navigation.push('Messagable', {type: 'createConvo'})}>
+                  <Text style={styles.link}>New Convo</Text>
+                </TouchableOpacity>
+
                 <FlatList
                   data={this.props.convos.data}
-                  renderItem={({item}) => <Text
-                                                onPress={() => this.props.navigation.navigate('Convo', {id: item.id})}
-                              style={styles.text}>
-                              {item.name}
-                  </Text>}
+                  renderItem={({item}) =>
+                              <Text onPress={() => this.props.navigation.navigate('Convo', {id: item.id})}
+                              style={styles.text}>{item.name}</Text>}
                   keyExtractor={item => item.id.toString()}/>
-                <Button
-                  onPress={() => this.props.navigation.push('Messagable', {id: this.props.authUser.id, type: 'createConvo'})}
-                  title="New Convo"/>
 
               </View>
             </PTRView>
@@ -55,12 +55,16 @@ class Convos extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

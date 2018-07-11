@@ -11,6 +11,8 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
+    TouchableHighlight,
     View
 } from 'react-native';
 
@@ -65,9 +67,10 @@ class Moji extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <Text style={styles.h3}
-                  onPress={() => this.backHandler()}>Back</Text>
-                <Text style={styles.h3}>{this.props.moji.data.name}</Text>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
+                  <Text style={styles.h3}>{this.props.moji.data.name}</Text>
                 <Image
                   style={{width: 20, height: 20}}
                   source={{uri: 'http://167.99.162.15/mojiStorage/' +
@@ -83,29 +86,28 @@ class Moji extends Component {
                   style={styles.text}>Likes: {this.props.moji.data.like_count}</Text>
                 <Text
                   style={styles.text}>Dislikes: {this.props.moji.data.dislike_count}</Text>
-                <Text
-                  style={styles.h3}
-                  onPress={() => this.collecHandler(
+                <TouchableOpacity onPress={() => this.collecHandler(
                       this.props.token,
                       this.props.navigation.state.params.id,
                       this.props.moji.type
-                  )}>{this.props.moji.type}</Text>
+                  )}>
+                  <Text style={styles.link}>{this.props.moji.type}</Text>
+                </TouchableOpacity>
 
-
-                <Button
-                  onPress={() => this.props.likeMoji(
+                <TouchableOpacity onPress={() => this.props.likeMoji(
                       this.props.token,
                       this.props.navigation.state.params.id
-                  )}
-                  title="LikeMoji"/>
-                  
-                <Button
-                  onPress={() => this.props.dislikeMoji(
+                  )}>
+                  <Text style={styles.link}>Like</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={() => this.props.dislikeMoji(
                       this.props.token,
                       this.props.navigation.state.params.id
-                  )}
-                  title="DislikeMoji"/>
-
+                  )}>
+                  <Text style={styles.link}>Dislike</Text>
+                </TouchableOpacity>
+                
                 <TextInput
                   onChangeText={(text) => this.props.setCommentBody(text)}
                   value={this.props.commentBody}
@@ -115,14 +117,14 @@ class Moji extends Component {
                       this.props.navigation.state.params.id,
                       this.props.commentBody
                   )}/>
-                        
-                <Button
-                  onPress={() => this.props.comment(
+
+                  <TouchableOpacity onPress={() => this.props.comment(
                       this.props.token,
                       this.props.navigation.state.params.id,
                       this.props.commentBody
-                  )}
-                  title="Comment"/>
+                  )}>
+                    <Text style={styles.link}>Comment</Text>
+                  </TouchableOpacity>
 
                 <TextInput
                   onChangeText={(text) => this.props.setReportBody(text)}
@@ -134,13 +136,13 @@ class Moji extends Component {
                       this.props.reportBody
                   )}/>
 
-                <Button
-                  onPress={() => this.props.report(
-                      this.props.token,
-                      this.props.navigation.state.params.id,
-                      this.props.reportBody
-                  )}
-                  title="Report"/>
+                  <TouchableOpacity onPress={() => this.props.report(
+                        this.props.token,
+                        this.props.navigation.state.params.id,
+                        this.props.reportBody
+                    )}>
+                    <Text style={styles.link}>Report</Text>
+                  </TouchableOpacity>
 
                 <FlatList
                   data={this.props.mojiComments.data}
@@ -155,12 +157,16 @@ class Moji extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

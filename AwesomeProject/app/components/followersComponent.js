@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -51,9 +52,11 @@ class Followers extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
+
                 <Text style={styles.h3}>Followers</Text>
-                <Text style={styles.h3}
-                  onPress={() => this.backHandler()}>Back</Text>
 
                 <FlatList
                   data={this.props.followers.data}

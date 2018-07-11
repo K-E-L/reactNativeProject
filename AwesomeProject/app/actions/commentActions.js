@@ -34,7 +34,9 @@ export const setReplyBody = (text) => dispatch => {
     });
 };
 
-export const reply = (login_cred, id, body) => dispatch => {
+export const reply = (login_cred, id, body, name) => dispatch => {
+    console.log('name', name);
+    console.log('body', body);
     fetch('http://167.99.162.15/api/replies/create', {
         method: 'POST',
         headers: {
@@ -44,15 +46,17 @@ export const reply = (login_cred, id, body) => dispatch => {
         },
         body: JSON.stringify({
             id: id,
-            body: body
+            body: '@' + name + ' ' + body
         })
     }).then(res => res.json())
+        .then(res => console.log('action', res))
         .then(reply =>
               dispatch({
                   type: REPLY,
                   payload: reply
               })
              )
+        .then(() => {dispatch(getCommentReplies(login_cred, id));})
         .catch((error) => {
             console.error(error);
         });

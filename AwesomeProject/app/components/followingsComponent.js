@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -51,22 +52,21 @@ class Followings extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <Text style={styles.h3}
-                  onPress={() => this.backHandler()}>Back</Text>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
+                
                 <Text style={styles.h3}>Followings</Text>
-                                
+                
                <FlatList
-                  data={this.props.followings.data}
-                  renderItem={({item}) =>
+                 data={this.props.followings.data}
+                 renderItem={({item}) =>
                               <Text
                                     onPress={() => this.pushNavUserHandler(item)}
-                                    style={styles.text}>
+                                    style={styles.h3}>
                                     {item.name}: {item.username}
                               </Text>}
-                              keyExtractor={item => item.id.toString()}
-                              />
-
-
+                              keyExtractor={item => item.id.toString()}/>
 
               </View>
             </PTRView>

@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -22,22 +23,42 @@ class ReplyItem extends Component {
               <Text
                 style={styles.text}>
                 {this.props.item.creator_username} - {this.props.item.body} - {this.props.item.created_at} - Likes: {this.props.item.like_count} Dislikes: {this.props.item.dislike_count}</Text>
-            <Button
-                onPress={() => this.props.likeReply(
+
+              <TouchableOpacity onPress={() => this.props.likeReply(
                     this.props.token,
                     this.props.item.id,
                     this.props.commentID
-                )}
-                title="LikeReply"/>
-                
-            <Button
-                onPress={() => this.props.dislikeReply(
+                )}>
+                <Text style={styles.link}>Like</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity onPress={() => this.props.dislikeReply(
                     this.props.token,
                     this.props.item.id,
                     this.props.commentID
-                )}
-                title="DislikeReply"/>
-                
+                )}>
+                <Text style={styles.link}>Dislike</Text>
+              </TouchableOpacity>
+
+              <TextInput
+                onChangeText={(text) => this.props.setReplyBody(text)}
+                value={this.props.replyBody}
+                placeholder="Reply.."
+                onSubmitEditing={() => this.props.reply(
+                    this.props.token,
+                    this.props.navigation.state.params.id,
+                    this.props.replyBody,
+                    this.props.item.creator_username
+                )}/>
+
+              <TouchableOpacity onPress={() => this.props.reply(
+                    this.props.token,
+                    this.props.navigation.state.params.id,
+                    this.props.replyBody,
+                    this.props.item.creator_username
+                )}>
+                <Text style={styles.link}>Reply @{this.props.item.creator_username}</Text>
+              </TouchableOpacity>
 
 
             </View>
@@ -46,17 +67,23 @@ class ReplyItem extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    console.log(state.commentReducer.replyBody);
     return {
+        replyBody: state.commentReducer.replyBody,
         token: state.authReducer.token
     };
 }

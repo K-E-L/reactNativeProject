@@ -11,6 +11,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -65,24 +66,24 @@ class Authuser extends Component {
                 <Text style={styles.text}>Username: {this.props.authUser.data.username}</Text>
                 <Text style={styles.text}>Email: {this.props.authUser.email}</Text>
 
-                <Text
-                  onPress={() => this.pushNavUserHandler('followings')}
-                  style={styles.h3}>Followings: {this.props.authUser.data.followingsCount}</Text>
+                <TouchableOpacity onPress={() => this.pushNavUserHandler('followings')}>
+                  <Text style={styles.link}>Followings: {this.props.authUser.data.followingsCount}</Text>
+                </TouchableOpacity>
 
-                <Text
-                  onPress={() => this.pushNavUserHandler('followers')}
-                  style={styles.h3}>Followers: {this.props.authUser.data.followersCount}</Text>
+                <TouchableOpacity onPress={() => this.pushNavUserHandler('followers')}>
+                  <Text style={styles.link}>Followers: {this.props.authUser.data.followersCount}</Text>
+                </TouchableOpacity>
                 
                 <Text style={styles.text}>Public Mojis</Text>
                 <Text style={styles.text}>Private Mojis</Text>
 
-                <Text
-                  onPress={() => this.props.navigation.navigate('Collec', {id: this.props.authUser.data.id})}
-                  style={styles.h3}>Collection</Text>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Collec', {id: this.props.authUser.data.id})}>
+                  <Text style={styles.link}>Collection</Text>
+                </TouchableOpacity>
 
-                <Text
-                  onPress={() => this.props.navigation.navigate('Notifs')}
-                  style={styles.h3}>Notifs: {this.props.authUser.data.notifsCount}</Text>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Notifs')}>
+                  <Text style={styles.link}>Notifs: {this.props.authUser.data.notifsCount}</Text>
+                </TouchableOpacity>
                 
               </View>
             </PTRView>
@@ -91,12 +92,16 @@ class Authuser extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props
