@@ -17,7 +17,7 @@ import * as Actions from '../actions/rootActions';
 
 class MojiChoose extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Moji Choose'
+        title: 'Moji Choose', header: null
     });
 
     render() {

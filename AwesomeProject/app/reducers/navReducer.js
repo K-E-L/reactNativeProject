@@ -1,39 +1,32 @@
-// import {
-//   createNavigationReducer,
-// } from 'react-navigation-redux-helpers';
-// import { TabNavigator } from '../components/navComponent';
-
-// const navReducer = createNavigationReducer(TabNavigator);
-
-// export default navReducer;
-
 // import: types
 import {
-    STACK_HISTORY
+    GET_NAV_USER_STACK,
+    POP_NAV_USER,
+    PUSH_NAV_USER
 } from '../types';
 
 const initialState = {
-    stackHistory: ['root'],
-    
+    userStack: []
 };
 
 function navReducer (state = initialState, action) {
     switch (action.type) {
-    case STACK_HISTORY:
-        console.log('stackHistory: ', state.stackHistory);
+    case PUSH_NAV_USER:
         return {
             ...state,
-            // followings: action.payload
-            stackHistory: [
-                ...state.stackHistory,
-                action.payload
-            ]
+            userStack: [...state.userStack, action.payload]
         };
-        
+
+    case POP_NAV_USER:
+        console.log('popped');
+        return {
+            ...state,
+            userStack: state.userStack.slice(0, (state.userStack.length - 1))
+        };
+
     default:
         return state;
     }
 };
 
 export default navReducer;
-

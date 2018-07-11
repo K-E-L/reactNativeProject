@@ -19,32 +19,54 @@ import * as Actions from '../actions/rootActions';
 import PTRView from 'react-native-pull-to-refresh';
 
 class Followings extends Component {
+    constructor(props) {
+        super(props);
+        this.backHandler = this.backHandler.bind(this);
+        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
+    }
+
     static navigationOptions = ({ navigation }) => ({
-        title: 'Followings'
+        title: 'Followings', header: null
     });
 
     componentWillMount() {
-        this.props.getFollowings(this.props.token, this.props.navigation.state.params.id);
+        this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     refresh = () => {
         this.props.getFollowings(this.props.token, this.props.navigation.state.params.id);
+    }
+
+    backHandler() {
+        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.navigation.pop();
+    }
+
+    pushNavUserHandler(item) {
+        this.props.pushNavUser(item.id);
+        this.props.navigation.push('User', {id: item.id});
     }
     
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <FlatList
+                <Text style={styles.h3}
+                  onPress={() => this.backHandler()}>Back</Text>
+                <Text style={styles.h3}>Followings</Text>
+                                
+               <FlatList
                   data={this.props.followings.data}
                   renderItem={({item}) =>
                               <Text
-                                    onPress={() => this.props.navigation.push('User', {id: item.id})}
+                                    onPress={() => this.pushNavUserHandler(item)}
                                     style={styles.text}>
                                     {item.name}: {item.username}
                               </Text>}
                               keyExtractor={item => item.id.toString()}
                               />
+
+
 
               </View>
             </PTRView>
@@ -63,9 +85,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.userReducer.followings.data);
+    console.log('followings', state.navReducer.userStack);
     return {
         followings: state.userReducer.followings,
+        userStack: state.navReducer.userStack,
         token: state.authReducer.token,
     };
 }

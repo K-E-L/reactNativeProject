@@ -26,10 +26,11 @@ class Convo extends Component {
     constructor(props) {
         super(props);
         this.destroyConvoHandler = this.destroyConvoHandler.bind(this);
+        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
-        title: 'Convo'
+        title: 'Convo', header: null
     });
 
     componentWillMount() {
@@ -57,10 +58,21 @@ class Convo extends Component {
         this.props.navigation.navigate('Convos', {id: this.props.authUser.data.id});
     }
 
+    pushNavUserHandler(item) {
+        this.props.pushNavUser(item.id);
+        this.props.navigation.push('User', {id: item.id});
+    }
+
+    backHandler() {
+        this.props.navigation.pop();
+    }
+
     render() {
         return (
-            <PTRView onRefresh={this.refresh}>
+            <PTRView onRefresh={this.refresh}>              
               <View>
+                <Text style={styles.h3}
+                  onPress={() => this.backHandler()}>Back</Text>
                 <TextInput
                   style={styles.h3}
                   onChangeText={(text) => this.props.setRenameBody(text)}
@@ -85,7 +97,7 @@ class Convo extends Component {
                   data={this.props.convoUsers.data}
                   renderItem={({item}) =>
                               <Text
-                                    onPress={() => this.props.navigation.push('User', {id: item.id})}
+                                    onPress={() => this.pushNavUserHandler(item)}
                                     style={styles.text}>
                                     {item.name}
                               </Text>}

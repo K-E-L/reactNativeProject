@@ -20,7 +20,7 @@ import PTRView from 'react-native-pull-to-refresh';
 
 class Convos extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Convos'
+        title: 'Convos', header: null
     });
 
     componentWillMount() {
@@ -35,6 +35,7 @@ class Convos extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
+                <Text style={styles.h3}>Convos</Text>
                 <FlatList
                   data={this.props.convos.data}
                   renderItem={({item}) => <Text

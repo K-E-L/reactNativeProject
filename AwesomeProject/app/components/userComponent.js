@@ -36,10 +36,11 @@ class User extends Component {
         super(props);
         this.followUnfollowHandler = this.followUnfollowHandler.bind(this);
         this.createConvoHandler = this.createConvoHandler.bind(this);
+        this.backHandler = this.backHandler.bind(this);
     }
     
     static navigationOptions = ({ navigation }) => ({
-        title: 'User'
+        title: 'User', header: null
     });
     
     componentWillMount() {
@@ -76,10 +77,19 @@ class User extends Component {
         this.props.navigation.navigate('Convos', {id: this.props.authUser.data.id});
     }
 
+    backHandler() {
+        this.props.popNavUser();
+        this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
+        this.props.navigation.pop();
+    }
+
     render() {        
         return (
             <PTRView onRefresh={this.refresh}>
-            <View>
+              <View>
+                <Text style={styles.h3}
+                  onPress={() => this.backHandler()}>Back</Text>
+                                
               <Text style={styles.h3}>{this.props.user.data.name}</Text>
               <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
               <Text
@@ -146,10 +156,11 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.userReducer.user);
+    console.log('user', state.navReducer.userStack);
     return {
         user: state.userReducer.user,
         authUser: state.userReducer.authUser,
+        userStack: state.navReducer.userStack,
         token: state.authReducer.token,
     };
 }

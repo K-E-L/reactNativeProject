@@ -22,8 +22,13 @@ import * as Actions from '../actions/rootActions';
 import ReplyItem from './replyItemComponent';
 
 class Comment extends Component {
+    constructor(props) {
+        super(props);
+        this.backHandler = this.backHandler.bind(this);
+    }
+    
     static navigationOptions = ({ navigation }) => ({
-        title: 'Comment Replies'
+        title: 'Comment Replies', header: null
     });
 
     componentWillMount() {
@@ -34,10 +39,17 @@ class Comment extends Component {
         this.props.getCommentReplies(this.props.token, this.props.navigation.state.params.id);
     }
 
+    backHandler() {
+        this.props.navigation.pop();
+    }
+
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
-            <View>
+              <View>
+                <Text style={styles.h3}
+                      onPress={() => this.backHandler()}>Back</Text>
+                <Text style={styles.h3}>Replies</Text>
               <FlatList
                 data={this.props.replies.data}
                 renderItem={({item}) =>

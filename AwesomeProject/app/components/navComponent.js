@@ -26,15 +26,16 @@ export const UserStackNavigator = createStackNavigator({
     Collec: { screen: Collec },
 }, {
     initialRouteName: 'Authuser',
+    headerMode: 'screen'
 });
 
 // export: convo navigator
 export const ConvoStackNavigator = createStackNavigator({
     Convos: { screen: Convos },
     Convo: { screen: Convo },
-    User: { screen: User },
-    Followings: { screen: Followings },
-    Followers: { screen: Followers },
+    // User: { screen: User },
+    // Followings: { screen: Followings },
+    // Followers: { screen: Followers },
     Messagable: { screen: Messagable }
 }, {
     initialRouteName: 'Convos',
@@ -45,9 +46,9 @@ export const MojiStackNavigator = createStackNavigator({
     MojiChoose: { screen: MojiChoose },
     Mojis: { screen: Mojis },
     Moji: { screen: Moji },
-    User: { screen: User },
-    Followings: { screen: Followings },
-    Followers: { screen: Followers },
+    // User: { screen: User },
+    // Followings: { screen: Followings },
+    // Followers: { screen: Followers },
     Comment: { screen: Comment }
 }, {
     initialRouteName: 'MojiChoose',

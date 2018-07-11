@@ -21,16 +21,40 @@ import * as Actions from '../actions/rootActions';
 import PTRView from 'react-native-pull-to-refresh';
 
 class Authuser extends Component {
+    constructor(props) {
+        super(props);
+        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
+    }
+    
     static navigationOptions = ({ navigation }) => ({
-        title: 'Profile'
+        title: 'Profile', header: null
     });
 
     componentWillMount() {
         this.props.getAuthUser(this.props.token);
+        this.props.getConvos(this.props.token);
     }
 
     refresh = () => {
         this.props.getAuthUser(this.props.token);
+    }
+
+    pushNavUserHandler(type) {
+        if (this.props.userStack[this.props.userStack.length - 1] !==
+            this.props.authUser.data.id) {
+            this.props.pushNavUser(this.props.authUser.data.id);
+        }
+
+        switch (type) {
+        case 'followings':
+            this.props.navigation.navigate('Followings', {id: this.props.authUser.data.id});    
+            break;
+        case 'followers':
+            this.props.navigation.navigate('Followers', {id: this.props.authUser.data.id});
+            break;
+        default:
+            console.log('error: type not found');
+        }
     }
 
     render() {
@@ -42,11 +66,11 @@ class Authuser extends Component {
                 <Text style={styles.text}>Email: {this.props.authUser.email}</Text>
 
                 <Text
-                  onPress={() => this.props.navigation.navigate('Followings', {id: this.props.authUser.data.id})}
+                  onPress={() => this.pushNavUserHandler('followings')}
                   style={styles.h3}>Followings: {this.props.authUser.data.followingsCount}</Text>
 
                 <Text
-                  onPress={() => this.props.navigation.navigate('Followers', {id: this.props.authUser.data.id})}
+                  onPress={() => this.pushNavUserHandler('followers')}
                   style={styles.h3}>Followers: {this.props.authUser.data.followersCount}</Text>
                 
                 <Text style={styles.text}>Public Mojis</Text>
@@ -77,9 +101,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.userReducer.authUser);
+    console.log('auth', state.navReducer.userStack);
     return {
         authUser: state.userReducer.authUser,
+        userStack: state.navReducer.userStack,
         token: state.authReducer.token
     };
 }

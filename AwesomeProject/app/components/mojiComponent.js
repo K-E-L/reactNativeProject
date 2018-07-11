@@ -27,10 +27,11 @@ class Moji extends Component {
     constructor(props) {
         super(props);
         this.collecHandler = this.collecHandler.bind(this);
+        this.backHandler = this.backHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
-        title: 'Moji'
+        title: 'Moji', header: null
     });
 
     componentWillMount() {
@@ -55,12 +56,17 @@ class Moji extends Component {
         // collect
         this.props.CollecUncollec(login_cred, id, type);
     }
-
+    
+    backHandler() {
+        this.props.navigation.pop();
+    }
 
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
+                <Text style={styles.h3}
+                  onPress={() => this.backHandler()}>Back</Text>
                 <Text style={styles.h3}>{this.props.moji.data.name}</Text>
                 <Image
                   style={{width: 20, height: 20}}

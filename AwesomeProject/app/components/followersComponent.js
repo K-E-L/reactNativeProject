@@ -19,27 +19,47 @@ import * as Actions from '../actions/rootActions';
 import PTRView from 'react-native-pull-to-refresh';
 
 class Followers extends Component {
+    constructor(props) {
+        super(props);
+        this.backHandler = this.backHandler.bind(this);
+        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
+    }
+    
     static navigationOptions = ({ navigation }) => ({
-        title: 'Followers'
+        title: 'Followers', header: null
     });
 
     componentWillMount() {
-        this.props.getFollowers(this.props.token, this.props.navigation.state.params.id);
+        this.props.getFollowers(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     refresh = () => {
         this.props.getFollowers(this.props.token, this.props.navigation.state.params.id);
     }
 
+    backHandler() {
+        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.navigation.pop();
+    }
+
+    pushNavUserHandler(item) {
+        this.props.pushNavUser(item.id);
+        this.props.navigation.push('User', {id: item.id});
+    }
+
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
+                <Text style={styles.h3}>Followers</Text>
+                <Text style={styles.h3}
+                  onPress={() => this.backHandler()}>Back</Text>
+
                 <FlatList
                   data={this.props.followers.data}
                   renderItem={({item}) =>
                               <Text
-                                    onPress={() => this.props.navigation.push('User', {id: item.id})}
+                                    onPress={() => this.pushNavUserHandler(item)}
                                     style={styles.text}>
                                     {item.name}: {item.username}
                               </Text>}
@@ -62,9 +82,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.userReducer.followings);
+    console.log('followings', state.navReducer.userStack);
     return {
         followers: state.userReducer.followers,
+        userStack: state.navReducer.userStack,
         token: state.authReducer.token,
     };
 }

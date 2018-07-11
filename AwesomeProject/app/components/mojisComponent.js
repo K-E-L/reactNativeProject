@@ -22,8 +22,13 @@ import * as Actions from '../actions/rootActions';
 import MojiItem from './mojiItemComponent';
 
 class Mojis extends Component {
+    constructor(props) {
+        super(props);
+        this.backHandler = this.backHandler.bind(this);
+    }
+    
     static navigationOptions = ({ navigation }) => ({
-        title: 'Mojis'
+        title: 'Mojis', header: null
     });
 
     componentWillMount() {
@@ -57,11 +62,17 @@ class Mojis extends Component {
             console.log('error: type not found');
         }
     }
-    
+
+    backHandler() {
+        this.props.navigation.pop();
+    }
+
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
-            <View>
+              <View>
+                <Text style={styles.h3}
+                  onPress={() => this.backHandler()}>Back</Text>
               <Text
                 style={styles.h3}>{this.props.navigation.state.params.type}
               </Text>

@@ -19,8 +19,13 @@ import * as Actions from '../actions/rootActions';
 import PTRView from 'react-native-pull-to-refresh';
 
 class Notifs extends Component {
+    constructor(props) {
+        super(props);
+        this.backHandler = this.backHandler.bind(this);
+    }
+    
     static navigationOptions = ({ navigation }) => ({
-        title: 'Notifs'
+        title: 'Notifs', header: null
     });
 
     componentWillMount() {
@@ -30,11 +35,18 @@ class Notifs extends Component {
     refresh = () => {
         this.props.getNotifs(this.props.token);
     }
+
+    backHandler() {
+        this.props.navigation.pop();
+    }
     
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
-            <View>
+              <View>
+                <Text style={styles.h3}
+                      onPress={() => this.backHandler()}>Back</Text>
+                <Text style={styles.h3}>Notifs</Text>
               <FlatList
                 data={this.props.notifs.data}
                 renderItem={({item}) =>

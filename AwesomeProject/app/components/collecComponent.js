@@ -22,7 +22,7 @@ import PTRView from 'react-native-pull-to-refresh';
 
 class Collec extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Collection'
+        title: 'Collection', header: null
     });
 
     componentWillMount() {
@@ -32,11 +32,17 @@ class Collec extends Component {
     refresh = () => {
         this.props.getCollec(this.props.token);
     }
+
+    backHandler() {
+        this.props.navigation.pop();
+    }
     
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
+                <Text style={styles.h3}
+                  onPress={() => this.backHandler()}>Back</Text>
                 <FlatList
                   data={this.props.collec.data}
                   renderItem={({item}) =>
