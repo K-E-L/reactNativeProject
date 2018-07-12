@@ -40,23 +40,7 @@ class ReplyItem extends Component {
                 <Text style={styles.link}>Dislike</Text>
               </TouchableOpacity>
 
-              <TextInput
-                onChangeText={(text) => this.props.setReplyBody(text)}
-                value={this.props.replyBody}
-                placeholder="Reply.."
-                onSubmitEditing={() => this.props.reply(
-                    this.props.token,
-                    this.props.navigation.state.params.id,
-                    this.props.replyBody,
-                    this.props.item.creator_username
-                )}/>
-
-              <TouchableOpacity onPress={() => this.props.reply(
-                    this.props.token,
-                    this.props.navigation.state.params.id,
-                    this.props.replyBody,
-                    this.props.item.creator_username
-                )}>
+              <TouchableOpacity onPress={() => this.props.setReplyBody('@' + this.props.item.creator_username + ' ')}>
                 <Text style={styles.link}>Reply @{this.props.item.creator_username}</Text>
               </TouchableOpacity>
 
@@ -84,6 +68,7 @@ function mapStateToProps(state, props) {
     console.log(state.commentReducer.replyBody);
     return {
         replyBody: state.commentReducer.replyBody,
+        commentID: state.navReducer.commentID,
         token: state.authReducer.token
     };
 }

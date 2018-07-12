@@ -1,5 +1,6 @@
 // import: types
 import {
+    ADD_COMMENT_MOJI,
     COMMENT,
     GET_FOLLOWING_MOJIS,
     GET_MOJI,
@@ -71,6 +72,11 @@ function mojiReducer (state = initialState, action) {
         return {
             ...state,
             reportBody: ''
+        };
+    case ADD_COMMENT_MOJI:
+        return {
+            ...state,
+            commentBody: state.commentBody + action.payload
         };
 
         

@@ -28,23 +28,27 @@ class UserItem extends Component {
         // nothing
     }
 
+    // setUserItemHandler(item) {
+    //     this.props.setUserItem(item);
+    // }
+
     funcHandler(login_cred, user_id, convo_id) {
         // alert
         Alert.alert(
-            'Messaging',
-            'Messaged',
+            this.props.convoType,
+            this.props.convoType,
             [{text: 'Ok'}],
             { cancelable: false }
         );
 
-        switch (this.props.type) {
+        switch (this.props.convoType) {
         case 'createConvo':
             this.props.createConvo(login_cred, user_id);
-            this.props.navigation.navigate('Convos', {id: this.props.authUser.data.id});            
+            this.props.navigation.navigate('Convos');
             break;
         case 'addUser':
             this.props.addUser(login_cred, user_id, convo_id);
-            this.props.navigation.navigate('Convo', {id: this.props.convoID});
+            this.props.navigation.navigate('Convo');
             break;
         default:
             console.log('error: type not found');
@@ -81,8 +85,10 @@ const styles = StyleSheet.create({
 // Pass: redux state to props
 function mapStateToProps(state, props) {
     return {
-        token: state.authReducer.token,
-        authUser: state.userReducer.authUser
+        token: state.authReducer.token,        
+        authUser: state.userReducer.authUser,
+        convoID: state.navReducer.convoID,
+        convoType: state.navReducer.convoType
     };
 }
 

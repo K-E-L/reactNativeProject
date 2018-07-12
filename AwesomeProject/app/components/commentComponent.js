@@ -22,10 +22,14 @@ import * as Actions from '../actions/rootActions';
 // import: dumb component
 import ReplyItem from './replyItemComponent';
 
+// import: keyboard component
+import CollecKeyboard from './collecKeyboardComponent';
+
 class Comment extends Component {
     constructor(props) {
         super(props);
         this.backHandler = this.backHandler.bind(this);
+        this.focusReplyHandler = this.focusReplyHandler.bind(this);
     }
     
     static navigationOptions = ({ navigation }) => ({
@@ -33,20 +37,26 @@ class Comment extends Component {
     });
 
     componentWillMount() {
-        this.props.getCommentReplies(this.props.token, this.props.navigation.state.params.id);
+        this.props.getCommentReplies(this.props.token, this.props.commentID);
     }
 
     refresh = () => {
-        this.props.getCommentReplies(this.props.token, this.props.navigation.state.params.id);
+        this.props.getCommentReplies(this.props.token, this.props.commentID);
     }
 
     backHandler() {
         this.props.navigation.pop();
     }
 
+    focusReplyHandler() {
+        this.props.toggleMojiKeyboard(true);
+        this.props.setMojiKeyboardType('Reply');
+    }
+
     render() {
         return (
-            <PTRView onRefresh={this.refresh}>
+            <PTRView onRefresh={this.refresh}
+                     keyboardShouldPersistTaps='handled'>
               <View>                    
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
@@ -56,24 +66,28 @@ class Comment extends Component {
                   onChangeText={(text) => this.props.setReplyBody(text)}
                   value={this.props.replyBody}
                   placeholder="Reply.."
+                  onFocus={() => this.focusReplyHandler()}
+                  onEndEditing={() => this.props.toggleMojiKeyboard(false)}
                   onSubmitEditing={() => this.props.reply(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.commentID,
                       this.props.replyBody
                   )}/>
 
+                  {this.props.mojiKeyboard && <CollecKeyboard />}
+
                 <TouchableOpacity onPress={() => this.props.reply(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.commentID,
                       this.props.replyBody
                   )}>
-                  <Text style={styles.link}>Reply To Comment</Text>
+                  <Text style={styles.link}>Reply</Text>
                 </TouchableOpacity>
 
                 <FlatList
                   data={this.props.replies.data}
                   renderItem={({item}) =>
-                  <ReplyItem item={item} commentID={this.props.navigation.state.params.id} navigation={this.props.navigation}/>}
+                  <ReplyItem item={item} commentID={this.props.commentID} navigation={this.props.navigation}/>}
                   keyExtractor={item => item.id.toString()}/>
               </View>
             </PTRView>
@@ -100,6 +114,8 @@ function mapStateToProps(state, props) {
     return {
         replies: state.commentReducer.replies,
         replyBody: state.commentReducer.replyBody,
+        commentID: state.navReducer.commentID,
+        mojiKeyboard: state.navReducer.mojiKeyboard,
         token: state.authReducer.token
     };
 }

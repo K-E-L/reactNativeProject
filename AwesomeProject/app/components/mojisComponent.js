@@ -33,7 +33,7 @@ class Mojis extends Component {
     });
 
     componentWillMount() {
-        switch (this.props.navigation.state.params.type) {
+        switch (this.props.mojiType) {
         case 'Popular':
             this.props.getPopularMojis(this.props.token);
             break;
@@ -49,7 +49,7 @@ class Mojis extends Component {
     }
 
     refresh = () => {
-        switch (this.props.navigation.state.params.type) {
+        switch (this.props.mojiType) {
         case 'Popular':
             this.props.getPopularMojis(this.props.token);
             break;
@@ -77,7 +77,7 @@ class Mojis extends Component {
                 </TouchableOpacity>
 
               <Text
-                style={styles.h3}>{this.props.navigation.state.params.type}
+                style={styles.h3}>{this.props.mojiType}
               </Text>
               
               <FlatList
@@ -105,6 +105,7 @@ function mapStateToProps(state, props) {
     // console.log(state.mojiReducer.mojis);
     return {
         mojis: state.mojiReducer.mojis,
+        mojiType: state.navReducer.mojiType,
         token: state.authReducer.token
     };
 }

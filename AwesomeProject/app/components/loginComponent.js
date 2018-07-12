@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import {
@@ -48,6 +49,7 @@ class Login extends Component {
                       )}
                       title="Login"
                       />
+
                 </View>
             );
         }
@@ -56,6 +58,19 @@ class Login extends Component {
         );
     }
 };
+
+const styles = StyleSheet.create({
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
+});
 
 function mapStateToProps(state, props) {
     return {

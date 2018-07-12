@@ -57,10 +57,8 @@ class Messagable extends Component {
                   renderItem={({item}) =>
                               <UserItem
                                     item={item}
-                                    type={this.props.navigation.state.params.type}
-                                    convoID={this.props.navigation.state.params.convoID}
                                 navigation={this.props.navigation}/>}
-                                keyExtractor={item => item.id.toString()}/>
+                              keyExtractor={item => item.id.toString()}/>
 
               </View>
             </PTRView>
@@ -83,6 +81,8 @@ function mapStateToProps(state, props) {
     return {
         messagable: state.userReducer.messagable,
         authUser: state.userReducer.authUser,
+        convoID: state.navReducer.convoID,
+        convoType: state.navReducer.convoType,
         token: state.authReducer.token
     };
 }

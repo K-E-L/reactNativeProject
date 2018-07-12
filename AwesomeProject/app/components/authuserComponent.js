@@ -48,10 +48,10 @@ class Authuser extends Component {
 
         switch (type) {
         case 'followings':
-            this.props.navigation.navigate('Followings', {id: this.props.authUser.data.id});    
+            this.props.navigation.navigate('Followings');
             break;
         case 'followers':
-            this.props.navigation.navigate('Followers', {id: this.props.authUser.data.id});
+            this.props.navigation.navigate('Followers');
             break;
         default:
             console.log('error: type not found');
@@ -77,14 +77,14 @@ class Authuser extends Component {
                 <Text style={styles.text}>Public Mojis</Text>
                 <Text style={styles.text}>Private Mojis</Text>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Collec', {id: this.props.authUser.data.id})}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Collec')}>
                   <Text style={styles.link}>Collection</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Notifs')}>
                   <Text style={styles.link}>Notifs: {this.props.authUser.data.notifsCount}</Text>
                 </TouchableOpacity>
-                
+
               </View>
             </PTRView>
         );
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('auth', state.navReducer.userStack);
+    // console.log('auth', state.navReducer.userStack);
     return {
         authUser: state.userReducer.authUser,
         userStack: state.navReducer.userStack,

@@ -35,7 +35,7 @@ class Followers extends Component {
     }
 
     refresh = () => {
-        this.props.getFollowers(this.props.token, this.props.navigation.state.params.id);
+        this.props.getFollowers(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     backHandler() {
@@ -45,7 +45,7 @@ class Followers extends Component {
 
     pushNavUserHandler(item) {
         this.props.pushNavUser(item.id);
-        this.props.navigation.push('User', {id: item.id});
+        this.props.navigation.push('User');
     }
 
     render() {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('followings', state.navReducer.userStack);
+    // console.log('followings', state.navReducer.userStack);
     return {
         followers: state.userReducer.followers,
         userStack: state.navReducer.userStack,

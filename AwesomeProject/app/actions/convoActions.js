@@ -1,12 +1,14 @@
 // import: types
 import {
+    ADD_MESSAGE_MOJI,
     GET_CONVO,
     GET_CONVO_USERS,
     GET_CONVOS,
     GET_CONVO_MESSAGES,
     MESSAGE,
     SET_MESSAGE_BODY,
-    SET_RENAME_BODY
+    SET_RENAME_BODY,
+    SPLIT_MESSAGE_BODY
 } from '../types';
 
 export const getConvos = (login_cred) => dispatch => {
@@ -227,4 +229,18 @@ export const addUser = (login_cred, add_id, convo_id) => dispatch => {
         .catch((error) => {
             console.error(error);
         });
+};
+
+export const addMessageMoji = (text) => dispatch => {
+    dispatch({
+        type: ADD_MESSAGE_MOJI,
+        payload: text
+    });
+};
+
+export const splitMessageBody = () => dispatch => {
+    dispatch({
+        type: SPLIT_MESSAGE_BODY,
+        payload: null
+    });
 };

@@ -17,23 +17,33 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-const ScreenHeight = Dimensions.get("window").height;
+// const ScreenHeight = Dimensions.get("window").height;
 
 class MojiChoose extends Component {
+    constructor(props) {
+        super(props);
+        this.setMojiTypeHandler = this.setMojiTypeHandler.bind(this);
+    }
+
     static navigationOptions = ({ navigation }) => ({
         title: 'Moji Choose', header: null
     });
 
+    setMojiTypeHandler(type) {
+        this.props.setMojiType(type);
+        this.props.navigation.push('Mojis');
+    }
+
     render() {
         return (
             <View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Mojis', {type: 'Popular'})}>
+              <TouchableOpacity onPress={() => this.setMojiTypeHandler('Popular')}>
                 <Text style={styles.link}>Most Popular</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Mojis', {type: 'Recent'})}>
+              <TouchableOpacity onPress={() => this.setMojiTypeHandler('Recent')}>
                 <Text style={styles.link}>Recent</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Mojis', {type: 'Following'})}>
+              <TouchableOpacity onPress={() => this.setMojiTypeHandler('Following')}>
                 <Text style={styles.link}>Recent Following</Text>
               </TouchableOpacity>
             </View>

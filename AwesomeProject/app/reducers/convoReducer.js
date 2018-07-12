@@ -1,12 +1,14 @@
 // import: types
 import {
+    ADD_MESSAGE_MOJI,
     GET_CONVO,
     GET_CONVOS,
     GET_CONVO_USERS,
     GET_CONVO_MESSAGES,
     MESSAGE,
     SET_RENAME_BODY,
-    SET_MESSAGE_BODY
+    SET_MESSAGE_BODY,
+    SPLIT_MESSAGE_BODY
 } from '../types';
 
 const initialState = {
@@ -21,7 +23,8 @@ const initialState = {
        data: []
     },
     renameBody: '',
-    messageBody: ''
+    messageBody: '',
+    messageSplit: []
 };
 
 function convoReducer (state = initialState, action) {
@@ -32,7 +35,6 @@ function convoReducer (state = initialState, action) {
             convos: action.payload
         };
     case GET_CONVO:
-        console.log(action.payload);
         return {
             ...state,
             convo: action.payload,
@@ -62,6 +64,16 @@ function convoReducer (state = initialState, action) {
         return {
             ...state,
             messageBody: ''
+        };
+    case ADD_MESSAGE_MOJI:
+        return {
+            ...state,
+            messageBody: state.messageBody + action.payload
+        };
+    case SPLIT_MESSAGE_BODY:
+        return {
+            ...state,
+            messageSplit: state.messageBody.split(' ')
         };
 
         

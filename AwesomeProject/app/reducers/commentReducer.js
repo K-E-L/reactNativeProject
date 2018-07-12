@@ -1,8 +1,9 @@
 // import: types
 import {
+    ADD_REPLY_MOJI,
     GET_COMMENT_REPLIES,
     REPLY,
-    SET_REPLY_BODY
+    SET_REPLY_BODY    
 } from '../types';
 
 const initialState = {
@@ -10,7 +11,6 @@ const initialState = {
         data: []
     },
     replyBody: ''
-    
 };
 
 function commentReducer (state = initialState, action) {
@@ -30,7 +30,11 @@ function commentReducer (state = initialState, action) {
             ...state,
             replyBody: ''
         };
-
+    case ADD_REPLY_MOJI:
+        return {
+            ...state,
+            replyBody: state.replyBody + action.payload
+        };
 
         
     default:

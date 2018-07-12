@@ -18,6 +18,16 @@ import {
 import * as Actions from '../actions/rootActions';
 
 class MojiItem extends Component {
+    constructor(props) {
+        super(props);
+        this.setMojiIdHandler = this.setMojiIdHandler.bind(this);
+    }
+
+    setMojiIdHandler(id) {
+        this.props.setMojiID(id);
+        this.props.navigation.navigate('Moji');
+    }
+
     render() {
         return (
             <View>              
@@ -25,7 +35,7 @@ class MojiItem extends Component {
                 style={styles.text}>
                 {this.props.item.name}: {this.props.item.creator_username} : {this.props.item.created_at}</Text>
 
-             <TouchableOpacity onPress={() => this.props.navigation.navigate('Moji', {id: this.props.item.id})}>
+              <TouchableOpacity onPress={() => this.setMojiIdHandler(this.props.item.id)}>
                 <Image
                   style={{width: 20, height: 20}}
                   source={{uri: 'http://167.99.162.15/mojiStorage/' +

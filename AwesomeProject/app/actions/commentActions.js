@@ -1,5 +1,6 @@
 // import: types
 import {
+    ADD_REPLY_MOJI,
     GET_COMMENT_REPLIES,
     REPLY,
     SET_REPLY_BODY
@@ -34,9 +35,7 @@ export const setReplyBody = (text) => dispatch => {
     });
 };
 
-export const reply = (login_cred, id, body, name) => dispatch => {
-    console.log('name', name);
-    console.log('body', body);
+export const reply = (login_cred, id, body) => dispatch => {
     fetch('http://167.99.162.15/api/replies/create', {
         method: 'POST',
         headers: {
@@ -46,10 +45,9 @@ export const reply = (login_cred, id, body, name) => dispatch => {
         },
         body: JSON.stringify({
             id: id,
-            body: '@' + name + ' ' + body
+            body: body
         })
     }).then(res => res.json())
-        .then(res => console.log('action', res))
         .then(reply =>
               dispatch({
                   type: REPLY,
@@ -98,5 +96,10 @@ export const dislikeReply = (login_cred, reply_id, comment_id) => dispatch => {
         });
 };
 
-
+export const addReplyMoji = (text) => dispatch => {
+    dispatch({
+        type: ADD_REPLY_MOJI,
+        payload: text
+    });
+};
 

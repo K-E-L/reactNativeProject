@@ -22,6 +22,9 @@ import * as Actions from '../actions/rootActions';
 // import: dumb component
 import CommentItem from './commentItemComponent';
 
+// import: keyboard component
+import CollecKeyboard from './collecKeyboardComponent';
+
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
@@ -30,6 +33,8 @@ class Moji extends Component {
         super(props);
         this.collecHandler = this.collecHandler.bind(this);
         this.backHandler = this.backHandler.bind(this);
+        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
+        this.focusCommentHandler = this.focusCommentHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
@@ -37,17 +42,16 @@ class Moji extends Component {
     });
 
     componentWillMount() {
-        this.props.getMoji(this.props.token, this.props.navigation.state.params.id);
-        this.props.getMojiComments(this.props.token, this.props.navigation.state.params.id);
+        this.props.getMoji(this.props.token, this.props.mojiID);
+        this.props.getMojiComments(this.props.token, this.props.mojiID);
     }
 
     refresh = () => {
-        this.props.getMoji(this.props.token, this.props.navigation.state.params.id);
-        this.props.getMojiComments(this.props.token, this.props.navigation.state.params.id);
+        this.props.getMoji(this.props.token, this.props.mojiID);
+        this.props.getMojiComments(this.props.token, this.props.mojiID);
     }
 
     collecHandler = (login_cred, id, type) => {
-        // alert
         Alert.alert(
             this.props.moji.type + 'ting',
             this.props.moji.type + 'ted',
@@ -55,7 +59,6 @@ class Moji extends Component {
             { cancelable: false }
         );
 
-        // collect
         this.props.CollecUncollec(login_cred, id, type);
     }
     
@@ -63,10 +66,20 @@ class Moji extends Component {
         this.props.navigation.pop();
     }
 
+    pushNavUserHandler(itemID) {
+        this.props.pushNavUser(itemID);
+        this.props.navigation.push('User');
+    }
+
+    focusCommentHandler() {
+        this.props.toggleMojiKeyboard(true);
+        this.props.setMojiKeyboardType('Comment');
+    }
+
     render() {
         return (
-            <PTRView onRefresh={this.refresh}>
-              <View>
+            <PTRView onRefresh={this.refresh}
+                     keyboardShouldPersistTaps='handled'>
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
@@ -76,9 +89,10 @@ class Moji extends Component {
                   source={{uri: 'http://167.99.162.15/mojiStorage/' +
                            this.props.moji.data.creator_id + '/' +
                   this.props.moji.data.path}}/>
+                <Text style={styles.text}>Moji #: {this.props.moji.data.id}</Text>
                 <Text
                   style={styles.text}
-                  onPress={() => this.props.navigation.push('User', {id: this.props.moji.data.creator_id})}
+                  onPress={() => this.pushNavUserHandler(this.props.moji.data.creator_id)}
                   >{this.props.moji.data.creator_username}</Text>
                 <Text
                   style={styles.text}>Collecs: {this.props.moji.data.collec_count}</Text>
@@ -88,7 +102,7 @@ class Moji extends Component {
                   style={styles.text}>Dislikes: {this.props.moji.data.dislike_count}</Text>
                 <TouchableOpacity onPress={() => this.collecHandler(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.mojiID,
                       this.props.moji.type
                   )}>
                   <Text style={styles.link}>{this.props.moji.type}</Text>
@@ -96,14 +110,14 @@ class Moji extends Component {
 
                 <TouchableOpacity onPress={() => this.props.likeMoji(
                       this.props.token,
-                      this.props.navigation.state.params.id
+                      this.props.mojiID
                   )}>
                   <Text style={styles.link}>Like</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity onPress={() => this.props.dislikeMoji(
                       this.props.token,
-                      this.props.navigation.state.params.id
+                      this.props.mojiID
                   )}>
                   <Text style={styles.link}>Dislike</Text>
                 </TouchableOpacity>
@@ -112,19 +126,23 @@ class Moji extends Component {
                   onChangeText={(text) => this.props.setCommentBody(text)}
                   value={this.props.commentBody}
                   placeholder="Comment.."
+                  onFocus={() => this.focusCommentHandler()}
+                  onEndEditing={() => this.props.toggleMojiKeyboard(false)}
                   onSubmitEditing={() => this.props.comment(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.mojiID,
                       this.props.commentBody
                   )}/>
 
                   <TouchableOpacity onPress={() => this.props.comment(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.mojiID,
                       this.props.commentBody
                   )}>
                     <Text style={styles.link}>Comment</Text>
                   </TouchableOpacity>
+
+                  {this.props.mojiKeyboard && <CollecKeyboard />}
 
                 <TextInput
                   onChangeText={(text) => this.props.setReportBody(text)}
@@ -132,25 +150,23 @@ class Moji extends Component {
                   placeholder="Report.."
                   onSubmitEditing={() => this.props.report(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.mojiID,
                       this.props.reportBody
                   )}/>
 
                   <TouchableOpacity onPress={() => this.props.report(
                         this.props.token,
-                        this.props.navigation.state.params.id,
+                        this.props.mojiID,
                         this.props.reportBody
                     )}>
                     <Text style={styles.link}>Report</Text>
                   </TouchableOpacity>
 
-                <FlatList
-                  data={this.props.mojiComments.data}
-                  renderItem={({item}) =>
-                  <CommentItem item={item} navigation={this.props.navigation}/>}
-                  keyExtractor={item => item.id.toString()}/>
-
-              </View>
+                  <FlatList
+                    data={this.props.mojiComments.data}
+                    renderItem={({item}) =>
+                    <CommentItem item={item} navigation={this.props.navigation}/>}
+                    keyExtractor={item => item.id.toString()}/>
             </PTRView>
         );
     }
@@ -173,11 +189,13 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, props) {
     // console.log(state.mojiReducer.moji);
     return {
+        token: state.authReducer.token,
         moji: state.mojiReducer.moji,
         mojiComments: state.mojiReducer.mojiComments,
         commentBody: state.mojiReducer.commentBody,
         reportBody: state.mojiReducer.reportBody,
-        token: state.authReducer.token
+        mojiID: state.navReducer.mojiID,
+        mojiKeyboard: state.navReducer.mojiKeyboard,
     };
 }
 

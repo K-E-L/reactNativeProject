@@ -20,6 +20,12 @@ import * as Actions from '../actions/rootActions';
 import PTRView from 'react-native-pull-to-refresh';
 
 class Convos extends Component {
+    constructor(props) {
+        super(props);
+        this.setConvoIdHandler = this.setConvoIdHandler.bind(this);
+        this.setConvoTypeHandler = this.setConvoTypeHandler.bind(this);
+    }
+
     static navigationOptions = ({ navigation }) => ({
         title: 'Convos', header: null
     });
@@ -32,21 +38,34 @@ class Convos extends Component {
         this.props.getConvos(this.props.token);
     }
 
+    setConvoIdHandler(id) {
+        this.props.setConvoID(id);
+        this.props.navigation.navigate('Convo');
+    }
+
+    setConvoTypeHandler(type) {
+        this.props.setConvoType(type);
+        this.props.navigation.push('Messagable');
+    }
+
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
                 <Text style={styles.h3}>Convos</Text>
-                <TouchableOpacity onPress={() => this.props.navigation.push('Messagable', {type: 'createConvo'})}>
+                <TouchableOpacity onPress={() => this.setConvoTypeHandler('createConvo')}>
                   <Text style={styles.link}>New Convo</Text>
                 </TouchableOpacity>
 
                 <FlatList
+                  keyboardShouldPersistTaps='always'
                   data={this.props.convos.data}
                   renderItem={({item}) =>
-                              <Text onPress={() => this.props.navigation.navigate('Convo', {id: item.id})}
+                              <Text onPress={() => this.setConvoIdHandler(item.id)}
                               style={styles.text}>{item.name}</Text>}
-                  keyExtractor={item => item.id.toString()}/>
+                              keyExtractor={item => item.id.toString()}/>
+
+
 
               </View>
             </PTRView>

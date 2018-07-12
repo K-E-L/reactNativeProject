@@ -6,7 +6,9 @@ import {
     Alert,
     Button,
     FlatList,
+    Keyboard,
     ListItem,
+    ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -17,8 +19,14 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-// import: dumb component
+// import: dumb components
 import MessageItem from'./messageItemComponent';
+
+// import: keyboard component
+import CollecKeyboard from './collecKeyboardComponent';
+
+// import: moji input component
+import MojiInput from './mojiInputComponent';
 
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
@@ -29,22 +37,26 @@ class Convo extends Component {
         this.destroyConvoHandler = this.destroyConvoHandler.bind(this);
         this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
         this.backHandler = this.backHandler.bind(this);
-    }
+        this.setConvoHandler = this.setConvoHandler.bind(this);
+        this.focusMessageHandler = this.focusMessageHandler.bind(this);
+        this.endEditingMessageHandler = this.endEditingMessageHandler.bind(this);
+        this.changeTextMessageHandler = this.changeTextMessageHandler.bind(this);
+    }    
 
     static navigationOptions = ({ navigation }) => ({
         title: 'Convo', header: null
     });
 
-    componentWillMount() {
-        this.props.getConvo(this.props.token, this.props.navigation.state.params.id);
-        this.props.getConvoMessages(this.props.token, this.props.navigation.state.params.id);
-        this.props.getConvoUsers(this.props.token, this.props.navigation.state.params.id);
+    componentDidMount() {
+        this.props.getConvo(this.props.token, this.props.convoID);
+        this.props.getConvoMessages(this.props.token, this.props.convoID);
+        this.props.getConvoUsers(this.props.token, this.props.convoID);
     }
 
     refresh = () => {
-        this.props.getConvo(this.props.token, this.props.navigation.state.params.id);
-        this.props.getConvoMessages(this.props.token, this.props.navigation.state.params.id);
-        this.props.getConvoUsers(this.props.token, this.props.navigation.state.params.id);
+        this.props.getConvo(this.props.token, this.props.convoID);
+        this.props.getConvoMessages(this.props.token, this.props.convoID);
+        this.props.getConvoUsers(this.props.token, this.props.convoID);
     }
 
     destroyConvoHandler(login_cred, id) {
@@ -57,22 +69,44 @@ class Convo extends Component {
         );
         
         this.props.destroyConvo(login_cred, id);
-        this.props.navigation.navigate('Convos', {id: this.props.authUser.data.id});
-    }
-
-    pushNavUserHandler(item) {
-        this.props.pushNavUser(item.id);
-        this.props.navigation.push('User', {id: item.id});
+        this.props.navigation.navigate('Convos');
     }
 
     backHandler() {
         this.props.navigation.pop();
     }
 
+    setConvoHandler(id, type) {
+        this.props.setConvoID(id);
+        this.props.setConvoType(type);
+        this.props.navigation.push('Messagable');
+    }
+
+    pushNavUserHandler(item) {
+        this.props.pushNavUser(item.id);
+        this.props.navigation.push('User');
+    }
+
+    focusMessageHandler() {
+        this.props.toggleMojiKeyboard(true);
+        this.props.setMojiKeyboardType('Message');
+        this.props.toggleMojiInput(true);
+    }
+
+    endEditingMessageHandler() {
+        this.props.toggleMojiKeyboard(false);
+        this.props.toggleMojiInput(false);
+    }
+
+    changeTextMessageHandler(text) {
+        this.props.setMessageBody(text);
+        this.props.splitMessageBody();
+    }
+
     render() {
         return (
-            <PTRView onRefresh={this.refresh}>              
-              <View>
+            <PTRView onRefresh={this.refresh}
+              keyboardShouldPersistTaps='handled'>
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
@@ -83,14 +117,14 @@ class Convo extends Component {
                   placeholder="Rename Convo"
                   onSubmitEditing={() => this.props.renameConvo(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.convoID,
                       this.props.renameBody
                   )}/>
 
                 <TouchableOpacity
                   onPress={() => this.props.renameConvo(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.convoID,
                       this.props.renameBody
                   )}>
                   <Text style={styles.link}>Rename Convo</Text>
@@ -107,11 +141,10 @@ class Convo extends Component {
                               keyExtractor={item => item.id.toString()}/>
                               
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.push(
-                      'Messagable', {
-                          convoID: this.props.convo.id,
-                          type: 'addUser'
-                  })}>
+                  onPress={() => this.setConvoHandler(
+                      this.props.convo.id,
+                  'addUser')}>
+                  
                   <Text style={styles.link}>Add User</Text>
                 </TouchableOpacity>
 
@@ -123,37 +156,41 @@ class Convo extends Component {
                   <Text style={styles.link}>Leave Convo</Text>
                 </TouchableOpacity>
 
+                {this.props.mojiInput && <MojiInput />}
+
                 <TextInput
-                  onChangeText={(text) => this.props.setMessageBody(text)}
+                  onChangeText={(text) => this.changeTextMessageHandler(text)}
                   value={this.props.messageBody}
                   placeholder="Message.."
+                  onFocus={() => this.focusMessageHandler()}
+                  onEndEditing={() => this.endEditingMessageHandler()}
                   onSubmitEditing={() => this.props.message(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.convoID,
                       this.props.messageBody
                   )}/>
 
                 <TouchableOpacity
                   onPress={() => this.props.message(
                       this.props.token,
-                      this.props.navigation.state.params.id,
+                      this.props.convoID,
                       this.props.messageBody
                   )}>
                   <Text style={styles.link}>Message</Text>
                 </TouchableOpacity>
-                  
+
+                {this.props.mojiKeyboard && <CollecKeyboard />}
+
                 <FlatList
                   data={this.props.convoMessages.data}
                   renderItem={({item}) =>
                               <MessageItem
                                     item={item}
-                                    convoID={this.props.navigation.state.params.id}
+                                    convoID={this.props.convoID}
+                                    onPress={() => console.log('hello')}
                                 navigation={this.props.navigation}/>}
-                              keyExtractor={item => item.id.toString()}/>
-
-                  
-              </View>
-            </PTRView>
+                              keyExtractor={item => item.id.toString()}/>                              
+              </PTRView>
         );
     }
 };
@@ -173,7 +210,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.convoReducer.renameBody);
+    console.log('split', state.convoReducer.messageSplit);
     return {
         convo: state.convoReducer.convo,
         convoMessages: state.convoReducer.convoMessages,
@@ -181,6 +218,11 @@ function mapStateToProps(state, props) {
         renameBody: state.convoReducer.renameBody,
         messageBody: state.convoReducer.messageBody,
         authUser: state.userReducer.authUser,
+        convoID: state.navReducer.convoID,
+        userStack: state.navReducer.userStack,
+        mojiKeyboard: state.navReducer.mojiKeyboard,
+        mojiInput: state.navReducer.mojiInput,
+        messageSplit: state.convoReducer.messageSplit,
         token: state.authReducer.token
     };
 }

@@ -1,5 +1,6 @@
 // import: types
 import {
+    ADD_COMMENT_MOJI,
     COMMENT,
     GET_FOLLOWING_MOJIS,
     GET_MOJI,
@@ -108,7 +109,6 @@ export const getMojiComments = (login_cred, id) => dispatch => {
                   payload: comments
               })
              )
-        .then(console.log('get moji comments ran'))
         .catch((error) => {
             console.error(error);
         });
@@ -289,3 +289,11 @@ export const CollecUncollec = (login_cred, id, collecType) => dispatch => {
         console.log('error: type not found');
     }
 };
+
+export const addCommentMoji = (text) => dispatch => {
+    dispatch({
+        type: ADD_COMMENT_MOJI,
+        payload: text
+    });
+};
+

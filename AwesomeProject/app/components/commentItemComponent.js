@@ -17,13 +17,23 @@ import {
 import * as Actions from '../actions/rootActions';
 
 class CommentItem extends Component {
+    constructor(props) {
+        super(props);
+        this.setCommentIdHandler = this.setCommentIdHandler.bind(this);
+    }
+
+    setCommentIdHandler(id) {
+        this.props.setCommentID(id);
+        this.props.navigation.navigate('Comment');
+    }
+
     render() {
         return (
             <View>
               <Text
                 style={styles.text}>
                 {this.props.item.creator_username} - {this.props.item.body} - {this.props.item.created_at} - Likes: {this.props.item.like_count} Dislikes: {this.props.item.dislike_count} Replies: {this.props.item.reply_count} </Text>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Comment', {id: this.props.item.id})}>
+              <TouchableOpacity onPress={() => this.setCommentIdHandler(this.props.item.id)}>
                 <Text style={styles.link}>Reply</Text>
               </TouchableOpacity>
 

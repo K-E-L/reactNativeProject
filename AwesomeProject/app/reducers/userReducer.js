@@ -46,7 +46,6 @@ function userReducer (state = initialState, action) {
             user: action.payload
         };
     case GET_FOLLOWINGS:
-        console.log('got followings');
         return {
             ...state,
             followings: action.payload

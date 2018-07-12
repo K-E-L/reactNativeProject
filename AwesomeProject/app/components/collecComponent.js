@@ -47,6 +47,7 @@ class Collec extends Component {
 
                 <FlatList
                   data={this.props.collec.data}
+                  horizontal={true}
                   renderItem={({item}) =>
                               <TouchableOpacity onPress={() => this.props.navigation.navigate('Moji', {id: item.id})}>
                                     <Image
@@ -56,8 +57,7 @@ class Collec extends Component {
                                                    item.path}}
                                           />
                               </TouchableOpacity>}
-                              keyExtractor={item => item.id.toString()}
-                              />
+                              keyExtractor={item => item.id.toString()}/>
               </View>
             </PTRView>
         );
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.userReducer.collec);
+    // console.log(state.userReducer.collec);
     return {
         collec: state.userReducer.collec,
         token: state.authReducer.token,

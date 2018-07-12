@@ -2,9 +2,15 @@ import {
     GET_NAV_USER_STACK,
     POP_NAV_USER,
     PUSH_NAV_USER,
+    SET_COMMENT_ID,
+    SET_CONVO_ID,
+    SET_CONVO_TYPE,
+    SET_MOJI_ID,
+    SET_MOJI_KEYBOARD_TYPE,
+    SET_MOJI_TYPE,
+    TOGGLE_MOJI_INPUT,
+    TOGGLE_MOJI_KEYBOARD
 } from '../types';
-
-import { getFollowings } from './userActions';
 
 export const pushNavUser = (id) => dispatch => {
     dispatch({
@@ -24,5 +30,61 @@ export const getNavUserStack = () => dispatch => {
     dispatch({
         type: GET_NAV_USER_STACK,
         payload: 0
+    });
+};
+
+export const setConvoID = (id) => dispatch => {
+    dispatch({
+        type: SET_CONVO_ID,
+        payload: id
+    });
+};
+
+export const setConvoType = (type) => dispatch => {
+    dispatch({
+        type: SET_CONVO_TYPE,
+        payload: type
+    });
+};
+
+export const setMojiID = (id) => dispatch => {
+    dispatch({
+        type: SET_MOJI_ID,
+        payload: id
+    });
+};
+
+export const setMojiType = (type) => dispatch => {
+    dispatch({
+        type: SET_MOJI_TYPE,
+        payload: type
+    });
+};
+
+export const setCommentID = (id) => dispatch => {
+    dispatch({
+        type: SET_COMMENT_ID,
+        payload: id
+    });
+};
+
+export const toggleMojiKeyboard = (toggle) => dispatch => {
+    dispatch({
+        type: TOGGLE_MOJI_KEYBOARD,
+        payload: toggle
+    });
+};
+
+export const setMojiKeyboardType = (type) => dispatch => {
+    dispatch({
+        type: SET_MOJI_KEYBOARD_TYPE,
+        payload: type
+    });
+};
+
+export const toggleMojiInput = (toggle) => dispatch => {
+    dispatch({
+        type: TOGGLE_MOJI_INPUT,
+        payload: toggle
     });
 };

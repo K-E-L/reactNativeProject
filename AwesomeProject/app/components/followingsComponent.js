@@ -35,7 +35,7 @@ class Followings extends Component {
     }
 
     refresh = () => {
-        this.props.getFollowings(this.props.token, this.props.navigation.state.params.id);
+        this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     backHandler() {
@@ -45,7 +45,7 @@ class Followings extends Component {
 
     pushNavUserHandler(item) {
         this.props.pushNavUser(item.id);
-        this.props.navigation.push('User', {id: item.id});
+        this.props.navigation.push('User');
     }
     
     render() {
@@ -63,7 +63,7 @@ class Followings extends Component {
                  renderItem={({item}) =>
                               <Text
                                     onPress={() => this.pushNavUserHandler(item)}
-                                    style={styles.h3}>
+                                    style={styles.text}>
                                     {item.name}: {item.username}
                               </Text>}
                               keyExtractor={item => item.id.toString()}/>

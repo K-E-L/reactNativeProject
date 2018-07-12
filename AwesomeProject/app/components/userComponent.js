@@ -11,6 +11,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 
@@ -44,11 +45,11 @@ class User extends Component {
     });
     
     componentWillMount() {
-        this.props.getUser(this.props.token, this.props.navigation.state.params.id);
+        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     refresh = () => {
-        this.props.getUser(this.props.token, this.props.navigation.state.params.id);
+        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     followUnfollowHandler(login_cred, user_id, type, auth_id) {
@@ -74,12 +75,15 @@ class User extends Component {
         );
 
         this.props.createConvo(login_cred, id);
-        this.props.navigation.navigate('Convos', {id: this.props.authUser.data.id});
+        this.props.navigation.navigate('Convos');
     }
 
     backHandler() {
         this.props.popNavUser();
-        this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
+        if (this.props.userStack.length !== 1) {
+            this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
+            this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
+        }
         this.props.navigation.pop();
     }
 
@@ -87,8 +91,9 @@ class User extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <Text style={styles.h3}
-                  onPress={() => this.backHandler()}>Back</Text>
+                <TouchableOpacity onPress={() => this.backHandler()}>
+                  <Text style={styles.h3}>Back</Text>
+                </TouchableOpacity>
                                 
               <Text style={styles.h3}>{this.props.user.data.name}</Text>
               <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
@@ -102,11 +107,11 @@ class User extends Component {
                 )}>{this.props.user.type}</Text>
 
               <Text
-                onPress={() => this.props.navigation.push('Followings', {id: this.props.user.data.id})}
+                onPress={() => this.props.navigation.push('Followings')}
                 style={styles.h3}>Followings: {this.props.user.data.followingsCount}</Text>
 
               <Text
-                onPress={() => this.props.navigation.push('Followers', {id: this.props.user.data.id})}
+                onPress={() => this.props.navigation.push('Followers')}
                 style={styles.h3}>Followers: {this.props.user.data.followersCount}</Text>
 
               <Text
