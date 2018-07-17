@@ -19,6 +19,9 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
+// import: dumb component
+import NotifItem from './notifItemComponent';
+
 class Notifs extends Component {
     constructor(props) {
         super(props);
@@ -53,18 +56,8 @@ class Notifs extends Component {
               <FlatList
                 data={this.props.notifs.data}
                 renderItem={({item}) =>
-                            <Text
-                                  style={styles.text}
-                                  onPress={() => this.props.navigation.navigate('Convos')}>
-                              {item.body}: {item.created_at}</Text>}
-                            keyExtractor={item => item.id.toString()}/>
-              <Button
-               onPress={() => this.props.message(
-                   this.props.token,
-                   this.props.navigation.state.params.id,
-                   this.props.messageBody
-               )}
-               title="Message"/>
+                <NotifItem item={item}/>}
+                keyExtractor={item => item.id.toString()}/>
 
             </View>
             </PTRView>

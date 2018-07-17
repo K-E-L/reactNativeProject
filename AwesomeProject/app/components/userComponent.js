@@ -98,7 +98,7 @@ class User extends Component {
               <Text style={styles.h3}>{this.props.user.data.name}</Text>
               <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
               <Text
-                style={styles.h3}
+                style={styles.link}
                 onPress={() => this.followUnfollowHandler(
                     this.props.token,
                     this.props.user.data.id,
@@ -108,20 +108,23 @@ class User extends Component {
 
               <Text
                 onPress={() => this.props.navigation.push('Followings')}
-                style={styles.h3}>Followings: {this.props.user.data.followingsCount}</Text>
+                style={styles.link}>Followings: {this.props.user.data.followingsCount}</Text>
 
               <Text
                 onPress={() => this.props.navigation.push('Followers')}
-                style={styles.h3}>Followers: {this.props.user.data.followersCount}</Text>
+                style={styles.link}>Followers: {this.props.user.data.followersCount}</Text>
 
               <Text
-                style={styles.h3}
+                style={styles.link}
                 onPress={() => this.createConvoHandler(
                     this.props.token,
                     this.props.user.data.id
                 )}>Message</Text>
               
-              <Text style={styles.text}>Public Mojis</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.push('PubMojis')}>
+                <Text style={styles.link}>Public Mojis: {this.props.user.data.pubMojisCount}</Text>
+              </TouchableOpacity>
+              
               <Text style={styles.text}>Public Collection</Text>
 
               <Menu renderer={SlideInMenu}>
@@ -151,12 +154,16 @@ class User extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

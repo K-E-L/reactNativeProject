@@ -53,6 +53,12 @@ class Authuser extends Component {
         case 'followers':
             this.props.navigation.navigate('Followers');
             break;
+        case 'pubMojis':
+            this.props.navigation.navigate('PubMojis');
+            break;
+        case 'priMojis':
+            this.props.navigation.navigate('PriMojis');
+            break;
         default:
             console.log('error: type not found');
         }
@@ -73,9 +79,16 @@ class Authuser extends Component {
                 <TouchableOpacity onPress={() => this.pushNavUserHandler('followers')}>
                   <Text style={styles.link}>Followers: {this.props.authUser.data.followersCount}</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.pushNavUserHandler('pubMojis')}>
+                  <Text style={styles.link}>Public Mojis: {this.props.authUser.data.pubMojisCount}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.pushNavUserHandler('priMojis')}>
+                  <Text style={styles.link}>Private Mojis: {this.props.authUser.data.priMojisCount}</Text>
+                </TouchableOpacity>
                 
-                <Text style={styles.text}>Public Mojis</Text>
-                <Text style={styles.text}>Private Mojis</Text>
+                <Text style={styles.text}>Public Collection</Text>
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Collec')}>
                   <Text style={styles.link}>Collection</Text>

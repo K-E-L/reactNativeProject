@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
     Button,
     FlatList,
+    Image,
     ListItem,
     StyleSheet,
     Text,
@@ -19,35 +20,26 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
-class Followers extends Component {
-    constructor(props) {
-        super(props);
-        this.backHandler = this.backHandler.bind(this);
-        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
-    }
-    
+// import: dumb component
+import MojiItemImage from './mojiItemImageComponent';
+
+class PubMojis extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Followers', header: null
+        title: 'PubMojis', header: null
     });
 
     componentWillMount() {
-        this.props.getFollowers(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getPubMojis(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     refresh = () => {
-        this.props.getFollowers(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getPubMojis(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 
     backHandler() {
-        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
         this.props.navigation.pop();
     }
-
-    pushNavUserHandler(item) {
-        this.props.pushNavUser(item.id);
-        this.props.navigation.push('User');
-    }
-
+    
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
@@ -56,18 +48,12 @@ class Followers extends Component {
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.h3}>Followers</Text>
-
                 <FlatList
-                  data={this.props.followers.data}
+                  data={this.props.pubMojis.data}
+                  horizontal={true}
                   renderItem={({item}) =>
-                              <Text
-                                    onPress={() => this.pushNavUserHandler(item)}
-                                    style={styles.h3}>
-                                    {item.name}: {item.username}
-                              </Text>}
-                              keyExtractor={item => item.id.toString()}
-                              />
+                  <MojiItemImage item={item} navigation={this.props.navigation}/>}
+                  keyExtractor={item => item.id.toString()}/>
               </View>
             </PTRView>
         );
@@ -85,9 +71,9 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('followings', state.navReducer.userStack);
+    console.log('pubMojis', state.navReducer.userStack);
     return {
-        followers: state.userReducer.followers,
+        pubMojis: state.userReducer.pubMojis,
         userStack: state.navReducer.userStack,
         token: state.authReducer.token,
     };
@@ -99,4 +85,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Followers);
+export default connect(mapStateToProps, mapDispatchToProps)(PubMojis);

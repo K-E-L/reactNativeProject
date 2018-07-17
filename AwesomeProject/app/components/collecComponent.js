@@ -20,6 +20,9 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
+// import: dumb component
+import MojiItemImage from './mojiItemImageComponent';
+
 class Collec extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Collection', header: null
@@ -36,7 +39,7 @@ class Collec extends Component {
     backHandler() {
         this.props.navigation.pop();
     }
-    
+
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
@@ -49,15 +52,8 @@ class Collec extends Component {
                   data={this.props.collec.data}
                   horizontal={true}
                   renderItem={({item}) =>
-                              <TouchableOpacity onPress={() => this.props.navigation.navigate('Moji', {id: item.id})}>
-                                    <Image
-                                          style={{width: 20, height: 20}}
-                                          source={{uri: 'http://167.99.162.15/mojiStorage/' +
-                                                   item.creator_id + '/' +
-                                                   item.path}}
-                                          />
-                              </TouchableOpacity>}
-                              keyExtractor={item => item.id.toString()}/>
+                  <MojiItemImage item={item} navigation={this.props.navigation}/>}
+                  keyExtractor={item => item.id.toString()}/>
               </View>
             </PTRView>
         );

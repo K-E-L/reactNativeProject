@@ -17,7 +17,7 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-class MojiItem extends Component {
+class MojiItemImage extends Component {
     constructor(props) {
         super(props);
         this.setMojiIdHandler = this.setMojiIdHandler.bind(this);
@@ -31,16 +31,12 @@ class MojiItem extends Component {
     render() {
         return (
             <View>              
-              <Text style={styles.text}>
-                {this.props.item.name}: {this.props.item.creator_username} : {this.props.item.created_at}</Text>
-
               <TouchableOpacity onPress={() => this.setMojiIdHandler(this.props.item.id)}>
                 <Image style={{width: 20, height: 20}}
                        source={{uri: 'http://167.99.162.15/mojiStorage/' +
                                 this.props.item.creator_id + '/' +
                        this.props.item.path}}/>
               </TouchableOpacity>
-
             </View>
         );
     }
@@ -68,4 +64,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(MojiItem);
+export default connect(mapStateToProps, mapDispatchToProps)(MojiItemImage);

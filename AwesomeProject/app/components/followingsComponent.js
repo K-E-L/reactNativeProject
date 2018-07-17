@@ -55,17 +55,16 @@ class Followings extends Component {
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
-                
+
                 <Text style={styles.h3}>Followings</Text>
                 
                <FlatList
                  data={this.props.followings.data}
                  renderItem={({item}) =>
-                              <Text
-                                    onPress={() => this.pushNavUserHandler(item)}
-                                    style={styles.text}>
-                                    {item.name}: {item.username}
-                              </Text>}
+                             <Text onPress={() => this.pushNavUserHandler(item)}
+                                   style={styles.h3}>
+                                   {item.name}: {item.username}
+                             </Text>}
                               keyExtractor={item => item.id.toString()}/>
 
               </View>
@@ -75,12 +74,16 @@ class Followings extends Component {
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props

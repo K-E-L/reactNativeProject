@@ -62,7 +62,7 @@ class Convos extends Component {
                   data={this.props.convos.data}
                   renderItem={({item}) =>
                               <Text onPress={() => this.setConvoIdHandler(item.id)}
-                              style={styles.text}>{item.name}</Text>}
+                              style={styles.h3}>{item.name}</Text>}
                               keyExtractor={item => item.id.toString()}/>
 
 

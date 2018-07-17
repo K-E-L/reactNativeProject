@@ -10,6 +10,8 @@ import Login from './loginComponent';
 import Moji from './mojiComponent';
 import MojiChoose from './mojiChooseComponent';
 import Mojis from './mojisComponent';
+import PriMojis from './priMojisComponent';
+import PubMojis from './pubMojisComponent';
 import Notifs from './notifsComponent';
 import User from './userComponent';
 
@@ -24,6 +26,8 @@ export const UserStackNavigator = createStackNavigator({
     Followers: { screen: Followers },
     Notifs: { screen: Notifs },
     Collec: { screen: Collec },
+    PubMojis: { screen: PubMojis },
+    PriMojis: { screen: PriMojis }
 }, {
     initialRouteName: 'Authuser',
     headerMode: 'screen'

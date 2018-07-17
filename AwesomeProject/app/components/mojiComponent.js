@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.mojiReducer.moji);
+    console.log('moji', state.mojiReducer.moji);
     return {
         token: state.authReducer.token,
         moji: state.mojiReducer.moji,

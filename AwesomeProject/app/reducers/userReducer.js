@@ -6,6 +6,8 @@ import {
     GET_FOLLOWINGS,
     GET_MESSAGABLE,
     GET_NOTIFS,
+    GET_PRI_MOJIS,
+    GET_PUB_MOJIS,
     GET_USER
 } from '../types';
 
@@ -29,6 +31,12 @@ const initialState = {
         data: []
     },
     collec: {
+        data: []
+    },
+    pubMojis: {
+        data: []
+    },
+    priMojis: {
         data: []
     }
 };
@@ -70,8 +78,16 @@ function userReducer (state = initialState, action) {
             ...state,
             collec: action.payload
         };
-        
-
+    case GET_PUB_MOJIS:
+        return {
+            ...state,
+            pubMojis: action.payload
+        };
+    case GET_PRI_MOJIS:
+        return {
+            ...state,
+            priMojis: action.payload
+        };
         
     default:
         return state;

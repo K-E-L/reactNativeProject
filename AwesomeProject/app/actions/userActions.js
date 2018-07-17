@@ -6,6 +6,8 @@ import {
     GET_FOLLOWINGS,
     GET_MESSAGABLE,
     GET_NOTIFS,
+    GET_PRI_MOJIS,
+    GET_PUB_MOJIS,
     GET_USER
 } from '../types';
 
@@ -191,6 +193,7 @@ export const destroyNotif = (login_cred, id) => dispatch => {
             id: id
         })
     }).then(res => res.json())
+        .then(() => {dispatch(getNotifs(login_cred));})
         .catch((error) => {
             console.error(error);
         });
@@ -209,6 +212,48 @@ export const getCollec = (login_cred) => dispatch => {
               dispatch({
                   type: GET_COLLEC,
                   payload: collec
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getPubMojis = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/'
+          + id.toString()
+          + '/pubMojis', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+          }).then(res => res.json())
+        .then(pubMojis =>
+              dispatch({
+                  type: GET_PUB_MOJIS,
+                  payload: pubMojis
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getPriMojis = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/auth/priMojis', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+          }).then(res => res.json())
+        .then(priMojis =>
+              dispatch({
+                  type: GET_PRI_MOJIS,
+                  payload: priMojis
               })
              )
         .catch((error) => {

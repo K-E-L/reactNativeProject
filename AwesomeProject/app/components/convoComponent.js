@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('split', state.convoReducer.messageSplit);
+    console.log('split', state.convoReducer.convoMessages);
     return {
         convo: state.convoReducer.convo,
         convoMessages: state.convoReducer.convoMessages,

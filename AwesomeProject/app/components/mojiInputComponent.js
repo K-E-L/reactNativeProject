@@ -26,14 +26,6 @@ class MojiInput extends Component {
         this.maxNumber = 2;
     }    
 
-    static navigationOptions = ({ navigation }) => ({
-        title: 'Collection', header: null
-    });
-
-    // componentWillMount() {
-    //     this.props.getCollec(this.props.token);
-    // }
-
     renderItemHandler(item) {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
             // stopped here
