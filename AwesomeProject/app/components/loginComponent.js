@@ -25,10 +25,10 @@ import { TabNavigator } from './navComponent';
 
 class Login extends Component {
     render() {
-        if (!this.props.logged_in) {
+        if (!this.props.loggedIn && !this.props.loginLoading) {
             return (
                 <View>
-                  <Text>Login</Text>
+                  <Text style={styles.h3}>Login</Text>
                   <TextInput
                     onChangeText={(text) => this.props.setEmail(text)}
                     value={this.props.email}
@@ -41,21 +41,27 @@ class Login extends Component {
                      secureTextEntry={true}
                      autoCapitalize = 'none'
                      />
-                     
-                    <Button
-                      onPress={() => this.props.login(
-                          this.props.email,
-                          this.props.password
-                      )}
-                      title="Login"
-                      />
 
+                     <TouchableOpacity
+                       onPress={() => this.props.login(
+                           this.props.email,
+                           this.props.password
+                       )}>
+                       <Text style={styles.link}>Login</Text>
+                     </TouchableOpacity>
                 </View>
             );
         }
-        return (
-            <TabNavigator />
-        );
+        else if (this.props.loggedIn && this.props.loginLoading) {
+            return  (
+                <Text style={styles.h3}>Loading..</Text>
+            );
+        }
+        else {
+            return (
+                <TabNavigator />
+            );
+        }
     }
 };
 
@@ -76,8 +82,8 @@ function mapStateToProps(state, props) {
     return {
         email: state.authReducer.email,
         password: state.authReducer.password,
-        logged_in: state.authReducer.logged_in
-        // state: state.navReducer
+        loggedIn: state.authReducer.loggedIn,
+        loginLoading: state.authReducer.loginLoading
     };
 }
 

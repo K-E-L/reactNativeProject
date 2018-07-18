@@ -24,21 +24,30 @@ class MessageItem extends Component {
 
         // get from server later
         this.maxNumber = 2;
-    }    
+    }
+
+    componentWillMount() {
+        // load here? stopped here
+        this.props.getMessageMojis(this.props.item.body);
+        this.props.setMessageMojiStack(this.props.token, this.props.messageMojis);
+    }
     
     renderItemHandler(item) {
-        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
-            // stopped here
-            // don't call getMoji every render, not keeping up
-            this.props.getMoji(this.props.token, item.substring(3, item.length));
-            return <Image
-            style={{width: 20, height: 20}}
-            source={{uri: 'http://167.99.162.15/mojiStorage/' +
-                     this.props.moji.data.creator_id + '/' + this.props.moji.data.path}}/>;
-        }
-        else {
+        // if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
+        //     // don't call getMoji every render, not keeping up
+            
+        //     // this.props.getMoji(this.props.token, '1');
+        //     // this.props.getMoji(this.props.token, this.props.messageMojis[this.props.messageMojisCount - 1]);
+        //     // this.props.decMessageMojisCount();
+            
+            
+        //     return <Image style={{width: 20, height: 20}}
+        //     source={{uri: 'http://167.99.162.15/mojiStorage/' +
+        //              this.props.messageMojisStack.data[0].creator_id + '/' + this.props.messageMojisStack.data[0].path}}/>;
+        // }
+        // else {
             return <Text style={styles.text}>{item + ' '}</Text>;
-        }
+        // }
     }
 
     render() {
@@ -51,7 +60,8 @@ class MessageItem extends Component {
               <FlatList
                 data={this.props.item.body}
                 horizontal={true}
-                renderItem={({item}) => this.renderItemHandler(item)}/>
+                renderItem={({item}) => this.renderItemHandler(item)}
+                keyExtractor={(item, index) => index.toString()}/>
                 
               <TouchableOpacity onPress={() => this.props.likeMessage(
                     this.props.token,
@@ -82,9 +92,13 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    console.log('messageItem', state.navReducer.messageMojisStack);
     return {
         token: state.authReducer.token,
-        moji: state.mojiReducer.moji
+        // moji: state.mojiReducer.moji,
+        messageMojis: state.navReducer.messageMojis,
+        messageMojisCount: state.navReducer.messageMojisCount,
+        messageMojisStack: state.navReducer.messageMojisStack
     };
 }
 

@@ -1,8 +1,8 @@
 // import: types
 import {
-    FETCH_POSTS,
     LOGIN,
     SET_EMAIL,
+    SET_LOGGED_IN,
     SET_PASSWORD
 } from '../types';
 
@@ -10,7 +10,8 @@ const initialState = {
     token: {},
     email: '',
     password: '',
-    logged_in: false
+    loggedIn: false,
+    loginLoading: false
 };
 
 function authReducer (state = initialState, action) {
@@ -25,11 +26,19 @@ function authReducer (state = initialState, action) {
             ...state,
             password: action.payload
         };
+    case SET_LOGGED_IN:
+        return {
+            ...state,
+            loggedIn: true,
+            loginLoading: true
+        };
     case LOGIN:
+        console.log('reducer', action.payload);
         return {
             ...state,
             token: action.payload,
-            logged_in: true
+            loggedIn: true,
+            loginLoading: false
         };
     default:
         return state;

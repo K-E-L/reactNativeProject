@@ -187,7 +187,6 @@ class Convo extends Component {
                               <MessageItem
                                     item={item}
                                     convoID={this.props.convoID}
-                                    onPress={() => console.log('hello')}
                                 navigation={this.props.navigation}/>}
                               keyExtractor={item => item.id.toString()}/>                              
               </PTRView>
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('split', state.convoReducer.convoMessages);
+    console.log('split', state.navReducer.messageMojis);
     return {
         convo: state.convoReducer.convo,
         convoMessages: state.convoReducer.convoMessages,
@@ -223,6 +222,7 @@ function mapStateToProps(state, props) {
         mojiKeyboard: state.navReducer.mojiKeyboard,
         mojiInput: state.navReducer.mojiInput,
         messageSplit: state.convoReducer.messageSplit,
+        messageMojis: state.convoReducer.messageMojis,
         token: state.authReducer.token
     };
 }

@@ -2,6 +2,7 @@
 import {
     LOGIN,
     SET_EMAIL,
+    SET_LOGGED_IN,
     SET_PASSWORD
 } from '../types';
 
@@ -20,6 +21,10 @@ export const setPassword = (text) => dispatch => {
 };
 
 export const login = (email, password) => dispatch => {
+    dispatch({
+        type: SET_LOGGED_IN,
+        payload: null
+    });
     fetch('http://167.99.162.15/api/login', {
         method: 'POST',
         headers: {

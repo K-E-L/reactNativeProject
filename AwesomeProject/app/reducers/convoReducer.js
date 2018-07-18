@@ -3,8 +3,8 @@ import {
     ADD_MESSAGE_MOJI,
     GET_CONVO,
     GET_CONVOS,
-    GET_CONVO_USERS,
     GET_CONVO_MESSAGES,
+    GET_CONVO_USERS,
     MESSAGE,
     SET_RENAME_BODY,
     SET_MESSAGE_BODY,
@@ -74,8 +74,7 @@ function convoReducer (state = initialState, action) {
         return {
             ...state,
             messageSplit: state.messageBody.split(' ')
-        };
-
+        };       
         
     default:
         return state;
