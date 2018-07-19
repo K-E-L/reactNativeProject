@@ -17,6 +17,9 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: dumb component
+import MojiItemImage from './mojiItemImageComponent';
+
 class MessageItem extends Component {
     constructor(props) {
         super(props);
@@ -27,30 +30,28 @@ class MessageItem extends Component {
     }
 
     componentWillMount() {
-        // load here? stopped here
-        this.props.getMessageMojis(this.props.item.body);
-        this.props.setMessageMojiStack(this.props.token, this.props.messageMojis);
+        this.props.setMessageMojiStack(this.props.token, this.props.item.body, this.props.index);
     }
-    
-    renderItemHandler(item) {
-        // if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
-        //     // don't call getMoji every render, not keeping up
-            
-        //     // this.props.getMoji(this.props.token, '1');
-        //     // this.props.getMoji(this.props.token, this.props.messageMojis[this.props.messageMojisCount - 1]);
-        //     // this.props.decMessageMojisCount();
-            
-            
-        //     return <Image style={{width: 20, height: 20}}
-        //     source={{uri: 'http://167.99.162.15/mojiStorage/' +
-        //              this.props.messageMojisStack.data[0].creator_id + '/' + this.props.messageMojisStack.data[0].path}}/>;
-        // }
-        // else {
+
+    renderItemHandler(item, index) {
+        if (!this.props.convoMessagesLoading[this.props.index]) {
+            if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
+
+                return <MojiItemImage
+                item={this.props.messageMojisStack.find(object => object.id == item.substring(3, item.length)).mojis[0]}
+                navigation={this.props.navigation}/>;
+            }
+            else {
+                return <Text style={styles.text}>{item + ' '}</Text>;
+            }
+        }
+        else {
             return <Text style={styles.text}>{item + ' '}</Text>;
-        // }
+        }
     }
 
     render() {
+        if (!this.props.convoMessagesLoading[this.props.index]) {
         return (
             <View>
               <Text style={styles.text}>
@@ -60,7 +61,7 @@ class MessageItem extends Component {
               <FlatList
                 data={this.props.item.body}
                 horizontal={true}
-                renderItem={({item}) => this.renderItemHandler(item)}
+                renderItem={({item, index}) => this.renderItemHandler(item, index)}
                 keyExtractor={(item, index) => index.toString()}/>
                 
               <TouchableOpacity onPress={() => this.props.likeMessage(
@@ -70,10 +71,14 @@ class MessageItem extends Component {
                 )}>
                 <Text style={styles.link}>Like</Text>
               </TouchableOpacity>
-
-
             </View>
         );
+        }
+        else {
+            return  (
+                <Text style={styles.h3}>Loading..</Text>
+            );
+        }
     }
 };
 
@@ -92,13 +97,16 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('messageItem', state.navReducer.messageMojisStack);
+    // console.log('messageItem', state.convoReducer.convoMessagesLoading);
+    console.log('messageItem', state.convoReducer.messageMojisStack);
     return {
         token: state.authReducer.token,
-        // moji: state.mojiReducer.moji,
         messageMojis: state.navReducer.messageMojis,
         messageMojisCount: state.navReducer.messageMojisCount,
-        messageMojisStack: state.navReducer.messageMojisStack
+        messageMojisStack: state.convoReducer.messageMojisStack,
+        convoMessagesLoading: state.convoReducer.convoMessagesLoading,
+        
+        convoMessagesMojiArray: state.convoReducer.convoMessagesMojiArray
     };
 }
 

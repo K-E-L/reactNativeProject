@@ -1,12 +1,11 @@
 import {
-    DEC_MESSAGE_MOJIS_COUNT,
+    INC_MESSAGE_MOJIS_COUNT,
     GET_NAV_USER_STACK,
     POP_NAV_USER,
     PUSH_NAV_USER,
     SET_COMMENT_ID,
     SET_CONVO_ID,
     SET_CONVO_TYPE,
-    SET_MESSAGE_MOJIS_STACK,
     SET_MESSAGE_MOJIS_ARRAY,
     SET_MOJI_ID,
     SET_MOJI_KEYBOARD_TYPE,
@@ -92,41 +91,16 @@ export const toggleMojiInput = (toggle) => dispatch => {
     });
 };
 
-export const getMessageMojis = (text) => dispatch => {
+export const incMessageMojisCount = () => dispatch => {
     dispatch({
-        type: SET_MESSAGE_MOJIS_ARRAY,
-        payload: text
-    });
-};
-
-export const decMessageMojisCount = () => dispatch => {
-    dispatch({
-        type: DEC_MESSAGE_MOJIS_COUNT,
+        type: INC_MESSAGE_MOJIS_COUNT,
         payload: null
     });
 };
 
-export const setMessageMojiStack = (login_cred, arr) => dispatch => {
-    return fetch('http://167.99.162.15/api/mojis/collection', {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + login_cred.success.token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            arr: arr
-        })
-    }).then(res => res.json())
-        .then(mojis =>
-              dispatch({
-                  type: SET_MESSAGE_MOJIS_STACK,
-                  payload: mojis
-              })
-             )
-        .catch((error) => {
-            console.error(error);
-        });
+export const toggleMessageItemLoading = () => dispatch => {
+    dispatch({
+        type: TOGGLE_MESSAGE_ITEM_LOADING,
+        payload: null
+    });
 };
-
-

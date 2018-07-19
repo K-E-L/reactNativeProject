@@ -183,9 +183,11 @@ class Convo extends Component {
 
                 <FlatList
                   data={this.props.convoMessages.data}
-                  renderItem={({item}) =>
+                  renderItem={({item, index}) =>
                               <MessageItem
                                     item={item}
+
+                                    index={index}
                                     convoID={this.props.convoID}
                                 navigation={this.props.navigation}/>}
                               keyExtractor={item => item.id.toString()}/>                              
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('split', state.navReducer.messageMojis);
+    // console.log('convoCom', state.convoReducer.convoMessagesLoading);
     return {
         convo: state.convoReducer.convo,
         convoMessages: state.convoReducer.convoMessages,
@@ -222,7 +224,9 @@ function mapStateToProps(state, props) {
         mojiKeyboard: state.navReducer.mojiKeyboard,
         mojiInput: state.navReducer.mojiInput,
         messageSplit: state.convoReducer.messageSplit,
-        messageMojis: state.convoReducer.messageMojis,
+        
+        convoMessagesLoading: state.convoReducer.convoMessagesLoading,
+        
         token: state.authReducer.token
     };
 }

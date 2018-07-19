@@ -33,7 +33,6 @@ function authReducer (state = initialState, action) {
             loginLoading: true
         };
     case LOGIN:
-        console.log('reducer', action.payload);
         return {
             ...state,
             token: action.payload,

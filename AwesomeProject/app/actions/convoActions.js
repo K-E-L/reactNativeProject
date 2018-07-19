@@ -6,7 +6,10 @@ import {
     GET_CONVO_MESSAGES,
     GET_CONVO_USERS,
     MESSAGE,
+    MESSAGE_LOADED,
     SET_MESSAGE_BODY,
+    SET_MESSAGE_MOJIS_ARRAY,
+    SET_MESSAGE_MOJIS_STACK,
     SET_RENAME_BODY,
     SPLIT_MESSAGE_BODY
 } from '../types';
@@ -242,5 +245,56 @@ export const splitMessageBody = () => dispatch => {
     dispatch({
         type: SPLIT_MESSAGE_BODY,
         payload: null
+    });
+};
+
+export const setMessageMojiStack = (login_cred, body, index) => dispatch => {
+    const temp = body.filter(string => string.substring(0,3) === 'm/#');
+    if (!Array.isArray(temp) || !temp.length) {
+        dispatch({
+            type: MESSAGE_LOADED,
+            payload: index
+        });
+        return null;
+    }
+    const temp1 = temp.map(string => string.replace('m/#', ''));
+    const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
+
+    let temp3 = [];
+    for(let i = 0; i < temp2.length; i++) {
+        temp3.push(true);
+    }
+
+    dispatch({
+        type: SET_MESSAGE_MOJIS_ARRAY,
+        payload: {index: index, arr: temp3}
+    });
+
+    return fetch('http://167.99.162.15/api/mojis/collection', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            arr: temp2
+        })
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: SET_MESSAGE_MOJIS_STACK,
+                  payload: {index: index, id: mojis.data[0].id ,mojis: mojis.data}
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const messageLoaded = (index) => dispatch => {
+    dispatch({
+        type: MESSAGE_LOADED,
+        payload: index
     });
 };

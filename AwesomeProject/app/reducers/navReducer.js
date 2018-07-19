@@ -1,13 +1,12 @@
 // import: types
 import {
-    DEC_MESSAGE_MOJIS_COUNT,
+    INC_MESSAGE_MOJIS_COUNT,
     GET_NAV_USER_STACK,
     POP_NAV_USER,
     PUSH_NAV_USER,
     SET_COMMENT_ID,
     SET_CONVO_ID,
     SET_CONVO_TYPE,
-    SET_MESSAGE_MOJIS_ARRAY,
     SET_MESSAGE_MOJIS_STACK,
     SET_MOJI_ID,
     SET_MOJI_KEYBOARD_TYPE,
@@ -26,12 +25,9 @@ const initialState = {
     mojiKeyboard: false,
     mojiKeyboardType: '',
     mojiInput: false,
-    messageMojis: [],
     messageMojisCount: 0,
-    messageMojisStack: {
-        data: []
-    },
-    messageItemLoading: false
+    messageMojisStack: [],
+    
 };
 
 function navReducer (state = initialState, action) {
@@ -86,34 +82,12 @@ function navReducer (state = initialState, action) {
             ...state,
             mojiInput: action.payload
         };
-    case SET_MESSAGE_MOJIS_ARRAY:
-        const temp = action.payload.filter(string => string.substring(0,3) === 'm/#');
-        if (!Array.isArray(temp) || !temp.length) {
-            return { ...state };
-        }
-        const temp2 = temp.map(string => string.replace('m/#', ''));
-        const temp3 = [...state.messageMojis, temp2];
-        const temp4 = temp3.reduce((acc, val) => acc.concat(val), []);
+    case INC_MESSAGE_MOJIS_COUNT:
         return {
             ...state,
-            messageMojis: temp4,
-            messageMojisCount: temp4.length
+            messageMojisCount: state.messageMojisCount + 1
         };
-    case DEC_MESSAGE_MOJIS_COUNT:
-        return {
-            ...state,
-            messageMojisCount: state.messageMojisCount - 1
-        };
-    case SET_MESSAGE_MOJIS_STACK:
-        return {
-            ...state,
-            messageMojisStack: action.payload
-        };
-    // case SET_MESSAGE_ITEM_LOADING_FALSE:
-    //     return {
-    //         ...state,
-    //         messageMojisStack: action.payload
-    //     };
+
     default:
         return state;
     }
