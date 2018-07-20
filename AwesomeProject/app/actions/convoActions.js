@@ -8,8 +8,7 @@ import {
     MESSAGE,
     MESSAGE_LOADED,
     SET_MESSAGE_BODY,
-    SET_MESSAGE_MOJIS_ARRAY,
-    SET_MESSAGE_MOJIS_STACK,
+    SET_MESSAGE_MOJIS_MAP,
     SET_RENAME_BODY,
     SPLIT_MESSAGE_BODY
 } from '../types';
@@ -248,7 +247,7 @@ export const splitMessageBody = () => dispatch => {
     });
 };
 
-export const setMessageMojiStack = (login_cred, body, index) => dispatch => {
+export const setMessageMojiMap = (login_cred, body, index) => dispatch => {
     const temp = body.filter(string => string.substring(0,3) === 'm/#');
     if (!Array.isArray(temp) || !temp.length) {
         dispatch({
@@ -259,16 +258,6 @@ export const setMessageMojiStack = (login_cred, body, index) => dispatch => {
     }
     const temp1 = temp.map(string => string.replace('m/#', ''));
     const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
-
-    let temp3 = [];
-    for(let i = 0; i < temp2.length; i++) {
-        temp3.push(true);
-    }
-
-    dispatch({
-        type: SET_MESSAGE_MOJIS_ARRAY,
-        payload: {index: index, arr: temp3}
-    });
 
     return fetch('http://167.99.162.15/api/mojis/collection', {
         method: 'POST',
@@ -283,8 +272,8 @@ export const setMessageMojiStack = (login_cred, body, index) => dispatch => {
     }).then(res => res.json())
         .then(mojis =>
               dispatch({
-                  type: SET_MESSAGE_MOJIS_STACK,
-                  payload: {index: index, id: mojis.data[0].id ,mojis: mojis.data}
+                  type: SET_MESSAGE_MOJIS_MAP,
+                  payload: {index: index, mojis: mojis.data}
               })
              )
         .catch((error) => {

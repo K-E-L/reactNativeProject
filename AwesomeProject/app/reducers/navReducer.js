@@ -1,6 +1,5 @@
 // import: types
 import {
-    INC_MESSAGE_MOJIS_COUNT,
     GET_NAV_USER_STACK,
     POP_NAV_USER,
     PUSH_NAV_USER,
@@ -25,9 +24,6 @@ const initialState = {
     mojiKeyboard: false,
     mojiKeyboardType: '',
     mojiInput: false,
-    messageMojisCount: 0,
-    messageMojisStack: [],
-    
 };
 
 function navReducer (state = initialState, action) {
@@ -82,12 +78,7 @@ function navReducer (state = initialState, action) {
             ...state,
             mojiInput: action.payload
         };
-    case INC_MESSAGE_MOJIS_COUNT:
-        return {
-            ...state,
-            messageMojisCount: state.messageMojisCount + 1
-        };
-
+        
     default:
         return state;
     }

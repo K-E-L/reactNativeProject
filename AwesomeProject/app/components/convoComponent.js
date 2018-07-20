@@ -186,11 +186,10 @@ class Convo extends Component {
                   renderItem={({item, index}) =>
                               <MessageItem
                                     item={item}
-
                                     index={index}
                                     convoID={this.props.convoID}
                                 navigation={this.props.navigation}/>}
-                              keyExtractor={item => item.id.toString()}/>                              
+                              keyExtractor={(item, index) => index.toString()}/>
               </PTRView>
         );
     }

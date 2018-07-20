@@ -29,28 +29,22 @@ class MessageItem extends Component {
         this.maxNumber = 2;
     }
 
-    componentWillMount() {
-        this.props.setMessageMojiStack(this.props.token, this.props.item.body, this.props.index);
+    componentDidMount() {
+        this.props.setMessageMojiMap(this.props.token, this.props.item.body, this.props.index);
     }
 
     renderItemHandler(item, index) {
-        if (!this.props.convoMessagesLoading[this.props.index]) {
-            if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
-
-                return <MojiItemImage
-                item={this.props.messageMojisStack.find(object => object.id == item.substring(3, item.length)).mojis[0]}
-                navigation={this.props.navigation}/>;
-            }
-            else {
-                return <Text style={styles.text}>{item + ' '}</Text>;
-            }
+        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
+            return <MojiItemImage
+            item={this.props.messageMojisMap.find(object => object.id == item.substring(3, item.length))}
+            navigation={this.props.navigation}/>;
         }
         else {
             return <Text style={styles.text}>{item + ' '}</Text>;
         }
     }
 
-    render() {
+    render() {        
         if (!this.props.convoMessagesLoading[this.props.index]) {
         return (
             <View>
@@ -97,16 +91,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('messageItem', state.convoReducer.convoMessagesLoading);
-    console.log('messageItem', state.convoReducer.messageMojisStack);
+    console.log('messageItem', state.convoReducer.convoMessagesLoading);
     return {
         token: state.authReducer.token,
-        messageMojis: state.navReducer.messageMojis,
-        messageMojisCount: state.navReducer.messageMojisCount,
-        messageMojisStack: state.convoReducer.messageMojisStack,
         convoMessagesLoading: state.convoReducer.convoMessagesLoading,
-        
-        convoMessagesMojiArray: state.convoReducer.convoMessagesMojiArray
+        messageMojisMap: state.convoReducer.messageMojisMap,
+        convoID: state.navReducer.convoID,
     };
 }
 

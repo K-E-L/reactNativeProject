@@ -17,6 +17,9 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: dumb component
+import MojiItemImage from './mojiItemImageComponent';
+
 class MojiInput extends Component {
     constructor(props) {
         super(props);
@@ -28,18 +31,13 @@ class MojiInput extends Component {
 
     renderItemHandler(item) {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
-            // stopped here
-            // don't call getMoji every render, not keeping up
-            this.props.getMoji(this.props.token, item.substring(3, item.length));
-            return <Image
-            style={{width: 20, height: 20}}
-            source={{uri: 'http://167.99.162.15/mojiStorage/' +
-                     this.props.moji.data.creator_id + '/' + this.props.moji.data.path}}/>;
+            return <MojiItemImage
+            item={this.props.collec.data.find(object => object.id == item.substring(3, item.length))}
+            navigation={this.props.navigation}/>;
         }
         else {
             return <Text style={styles.text}>{item + ' '}</Text>;
         }
-
     }
 
     render() {
@@ -49,7 +47,9 @@ class MojiInput extends Component {
               <FlatList
                 data={this.props.messageSplit}
                 horizontal={true}
-                renderItem={({item}) => this.renderItemHandler(item)}/>
+                renderItem={({item, index}) => this.renderItemHandler(item)}
+                keyExtractor={(item, index) => index.toString()}/>
+
 
             </View>
         );
@@ -76,7 +76,8 @@ function mapStateToProps(state, props) {
     console.log(state.convoReducer.messageBody);
     return {
         messageSplit: state.convoReducer.messageSplit,
-        moji: state.mojiReducer.moji,
+        // messageMojisMap: state.convoReducer.messageMojisMap,
+        collec: state.userReducer.collec,
         token: state.authReducer.token
     };
 }

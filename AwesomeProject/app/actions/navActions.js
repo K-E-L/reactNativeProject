@@ -1,5 +1,4 @@
 import {
-    INC_MESSAGE_MOJIS_COUNT,
     GET_NAV_USER_STACK,
     POP_NAV_USER,
     PUSH_NAV_USER,
@@ -88,19 +87,5 @@ export const toggleMojiInput = (toggle) => dispatch => {
     dispatch({
         type: TOGGLE_MOJI_INPUT,
         payload: toggle
-    });
-};
-
-export const incMessageMojisCount = () => dispatch => {
-    dispatch({
-        type: INC_MESSAGE_MOJIS_COUNT,
-        payload: null
-    });
-};
-
-export const toggleMessageItemLoading = () => dispatch => {
-    dispatch({
-        type: TOGGLE_MESSAGE_ITEM_LOADING,
-        payload: null
     });
 };

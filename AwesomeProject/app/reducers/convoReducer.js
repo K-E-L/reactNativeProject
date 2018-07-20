@@ -9,8 +9,7 @@ import {
     MESSAGE_LOADED,
     SET_RENAME_BODY,
     SET_MESSAGE_BODY,
-    SET_MESSAGE_MOJIS_ARRAY,
-    SET_MESSAGE_MOJIS_STACK,   
+    SET_MESSAGE_MOJIS_MAP,
     SPLIT_MESSAGE_BODY
 } from '../types';
 
@@ -30,8 +29,7 @@ const initialState = {
     messageSplit: [],
     
     convoMessagesLoading: [],
-    convoMessagesMojiArray: [],
-    messageMojisStack: []
+    messageMojisMap: []
 };
 
 function convoReducer (state = initialState, action) {
@@ -48,19 +46,14 @@ function convoReducer (state = initialState, action) {
             renameBody: action.payload.name
         };
     case GET_CONVO_MESSAGES:
-        let temp = [];
-        for(let i = 0; i < action.payload.data.length; i++) {
-            temp.push(true);
-        }
-        let temp1 = [];
-        for(let i = 0; i < action.payload.data.length; i++) {
-            temp1.push([]);
+        let temp1 = state.convoMessagesLoading;
+        for(let i = state.convoMessagesLoading.length; i < action.payload.data.length; i++) {
+            temp1.push(true);
         }
         return {
             ...state,
             convoMessages: action.payload,
-            convoMessagesLoading: temp,
-            convoMessagesMojiArray: temp1
+            convoMessagesLoading: temp1,
         };
     case GET_CONVO_USERS:
         return {
@@ -101,33 +94,32 @@ function convoReducer (state = initialState, action) {
             ...state,
             convoMessagesLoading: newArr
         };
-
-    case SET_MESSAGE_MOJIS_ARRAY:
-        let newArr2 = state.convoMessagesMojiArray;
-        newArr2[action.payload.index] = action.payload.arr;
-
-        return {
-            ...state,
-            convoMessagesMojiArray: newArr2
-        };
-
-    case SET_MESSAGE_MOJIS_STACK:
-        console.log('here', action.payload);
+        
+    case SET_MESSAGE_MOJIS_MAP:
         let newArr1 = state.convoMessagesLoading;
         newArr1[action.payload.index] = false;
 
-        let newArr3 = state.messageMojisStack;
-        console.log('messageMojisStack', newArr3);
-        console.log('action.payload.mojis', action.payload.mojis);
-        // let array3 = newArr3.concat(action.payload.mojis).unique; 
+        let newArr3 = state.messageMojisMap;
+        
+        function exists(id) {
+            for (let j=0; j < newArr3.length; j++) {
+                if (newArr3[j].id === id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        for (let i=0; i < action.payload.mojis.length; i++) {
+            if (exists(action.payload.mojis[i].id) === false) {
+                newArr3.push(action.payload.mojis[i]);
+            }
+        }
 
         return {
             ...state,
-            messageMojisStack: [...state.messageMojisStack, action.payload],
-            // messageMojisStack: action.payload,
-            // messageMojisStack: array3,
+            messageMojisMap: [...newArr3],
             convoMessagesLoading: newArr1,
-            // convoMessagesMojiArray: newArr3
         };
 
 
