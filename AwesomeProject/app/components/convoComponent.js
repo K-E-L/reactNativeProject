@@ -26,7 +26,7 @@ import MessageItem from'./messageItemComponent';
 import CollecKeyboard from './collecKeyboardComponent';
 
 // import: moji input component
-import MojiInput from './mojiInputComponent';
+import MojiPreview from './mojiPreviewComponent';
 
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
@@ -52,7 +52,6 @@ class Convo extends Component {
         this.props.getConvoMessages(this.props.token, this.props.convoID);
         this.props.getConvoUsers(this.props.token, this.props.convoID);
     }
-
     refresh = () => {
         this.props.getConvo(this.props.token, this.props.convoID);
         this.props.getConvoMessages(this.props.token, this.props.convoID);
@@ -90,12 +89,13 @@ class Convo extends Component {
     focusMessageHandler() {
         this.props.toggleMojiKeyboard(true);
         this.props.setMojiKeyboardType('Message');
-        this.props.toggleMojiInput(true);
+        this.props.toggleMojiPreview(true);
+        this.props.setMojiPreviewType('Message');
     }
 
     endEditingMessageHandler() {
         this.props.toggleMojiKeyboard(false);
-        this.props.toggleMojiInput(false);
+        this.props.toggleMojiPreview(false);
     }
 
     changeTextMessageHandler(text) {
@@ -131,7 +131,7 @@ class Convo extends Component {
                 </TouchableOpacity>
                                       
                 <FlatList
-                  data={this.props.convoUsers.data}
+                  data={this.props.convoUsers}
                   renderItem={({item}) =>
                               <Text
                                     onPress={() => this.pushNavUserHandler(item)}
@@ -156,7 +156,7 @@ class Convo extends Component {
                   <Text style={styles.link}>Leave Convo</Text>
                 </TouchableOpacity>
 
-                {this.props.mojiInput && <MojiInput />}
+                {this.props.mojiPreview && <MojiPreview />}
 
                 <TextInput
                   onChangeText={(text) => this.changeTextMessageHandler(text)}
@@ -182,12 +182,11 @@ class Convo extends Component {
                 {this.props.mojiKeyboard && <CollecKeyboard />}
 
                 <FlatList
-                  data={this.props.convoMessages.data}
+                  data={this.props.convoMessages}
                   renderItem={({item, index}) =>
                               <MessageItem
                                     item={item}
                                     index={index}
-                                    convoID={this.props.convoID}
                                 navigation={this.props.navigation}/>}
                               keyExtractor={(item, index) => index.toString()}/>
               </PTRView>
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('convoCom', state.convoReducer.convoMessagesLoading);
+    // console.log('convoCom', state.convoReducer.convoMessages);
     return {
         convo: state.convoReducer.convo,
         convoMessages: state.convoReducer.convoMessages,
@@ -221,11 +220,8 @@ function mapStateToProps(state, props) {
         convoID: state.navReducer.convoID,
         userStack: state.navReducer.userStack,
         mojiKeyboard: state.navReducer.mojiKeyboard,
-        mojiInput: state.navReducer.mojiInput,
+        mojiPreview: state.navReducer.mojiPreview,
         messageSplit: state.convoReducer.messageSplit,
-        
-        convoMessagesLoading: state.convoReducer.convoMessagesLoading,
-        
         token: state.authReducer.token
     };
 }

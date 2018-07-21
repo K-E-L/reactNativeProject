@@ -25,7 +25,7 @@ export const getConvos = (login_cred) => dispatch => {
         .then(convos =>
               dispatch({
                   type: GET_CONVOS,
-                  payload: convos
+                  payload: convos.data
               })
              )
         .catch((error) => {
@@ -67,7 +67,7 @@ export const getConvoMessages = (login_cred, id) => dispatch => {
         .then(messages =>
               dispatch({
                   type: GET_CONVO_MESSAGES,
-                  payload: messages
+                  payload: messages.data
               })
              )
         .catch((error) => {
@@ -89,7 +89,7 @@ export const getConvoUsers = (login_cred, id) => dispatch => {
         .then(users =>
               dispatch({
                   type: GET_CONVO_USERS,
-                  payload: users
+                  payload: users.data
               })
              )
         .catch((error) => {
@@ -247,6 +247,13 @@ export const splitMessageBody = () => dispatch => {
     });
 };
 
+export const messageLoaded = (index) => dispatch => {
+    dispatch({
+        type: MESSAGE_LOADED,
+        payload: index
+    });
+};
+
 export const setMessageMojiMap = (login_cred, body, index) => dispatch => {
     const temp = body.filter(string => string.substring(0,3) === 'm/#');
     if (!Array.isArray(temp) || !temp.length) {
@@ -279,11 +286,4 @@ export const setMessageMojiMap = (login_cred, body, index) => dispatch => {
         .catch((error) => {
             console.error(error);
         });
-};
-
-export const messageLoaded = (index) => dispatch => {
-    dispatch({
-        type: MESSAGE_LOADED,
-        payload: index
-    });
 };

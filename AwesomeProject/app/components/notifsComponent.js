@@ -54,7 +54,7 @@ class Notifs extends Component {
 
                 <Text style={styles.h3}>Notifs</Text>
               <FlatList
-                data={this.props.notifs.data}
+                data={this.props.notifs}
                 renderItem={({item}) =>
                 <NotifItem item={item}/>}
                 keyExtractor={item => item.id.toString()}/>

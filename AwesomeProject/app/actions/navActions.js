@@ -8,8 +8,9 @@ import {
     SET_MESSAGE_MOJIS_ARRAY,
     SET_MOJI_ID,
     SET_MOJI_KEYBOARD_TYPE,
+    SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
-    TOGGLE_MOJI_INPUT,
+    TOGGLE_MOJI_PREVIEW,
     TOGGLE_MOJI_KEYBOARD
 } from '../types';
 
@@ -83,9 +84,16 @@ export const setMojiKeyboardType = (type) => dispatch => {
     });
 };
 
-export const toggleMojiInput = (toggle) => dispatch => {
+export const toggleMojiPreview = (toggle) => dispatch => {
     dispatch({
-        type: TOGGLE_MOJI_INPUT,
+        type: TOGGLE_MOJI_PREVIEW,
         payload: toggle
+    });
+};
+
+export const setMojiPreviewType = (type) => dispatch => {
+    dispatch({
+        type: SET_MOJI_PREVIEW_TYPE,
+        payload: type
     });
 };

@@ -59,7 +59,7 @@ class Followings extends Component {
                 <Text style={styles.h3}>Followings</Text>
                 
                <FlatList
-                 data={this.props.followings.data}
+                 data={this.props.followings}
                  renderItem={({item}) =>
                              <Text onPress={() => this.pushNavUserHandler(item)}
                                    style={styles.h3}>

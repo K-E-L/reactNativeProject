@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('messageItem', state.convoReducer.convoMessagesLoading);
+    // console.log('messageItem', state.convoReducer.convoMessagesLoading);
     return {
         token: state.authReducer.token,
-        convoMessagesLoading: state.convoReducer.convoMessagesLoading,
-        messageMojisMap: state.convoReducer.messageMojisMap,
         convoID: state.navReducer.convoID,
+        convoMessagesLoading: state.convoReducer.convoMessagesLoading,
+        messageMojisMap: state.convoReducer.messageMojisMap
     };
 }
 

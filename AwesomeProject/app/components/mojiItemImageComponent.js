@@ -25,18 +25,19 @@ class MojiItemImage extends Component {
 
     setMojiIdHandler(id) {
         this.props.setMojiID(id);
-        this.props.navigation.navigate('Moji');
+        this.props.navigation.push('Moji');
     }
 
     render() {
         return (
-            <View>              
+            <View style={{flex: 1, flexDirection: 'row'}}>
               <TouchableOpacity onPress={() => this.setMojiIdHandler(this.props.item.id)}>
                 <Image style={{width: 20, height: 20}}
                        source={{uri: 'http://167.99.162.15/mojiStorage/' +
                                 this.props.item.creator_id + '/' +
                        this.props.item.path}}/>
               </TouchableOpacity>
+              <Text> </Text>
             </View>
         );
     }

@@ -16,13 +16,46 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: dumb component
+import MojiItemImage from './mojiItemImageComponent';
+
 class ReplyItem extends Component {
+    constructor(props) {
+        super(props);
+        this.renderItemHandler = this.renderItemHandler.bind(this);
+
+        // get from server later
+        this.maxNumber = 2;
+    }
+
+    componentDidMount() {
+        this.props.setReplyMojiMap(this.props.token, this.props.item.body, this.props.index);
+    }
+    
+    renderItemHandler(item, index) {
+        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
+            return <MojiItemImage
+            item={this.props.replyMojisMap.find(object => object.id == item.substring(3, item.length))}
+            navigation={this.props.navigation}/>;
+        }
+        else {
+            return <Text style={styles.text}>{item + ' '}</Text>;
+        }
+    }
+    
     render() {
+        if (!this.props.commentRepliesLoading[this.props.index]) {
         return (
             <View>
-              <Text
-                style={styles.text}>
-                {this.props.item.creator_username} - {this.props.item.body} - {this.props.item.created_at} - Likes: {this.props.item.like_count} Dislikes: {this.props.item.dislike_count}</Text>
+              <Text style={styles.text}>
+                {this.props.item.creator_username} - {this.props.item.created_at} - Likes: {this.props.item.like_count} Dislikes: {this.props.item.dislike_count}</Text>
+
+              <FlatList
+                data={this.props.item.body}
+                horizontal={true}
+                renderItem={({item, index}) => this.renderItemHandler(item, index)}
+                keyExtractor={(item, index) => index.toString()}/>
+
 
               <TouchableOpacity onPress={() => this.props.likeReply(
                     this.props.token,
@@ -47,6 +80,12 @@ class ReplyItem extends Component {
 
             </View>
         );
+        }
+        else {
+            return  (
+                <Text style={styles.h3}>Loading..</Text>
+            );
+        }
     }
 };
 
@@ -65,11 +104,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.commentReducer.replyBody);
+    console.log('replyItem', state.commentReducer.commentRepliesLoading);
     return {
-        replyBody: state.commentReducer.replyBody,
+        token: state.authReducer.token,
         commentID: state.navReducer.commentID,
-        token: state.authReducer.token
+        commentRepliesLoading: state.commentReducer.commentRepliesLoading,
+        replyMojisMap: state.commentReducer.replyMojisMap
     };
 }
 

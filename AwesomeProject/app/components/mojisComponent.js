@@ -81,7 +81,7 @@ class Mojis extends Component {
               </Text>
               
               <FlatList
-                data={this.props.mojis.data}
+                data={this.props.mojis}
                 renderItem={({item}) =>
                 <MojiItem item={item} navigation={this.props.navigation}/>}
                 keyExtractor={item => item.id.toString()}/>

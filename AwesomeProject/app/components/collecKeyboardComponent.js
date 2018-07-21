@@ -35,11 +35,11 @@ class CollecKeyboard extends Component {
             break;
         case 'Comment':
             this.props.addCommentMoji(' m/#' + item.id.toString() + ' ');
-            this.props.splitMessageBody();
+            this.props.splitCommentBody();
             break;
         case 'Reply':
             this.props.addReplyMoji(' m/#' + item.id.toString() + ' ');
-            this.props.splitMessageBody();
+            this.props.splitReplyBody();
             break;
         default:
             console.log('error: type not found');
@@ -51,7 +51,7 @@ class CollecKeyboard extends Component {
             <View>
               <FlatList
                 keyboardShouldPersistTaps='handled'
-                data={this.props.collec.data}
+                data={this.props.collec}
                 horizontal={true}
                 renderItem={({item}) =>
                             <TouchableOpacity

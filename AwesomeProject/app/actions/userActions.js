@@ -65,7 +65,7 @@ export const getFollowings = (login_cred, id) => dispatch => {
         .then(followings =>
               dispatch({
                   type: GET_FOLLOWINGS,
-                  payload: followings
+                  payload: followings.data
               })
              )
         .catch((error) => {
@@ -87,7 +87,7 @@ export const getFollowers = (login_cred, id) => dispatch => {
         .then(followers =>
               dispatch({
                   type: GET_FOLLOWERS,
-                  payload: followers
+                  payload: followers.data
               })
              )
         .catch((error) => {
@@ -107,7 +107,7 @@ export const getMessagable = (login_cred, id) => dispatch => {
         .then(messagable =>
               dispatch({
                   type: GET_MESSAGABLE,
-                  payload: messagable
+                  payload: messagable.data
               })
              )
         .catch((error) => {
@@ -173,7 +173,7 @@ export const getNotifs = (login_cred) => dispatch => {
         .then(notifs =>
               dispatch({
                   type: GET_NOTIFS,
-                  payload: notifs
+                  payload: notifs.data
               })
              )
         .catch((error) => {
@@ -211,7 +211,7 @@ export const getCollec = (login_cred) => dispatch => {
         .then(collec =>
               dispatch({
                   type: GET_COLLEC,
-                  payload: collec
+                  payload: collec.data
               })
              )
         .catch((error) => {
@@ -233,7 +233,7 @@ export const getPubMojis = (login_cred, id) => dispatch => {
         .then(pubMojis =>
               dispatch({
                   type: GET_PUB_MOJIS,
-                  payload: pubMojis
+                  payload: pubMojis.data
               })
              )
         .catch((error) => {
@@ -253,7 +253,7 @@ export const getPriMojis = (login_cred, id) => dispatch => {
         .then(priMojis =>
               dispatch({
                   type: GET_PRI_MOJIS,
-                  payload: priMojis
+                  payload: priMojis.data
               })
              )
         .catch((error) => {

@@ -30,11 +30,11 @@ class PriMojis extends Component {
     });
 
     componentWillMount() {
-        this.props.getPriMojis(this.props.token, this.props.authUser.data.id);
+        this.props.getPriMojis(this.props.token, this.props.authUser.id);
     }
 
     refresh = () => {
-        this.props.getPriMojis(this.props.token, this.props.authUser.data.id);
+        this.props.getPriMojis(this.props.token, this.props.authUser.id);
     }
 
     backHandler() {
@@ -50,12 +50,12 @@ class PriMojis extends Component {
                 </TouchableOpacity>
 
                 <FlatList
-                  data={this.props.priMojis.data}
+                  data={this.props.priMojis}
                   horizontal={true}
                   renderItem={({item}) =>
                               <Image style={{width: 20, height: 20}}
                                          source={{uri: 'http://167.99.162.15/mojiStorage/' +
-                                                  this.props.authUser.data.id + '/' +
+                                                  this.props.authUser.id + '/' +
                                      item.path}}/>}
                               keyExtractor={item => item.id.toString()}/>
               </View>

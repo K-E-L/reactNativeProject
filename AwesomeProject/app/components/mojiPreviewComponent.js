@@ -20,10 +20,11 @@ import * as Actions from '../actions/rootActions';
 // import: dumb component
 import MojiItemImage from './mojiItemImageComponent';
 
-class MojiInput extends Component {
+class MojiPreview extends Component {
     constructor(props) {
         super(props);
         this.renderItemHandler = this.renderItemHandler.bind(this);
+        this.dataHandler = this.dataHandler.bind(this);
 
         // get from server later
         this.maxNumber = 2;
@@ -32,7 +33,7 @@ class MojiInput extends Component {
     renderItemHandler(item) {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
             return <MojiItemImage
-            item={this.props.collec.data.find(object => object.id == item.substring(3, item.length))}
+            item={this.props.collec.find(object => object.id == item.substring(3, item.length))}
             navigation={this.props.navigation}/>;
         }
         else {
@@ -40,12 +41,26 @@ class MojiInput extends Component {
         }
     }
 
+    dataHandler() {
+        switch (this.props.mojiPreviewType) {
+        case 'Message':
+            return this.props.messageSplit;
+        case 'Comment':
+            return this.props.commentSplit;
+        case 'Reply':
+            return this.props.replySplit;
+        default:
+            console.log('error: type not found');
+            return null;
+        }
+    }
+
     render() {
-        return (
+         return (
             <View>
               <Text>Preview: </Text>
               <FlatList
-                data={this.props.messageSplit}
+                data={this.dataHandler()}
                 horizontal={true}
                 renderItem={({item, index}) => this.renderItemHandler(item)}
                 keyExtractor={(item, index) => index.toString()}/>
@@ -62,21 +77,17 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 15,
-    },
-    moji: {
-        paddingRight: 10,
-        width: 30,
-        height: 20
     }
-   
 });
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.convoReducer.messageBody);
+    // console.log('preview', state.navReducer.mojiPreviewType);
     return {
         messageSplit: state.convoReducer.messageSplit,
-        // messageMojisMap: state.convoReducer.messageMojisMap,
+        commentSplit: state.mojiReducer.commentSplit,
+        replySplit: state.commentReducer.replySplit,
+        mojiPreviewType: state.navReducer.mojiPreviewType,
         collec: state.userReducer.collec,
         token: state.authReducer.token
     };
@@ -88,4 +99,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(MojiInput);
+export default connect(mapStateToProps, mapDispatchToProps)(MojiPreview);

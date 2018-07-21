@@ -25,6 +25,9 @@ import CommentItem from './commentItemComponent';
 // import: keyboard component
 import CollecKeyboard from './collecKeyboardComponent';
 
+// import: moji input component
+import MojiPreview from './mojiPreviewComponent';
+
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
@@ -35,13 +38,15 @@ class Moji extends Component {
         this.backHandler = this.backHandler.bind(this);
         this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
         this.focusCommentHandler = this.focusCommentHandler.bind(this);
+        this.endEditingCommentHandler = this.endEditingCommentHandler.bind(this);
+        this.changeTextCommentHandler = this.changeTextCommentHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
         title: 'Moji', header: null
     });
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getMoji(this.props.token, this.props.mojiID);
         this.props.getMojiComments(this.props.token, this.props.mojiID);
     }
@@ -74,6 +79,18 @@ class Moji extends Component {
     focusCommentHandler() {
         this.props.toggleMojiKeyboard(true);
         this.props.setMojiKeyboardType('Comment');
+        this.props.toggleMojiPreview(true);
+        this.props.setMojiPreviewType('Comment');
+    }
+
+    endEditingCommentHandler() {
+        this.props.toggleMojiKeyboard(false);
+        this.props.toggleMojiPreview(false);
+    }
+
+    changeTextCommentHandler(text) {
+        this.props.setCommentBody(text);
+        this.props.splitCommentBody();
     }
 
     render() {
@@ -89,11 +106,11 @@ class Moji extends Component {
                   source={{uri: 'http://167.99.162.15/mojiStorage/' +
                            this.props.moji.data.creator_id + '/' +
                   this.props.moji.data.path}}/>
-                <Text style={styles.text}>Moji #: {this.props.moji.data.id}</Text>
+                <Text style={styles.text}>Moji #{this.props.moji.data.id}</Text>
                 <Text
                   style={styles.text}
                   onPress={() => this.pushNavUserHandler(this.props.moji.data.creator_id)}
-                  >{this.props.moji.data.creator_username}</Text>
+                  >By: {this.props.moji.data.creator_username}</Text>
                 <Text
                   style={styles.text}>Collecs: {this.props.moji.data.collec_count}</Text>
                 <Text
@@ -121,13 +138,15 @@ class Moji extends Component {
                   )}>
                   <Text style={styles.link}>Dislike</Text>
                 </TouchableOpacity>
+
+                {this.props.mojiPreview && <MojiPreview />}
                 
                 <TextInput
-                  onChangeText={(text) => this.props.setCommentBody(text)}
+                  onChangeText={(text) => this.changeTextCommentHandler(text)}
                   value={this.props.commentBody}
                   placeholder="Comment.."
                   onFocus={() => this.focusCommentHandler()}
-                  onEndEditing={() => this.props.toggleMojiKeyboard(false)}
+                  onEndEditing={() => this.endEditingCommentHandler()}
                   onSubmitEditing={() => this.props.comment(
                       this.props.token,
                       this.props.mojiID,
@@ -163,10 +182,13 @@ class Moji extends Component {
                   </TouchableOpacity>
 
                   <FlatList
-                    data={this.props.mojiComments.data}
-                    renderItem={({item}) =>
-                    <CommentItem item={item} navigation={this.props.navigation}/>}
-                    keyExtractor={item => item.id.toString()}/>
+                    data={this.props.mojiComments}
+                    renderItem={({item, index}) =>
+                                <CommentItem
+                                      item={item}
+                                      index={index}
+                                  navigation={this.props.navigation}/>}
+                                keyExtractor={(item, index) => index.toString()}/>
             </PTRView>
         );
     }
@@ -187,7 +209,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('moji', state.mojiReducer.moji);
+    // console.log('moji', state.mojiReducer.mojiComments);
     return {
         token: state.authReducer.token,
         moji: state.mojiReducer.moji,
@@ -196,6 +218,8 @@ function mapStateToProps(state, props) {
         reportBody: state.mojiReducer.reportBody,
         mojiID: state.navReducer.mojiID,
         mojiKeyboard: state.navReducer.mojiKeyboard,
+        mojiPreview: state.navReducer.mojiPreview,
+        commentSplit: state.convoReducer.commentSplit,
     };
 }
 

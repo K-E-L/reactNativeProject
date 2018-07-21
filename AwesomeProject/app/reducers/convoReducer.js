@@ -14,16 +14,10 @@ import {
 } from '../types';
 
 const initialState = {
-    convos: {
-        data: []
-    },
+    convos: [],
     convo: {},
-    convoMessages: {
-        data: []
-    },
-    convoUsers: {
-       data: []
-    },
+    convoMessages: [],
+    convoUsers: [],
     renameBody: '',
     messageBody: '',
     messageSplit: [],
@@ -46,14 +40,14 @@ function convoReducer (state = initialState, action) {
             renameBody: action.payload.name
         };
     case GET_CONVO_MESSAGES:
-        let temp1 = state.convoMessagesLoading;
-        for(let i = state.convoMessagesLoading.length; i < action.payload.data.length; i++) {
-            temp1.push(true);
+        let tempMessages = state.convoMessagesLoading;
+        for(let i = state.convoMessagesLoading.length; i < action.payload.length; i++) {
+            tempMessages.push(true);
         }
         return {
             ...state,
             convoMessages: action.payload,
-            convoMessagesLoading: temp1,
+            convoMessagesLoading: tempMessages
         };
     case GET_CONVO_USERS:
         return {
@@ -87,23 +81,23 @@ function convoReducer (state = initialState, action) {
         };
         
     case MESSAGE_LOADED:
-        let newArr = state.convoMessagesLoading;
-        newArr[action.payload] = false;
+        let tempLoading = state.convoMessagesLoading;
+        tempLoading[action.payload] = false;
         
         return {
             ...state,
-            convoMessagesLoading: newArr
+            convoMessagesLoading: tempLoading
         };
         
     case SET_MESSAGE_MOJIS_MAP:
-        let newArr1 = state.convoMessagesLoading;
-        newArr1[action.payload.index] = false;
+        let tempMessagesLoading = state.convoMessagesLoading;
+        tempMessagesLoading[action.payload.index] = false;
 
-        let newArr3 = state.messageMojisMap;
+        let tempMap = state.messageMojisMap;
         
         function exists(id) {
-            for (let j=0; j < newArr3.length; j++) {
-                if (newArr3[j].id === id) {
+            for (let j=0; j < tempMap.length; j++) {
+                if (tempMap[j].id === id) {
                     return true;
                 }
             }
@@ -112,14 +106,14 @@ function convoReducer (state = initialState, action) {
 
         for (let i=0; i < action.payload.mojis.length; i++) {
             if (exists(action.payload.mojis[i].id) === false) {
-                newArr3.push(action.payload.mojis[i]);
+                tempMap.push(action.payload.mojis[i]);
             }
         }
 
         return {
             ...state,
-            messageMojisMap: [...newArr3],
-            convoMessagesLoading: newArr1,
+            messageMojisMap: [...tempMap],
+            convoMessagesLoading: tempMessagesLoading,
         };
 
 

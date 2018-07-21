@@ -42,8 +42,8 @@ class Authuser extends Component {
 
     pushNavUserHandler(type) {
         if (this.props.userStack[this.props.userStack.length - 1] !==
-            this.props.authUser.data.id) {
-            this.props.pushNavUser(this.props.authUser.data.id);
+            this.props.authUser.id) {
+            this.props.pushNavUser(this.props.authUser.id);
         }
 
         switch (type) {
@@ -68,24 +68,24 @@ class Authuser extends Component {
         return (
             <PTRView onRefresh={this.refresh}>
               <View>
-                <Text style={styles.h3}>{this.props.authUser.data.name}</Text>
-                <Text style={styles.text}>Username: {this.props.authUser.data.username}</Text>
-                <Text style={styles.text}>Email: {this.props.authUser.email}</Text>
+                <Text style={styles.h3}>{this.props.authUser.name}</Text>
+                <Text style={styles.text}>Username: {this.props.authUser.username}</Text>
+                <Text style={styles.text}>Email: {this.props.authUserEmail}</Text>
 
                 <TouchableOpacity onPress={() => this.pushNavUserHandler('followings')}>
-                  <Text style={styles.link}>Followings: {this.props.authUser.data.followingsCount}</Text>
+                  <Text style={styles.link}>Followings: {this.props.authUser.followingsCount}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => this.pushNavUserHandler('followers')}>
-                  <Text style={styles.link}>Followers: {this.props.authUser.data.followersCount}</Text>
+                  <Text style={styles.link}>Followers: {this.props.authUser.followersCount}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => this.pushNavUserHandler('pubMojis')}>
-                  <Text style={styles.link}>Public Mojis: {this.props.authUser.data.pubMojisCount}</Text>
+                  <Text style={styles.link}>Public Mojis: {this.props.authUser.pubMojisCount}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => this.pushNavUserHandler('priMojis')}>
-                  <Text style={styles.link}>Private Mojis: {this.props.authUser.data.priMojisCount}</Text>
+                  <Text style={styles.link}>Private Mojis: {this.props.authUser.priMojisCount}</Text>
                 </TouchableOpacity>
                 
                 <Text style={styles.text}>Public Collection</Text>
@@ -95,7 +95,7 @@ class Authuser extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Notifs')}>
-                  <Text style={styles.link}>Notifs: {this.props.authUser.data.notifsCount}</Text>
+                  <Text style={styles.link}>Notifs: {this.props.authUser.notifsCount}</Text>
                 </TouchableOpacity>
 
               </View>
@@ -119,9 +119,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('auth', state.navReducer.userStack);
+    // console.log('auth', state.userReducer.authUser);
     return {
         authUser: state.userReducer.authUser,
+        authUserEmail: state.userReducer.authUserEmail,
         userStack: state.navReducer.userStack,
         token: state.authReducer.token
     };

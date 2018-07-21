@@ -62,7 +62,7 @@ class User extends Component {
         );
         
         this.props.FollowUnfollow(login_cred, user_id, type, auth_id);
-        this.props.navigation.navigate('Authuser');
+        // this.props.navigation.navigate('Authuser');
     }
 
     createConvoHandler(login_cred, id) {
@@ -82,6 +82,7 @@ class User extends Component {
         this.props.popNavUser();
         if (this.props.userStack.length !== 1) {
             this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
+            this.props.getFollowers(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
             this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
         }
         this.props.navigation.pop();
@@ -103,7 +104,7 @@ class User extends Component {
                     this.props.token,
                     this.props.user.data.id,
                     this.props.user.type,
-                    this.props.authUser.data.id
+                    this.props.authUser.id
                 )}>{this.props.user.type}</Text>
 
               <Text

@@ -49,7 +49,7 @@ class PubMojis extends Component {
                 </TouchableOpacity>
 
                 <FlatList
-                  data={this.props.pubMojis.data}
+                  data={this.props.pubMojis}
                   horizontal={true}
                   renderItem={({item}) =>
                   <MojiItemImage item={item} navigation={this.props.navigation}/>}

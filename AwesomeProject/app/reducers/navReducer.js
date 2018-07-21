@@ -9,8 +9,9 @@ import {
     SET_MESSAGE_MOJIS_STACK,
     SET_MOJI_ID,
     SET_MOJI_KEYBOARD_TYPE,
+    SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
-    TOGGLE_MOJI_INPUT,
+    TOGGLE_MOJI_PREVIEW,
     TOGGLE_MOJI_KEYBOARD
 } from '../types';
 
@@ -23,7 +24,9 @@ const initialState = {
     commentID: 0,
     mojiKeyboard: false,
     mojiKeyboardType: '',
-    mojiInput: false,
+    mojiPreview: false,
+    
+    mojiPreviewType: ''
 };
 
 function navReducer (state = initialState, action) {
@@ -73,10 +76,15 @@ function navReducer (state = initialState, action) {
             ...state,
             mojiKeyboardType: action.payload
         };
-    case TOGGLE_MOJI_INPUT:
+    case TOGGLE_MOJI_PREVIEW:
         return {
             ...state,
-            mojiInput: action.payload
+            mojiPreview: action.payload
+        };
+    case SET_MOJI_PREVIEW_TYPE:
+        return {
+            ...state,
+            mojiPreviewType: action.payload
         };
         
     default:

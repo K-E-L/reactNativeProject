@@ -12,33 +12,19 @@ import {
 } from '../types';
 
 const initialState = {
-    authUser: {
-        data: {}
-    },
+    authUser: {},
+    authUserEmail: '',
     user: {
-        data: {}
+        data: {},
+        type: ''
     },
-    followings: {
-        data: []
-    },
-    followers: {
-        data: []
-    },
-    messagable: {
-        data: []
-    },
-    notifs: {
-        data: []
-    },
-    collec: {
-        data: []
-    },
-    pubMojis: {
-        data: []
-    },
-    priMojis: {
-        data: []
-    }
+    followings: [],
+    followers: [],
+    messagable: [],
+    notifs: [],
+    collec: [],
+    pubMojis: [],
+    priMojis: []
 };
 
 function userReducer (state = initialState, action) {
@@ -46,7 +32,8 @@ function userReducer (state = initialState, action) {
     case GET_AUTH_USER:
         return {
             ...state,
-            authUser: action.payload
+            authUser: action.payload.data,
+            authUserEmail: action.payload.email
         };
     case GET_USER:        
         return {

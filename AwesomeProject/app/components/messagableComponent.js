@@ -53,7 +53,7 @@ class Messagable extends Component {
                 </TouchableOpacity>
 
                 <FlatList
-                  data={this.props.messagable.data}
+                  data={this.props.messagable}
                   renderItem={({item}) =>
                               <UserItem
                                     item={item}

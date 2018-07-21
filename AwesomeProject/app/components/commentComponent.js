@@ -25,6 +25,9 @@ import ReplyItem from './replyItemComponent';
 // import: keyboard component
 import CollecKeyboard from './collecKeyboardComponent';
 
+// import: moji input component
+import MojiPreview from './mojiPreviewComponent';
+
 class Comment extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +39,7 @@ class Comment extends Component {
         title: 'Comment Replies', header: null
     });
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getCommentReplies(this.props.token, this.props.commentID);
     }
 
@@ -51,6 +54,18 @@ class Comment extends Component {
     focusReplyHandler() {
         this.props.toggleMojiKeyboard(true);
         this.props.setMojiKeyboardType('Reply');
+        this.props.toggleMojiPreview(true);
+        this.props.setMojiPreviewType('Reply');
+    }
+
+    endEditingReplyHandler() {
+        this.props.toggleMojiKeyboard(false);
+        this.props.toggleMojiPreview(false);
+    }
+
+    changeTextReplyHandler(text) {
+        this.props.setReplyBody(text);
+        this.props.splitReplyBody();
     }
 
     render() {
@@ -61,20 +76,20 @@ class Comment extends Component {
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
-                <Text style={styles.h3}>Replies</Text>
+
+                {this.props.mojiPreview && <MojiPreview />}
+                
                 <TextInput
-                  onChangeText={(text) => this.props.setReplyBody(text)}
+                  onChangeText={(text) => this.changeTextReplyHandler(text)}
                   value={this.props.replyBody}
                   placeholder="Reply.."
                   onFocus={() => this.focusReplyHandler()}
-                  onEndEditing={() => this.props.toggleMojiKeyboard(false)}
+                  onEndEditing={() => this.endEditingReplyHandler()}
                   onSubmitEditing={() => this.props.reply(
                       this.props.token,
                       this.props.commentID,
                       this.props.replyBody
                   )}/>
-
-                  {this.props.mojiKeyboard && <CollecKeyboard />}
 
                 <TouchableOpacity onPress={() => this.props.reply(
                       this.props.token,
@@ -84,11 +99,16 @@ class Comment extends Component {
                   <Text style={styles.link}>Reply</Text>
                 </TouchableOpacity>
 
+                {this.props.mojiKeyboard && <CollecKeyboard />}
+                
                 <FlatList
-                  data={this.props.replies.data}
-                  renderItem={({item}) =>
-                  <ReplyItem item={item} commentID={this.props.commentID} navigation={this.props.navigation}/>}
-                  keyExtractor={item => item.id.toString()}/>
+                  data={this.props.replies}
+                  renderItem={({item, index}) =>
+                              <ReplyItem
+                                    item={item}
+                                    index={index}
+                                navigation={this.props.navigation}/>}
+                              keyExtractor={(item, index) => index.toString()}/>
               </View>
             </PTRView>
         );
@@ -110,12 +130,14 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.commentReducer.replyBody);
+    console.log(state.commentReducer.replyBody);
     return {
         replies: state.commentReducer.replies,
         replyBody: state.commentReducer.replyBody,
         commentID: state.navReducer.commentID,
         mojiKeyboard: state.navReducer.mojiKeyboard,
+        mojiPreview: state.navReducer.mojiPreview,
+        replySplit: state.commentReducer.replySplit,
         token: state.authReducer.token
     };
 }

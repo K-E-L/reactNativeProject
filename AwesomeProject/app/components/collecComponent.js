@@ -49,7 +49,7 @@ class Collec extends Component {
                 </TouchableOpacity>
 
                 <FlatList
-                  data={this.props.collec.data}
+                  data={this.props.collec}
                   horizontal={true}
                   renderItem={({item}) =>
                   <MojiItemImage item={item} navigation={this.props.navigation}/>}

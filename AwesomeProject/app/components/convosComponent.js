@@ -59,7 +59,7 @@ class Convos extends Component {
 
                 <FlatList
                   keyboardShouldPersistTaps='always'
-                  data={this.props.convos.data}
+                  data={this.props.convos}
                   renderItem={({item}) =>
                               <Text onPress={() => this.setConvoIdHandler(item.id)}
                               style={styles.h3}>{item.name}</Text>}

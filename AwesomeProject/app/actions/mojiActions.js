@@ -2,6 +2,7 @@
 import {
     ADD_COMMENT_MOJI,
     COMMENT,
+    COMMENT_LOADED,
     GET_FOLLOWING_MOJIS,
     GET_MOJI,
     GET_MOJI_COMMENTS,
@@ -9,7 +10,9 @@ import {
     GET_RECENT_MOJIS,
     REPORT,
     SET_COMMENT_BODY,
-    SET_REPORT_BODY
+    SET_COMMENT_MOJIS_MAP,
+    SET_REPORT_BODY,
+    SPLIT_COMMENT_BODY
 } from '../types';
 
 export const getPopularMojis = (login_cred) => dispatch => {
@@ -24,7 +27,7 @@ export const getPopularMojis = (login_cred) => dispatch => {
         .then(mojis =>
               dispatch({
                   type: GET_POPULAR_MOJIS,
-                  payload: mojis
+                  payload: mojis.data
               })
              )
         .catch((error) => {
@@ -44,7 +47,7 @@ export const getRecentMojis = (login_cred) => dispatch => {
         .then(mojis =>
               dispatch({
                   type: GET_RECENT_MOJIS,
-                  payload: mojis
+                  payload: mojis.data
               })
              )
         .catch((error) => {
@@ -64,7 +67,7 @@ export const getFollowingMojis = (login_cred) => dispatch => {
         .then(mojis =>
               dispatch({
                   type: GET_FOLLOWING_MOJIS,
-                  payload: mojis
+                  payload: mojis.data
               })
              )
         .catch((error) => {
@@ -106,7 +109,7 @@ export const getMojiComments = (login_cred, id) => dispatch => {
         .then(comments =>
               dispatch({
                   type: GET_MOJI_COMMENTS,
-                  payload: comments
+                  payload: comments.data
               })
              )
         .catch((error) => {
@@ -297,3 +300,50 @@ export const addCommentMoji = (text) => dispatch => {
     });
 };
 
+export const splitCommentBody = () => dispatch => {
+    dispatch({
+        type: SPLIT_COMMENT_BODY,
+        payload: null
+    });
+};
+
+export const setCommentMojiMap = (login_cred, body, index) => dispatch => {
+    const temp = body.filter(string => string.substring(0,3) === 'm/#');
+    if (!Array.isArray(temp) || !temp.length) {
+        dispatch({
+            type: COMMENT_LOADED,
+            payload: index
+        });
+        return null;
+    }
+    const temp1 = temp.map(string => string.replace('m/#', ''));
+    const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
+
+    return fetch('http://167.99.162.15/api/mojis/collection', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            arr: temp2
+        })
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: SET_COMMENT_MOJIS_MAP,
+                  payload: {index: index, mojis: mojis.data}
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const commentLoaded = (index) => dispatch => {
+    dispatch({
+        type: COMMENT_LOADED,
+        payload: index
+    });
+};
