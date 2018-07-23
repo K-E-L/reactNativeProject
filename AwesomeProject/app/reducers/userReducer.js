@@ -8,7 +8,8 @@ import {
     GET_NOTIFS,
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
-    GET_USER
+    GET_USER,
+    SEARCH_USER
 } from '../types';
 
 const initialState = {
@@ -24,7 +25,10 @@ const initialState = {
     notifs: [],
     collec: [],
     pubMojis: [],
-    priMojis: []
+    priMojis: [],
+    
+    userSearchBody: '',
+    searchUser: {}
 };
 
 function userReducer (state = initialState, action) {
@@ -75,7 +79,24 @@ function userReducer (state = initialState, action) {
             ...state,
             priMojis: action.payload
         };
-        
+    case SEARCH_USER:
+        // stopped here..
+        console.log('reducer', action.payload);
+        if (!Array.isArray(action.payload) || !action.payload.length) {
+            return {
+                ...state,
+                // userSearchBody: action.payload.data.username,
+                // searchUser: action.payload
+            };
+        }
+        else {
+            return {
+                ...state,
+                userSearchBody: action.payload.data.username,
+                searchUser: action.payload
+            };
+        }
+
     default:
         return state;
     }

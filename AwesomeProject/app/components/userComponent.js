@@ -16,10 +16,10 @@ import {
 } from 'react-native';
 
 import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
 } from 'react-native-popup-menu';
 
 // import: actions
@@ -44,7 +44,7 @@ class User extends Component {
         title: 'User', header: null
     });
     
-    componentWillMount() {
+    componentDidMount() {
         this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 

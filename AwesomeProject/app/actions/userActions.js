@@ -8,7 +8,8 @@ import {
     GET_NOTIFS,
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
-    GET_USER
+    GET_USER,
+    SEARCH_USER
 } from '../types';
 
 export const getAuthUser = (login_cred) => dispatch => {
@@ -259,4 +260,28 @@ export const getPriMojis = (login_cred, id) => dispatch => {
         .catch((error) => {
             console.error(error);
         });
+};
+
+export const searchUser = (login_cred, username) => dispatch => {
+    fetch('http://167.99.162.15/api/users/search', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username
+        })
+    }).then(res => res.json())
+        .then(user =>
+              dispatch({
+                  type: SEARCH_USER,
+                  payload: user
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+    
 };

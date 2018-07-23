@@ -1,18 +1,19 @@
-import Authuser from './authuserComponent';
+import AuthUser from './authuserComponent';
 import Collec from './collecComponent';
 import Comment from './commentComponent';
 import Convo from './convoComponent';
 import Convos from './convosComponent';
 import Followers from './followersComponent';
 import Followings from './followingsComponent';
-import Messagable from './messagableComponent';
 import Login from './loginComponent';
+import Messagable from './messagableComponent';
 import Moji from './mojiComponent';
 import MojiChoose from './mojiChooseComponent';
 import Mojis from './mojisComponent';
+import Notifs from './notifsComponent';
 import PriMojis from './priMojisComponent';
 import PubMojis from './pubMojisComponent';
-import Notifs from './notifsComponent';
+import SearchUser from './searchUserComponent';
 import User from './userComponent';
 
 // import: navigator
@@ -20,16 +21,17 @@ import { createStackNavigator, createBottomTabNavigator, TabView } from 'react-n
 
 // export: user navigator
 export const UserStackNavigator = createStackNavigator({
-    Authuser: { screen: Authuser },
+    AuthUser: { screen: AuthUser },
     User: { screen: User },
     Followings: { screen: Followings },
     Followers: { screen: Followers },
     Notifs: { screen: Notifs },
     Collec: { screen: Collec },
     PubMojis: { screen: PubMojis },
-    PriMojis: { screen: PriMojis }
+    PriMojis: { screen: PriMojis },
+    SearchUser: { screen: SearchUser }
 }, {
-    initialRouteName: 'Authuser',
+    initialRouteName: 'AuthUser',
     headerMode: 'screen'
 });
 

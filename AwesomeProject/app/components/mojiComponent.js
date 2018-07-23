@@ -68,8 +68,13 @@ class Moji extends Component {
     }
     
     backHandler() {
+        this.props.popNavMoji();
+        if (this.props.mojiStack.length !== 1) {
+            this.props.getMoji(this.props.token, this.props.mojiStack[this.props.mojiStack.length - 2]);
+            this.props.getMojiComments(this.props.token, this.props.mojiStack[this.props.mojiStack.length - 2]);
+        }
         this.props.navigation.pop();
-    }
+    }    
 
     pushNavUserHandler(itemID) {
         this.props.pushNavUser(itemID);
@@ -209,7 +214,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('moji', state.mojiReducer.mojiComments);
+    console.log('moji', state.navReducer.mojiStack);
     return {
         token: state.authReducer.token,
         moji: state.mojiReducer.moji,
@@ -220,6 +225,8 @@ function mapStateToProps(state, props) {
         mojiKeyboard: state.navReducer.mojiKeyboard,
         mojiPreview: state.navReducer.mojiPreview,
         commentSplit: state.convoReducer.commentSplit,
+        
+        mojiStack: state.navReducer.mojiStack,
     };
 }
 

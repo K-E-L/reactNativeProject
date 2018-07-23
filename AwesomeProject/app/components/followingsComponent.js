@@ -30,7 +30,7 @@ class Followings extends Component {
         title: 'Followings', header: null
     });
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
     }
 

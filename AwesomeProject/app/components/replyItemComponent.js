@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('replyItem', state.commentReducer.commentRepliesLoading);
+    // console.log('replyItem', state.commentReducer.commentRepliesLoading);
     return {
         token: state.authReducer.token,
         commentID: state.navReducer.commentID,

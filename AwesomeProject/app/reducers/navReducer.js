@@ -1,7 +1,9 @@
 // import: types
 import {
     GET_NAV_USER_STACK,
+    POP_NAV_MOJI,
     POP_NAV_USER,
+    PUSH_NAV_MOJI,
     PUSH_NAV_USER,
     SET_COMMENT_ID,
     SET_CONVO_ID,
@@ -17,6 +19,7 @@ import {
 
 const initialState = {
     userStack: [],
+    mojiStack: [],
     convoID: 0,
     convoType: '',
     mojiID: 0,
@@ -40,6 +43,16 @@ function navReducer (state = initialState, action) {
         return {
             ...state,
             userStack: state.userStack.slice(0, (state.userStack.length - 1))
+        };
+    case PUSH_NAV_MOJI:
+        return {
+            ...state,
+            mojiStack: [...state.mojiStack, action.payload]
+        };
+    case POP_NAV_MOJI:
+        return {
+            ...state,
+            mojiStack: state.mojiStack.slice(0, (state.mojiStack.length - 1))
         };
     case SET_CONVO_ID:
         return {

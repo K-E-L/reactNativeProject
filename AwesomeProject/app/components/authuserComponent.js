@@ -21,7 +21,7 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
-class Authuser extends Component {
+class AuthUser extends Component {
     constructor(props) {
         super(props);
         this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
@@ -98,6 +98,10 @@ class Authuser extends Component {
                   <Text style={styles.link}>Notifs: {this.props.authUser.notifsCount}</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('SearchUser')}>
+                  <Text style={styles.link}>Search User</Text>
+                </TouchableOpacity>
+
               </View>
             </PTRView>
         );
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('auth', state.userReducer.authUser);
+    // console.log('auth', state.navReducer.userStack);
     return {
         authUser: state.userReducer.authUser,
         authUserEmail: state.userReducer.authUserEmail,
@@ -134,4 +138,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Authuser);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthUser);

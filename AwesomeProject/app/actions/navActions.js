@@ -1,6 +1,8 @@
 import {
     GET_NAV_USER_STACK,
+    POP_NAV_MOJI,
     POP_NAV_USER,
+    PUSH_NAV_MOJI,
     PUSH_NAV_USER,
     SET_COMMENT_ID,
     SET_CONVO_ID,
@@ -24,6 +26,20 @@ export const pushNavUser = (id) => dispatch => {
 export const popNavUser = () => dispatch => {
     dispatch({
         type: POP_NAV_USER,
+        payload: 0
+    });
+};
+
+export const pushNavMoji = (id) => dispatch => {
+    dispatch({
+        type: PUSH_NAV_MOJI,
+        payload: id
+    });
+};
+
+export const popNavMoji = () => dispatch => {
+    dispatch({
+        type: POP_NAV_MOJI,
         payload: 0
     });
 };

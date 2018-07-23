@@ -24,6 +24,7 @@ class MojiItem extends Component {
     }
 
     setMojiIdHandler(id) {
+        this.props.pushNavMoji(id);
         this.props.setMojiID(id);
         this.props.navigation.navigate('Moji');
     }
