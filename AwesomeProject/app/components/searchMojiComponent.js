@@ -19,30 +19,31 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
-class SearchUser extends Component {
+class SearchMoji extends Component {
     constructor(props) {
         super(props);
         this.backHandler = this.backHandler.bind(this);
-        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
-        this.changeTextSearchUserHandler = this.changeTextSearchUserHandler.bind(this);
+        this.pushNavMojiHandler = this.pushNavMojiHandler.bind(this);
+        this.changeTextSearchMojiHandler = this.changeTextSearchMojiHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
-        title: 'SearchUser', header: null
+        title: 'SearchMoji', header: null
     });
 
     backHandler() {
         this.props.navigation.pop();
     }
 
-    pushNavUserHandler(id) {
-        this.props.pushNavUser(id);
-        this.props.navigation.push('User');
+    pushNavMojiHandler(id) {
+        this.props.pushNavMoji(id);
+        this.props.setMojiID(id);
+        this.props.navigation.push('Moji');
     }
 
-    changeTextSearchUserHandler(text, token) {
-        this.props.setUserSearchBody(text);
-        this.props.searchUser(token, text);
+    changeTextSearchMojiHandler(text, token) {
+        this.props.setMojiSearchBody(text);        
+        this.props.searchMoji(token, text);
     }
     
     render() {
@@ -53,20 +54,19 @@ class SearchUser extends Component {
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.h3}>Search User</Text>
+                <Text style={styles.h3}>Search Moji</Text>
                 
                 <TextInput
-                  onChangeText={(text) => this.changeTextSearchUserHandler(text, this.props.token)}
-                  value={this.props.userSearchBody}
-                  placeholder="Search by Username.."
-                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.userSearchBody)}
+                  onChangeText={(text) => this.changeTextSearchMojiHandler(text, this.props.token)}
+                  value={this.props.mojiSearchBody}
+                  placeholder="Search by Moji name.."
+                  onSubmitEditing={() => this.props.searchMoji(this.props.token, this.props.mojiSearchBody)}
                   />
 
-                  {this.props.searchUserLoaded && <Text onPress={() => this.pushNavUserHandler(this.props.userSearch.data.id)}
+                  {this.props.searchMojiLoaded && <Text onPress={() => this.pushNavMojiHandler(this.props.mojiSearch.data.id)}
                         style={styles.h3}>
-                        {this.props.userSearch.data.name}: {this.props.userSearch.data.username}
+                        {this.props.mojiSearch.data.name}: {this.props.mojiSearch.data.creator_username}
                   </Text>}
-                  
               </View>
             </PTRView>
         );            
@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('userSearch', state.userReducer.userSearch);
+    console.log('mojiSearch', state.mojiReducer.mojiSearch);
     return {
-        userSearchBody: state.userReducer.userSearchBody,
-        userSearch: state.userReducer.userSearch,
-        searchUserLoaded: state.userReducer.searchUserLoaded,
+        mojiSearchBody: state.mojiReducer.mojiSearchBody,
+        mojiSearch: state.mojiReducer.mojiSearch,
+        searchMojiLoaded: state.mojiReducer.searchMojiLoaded,
         token: state.authReducer.token,
     };
 }
@@ -103,4 +103,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(SearchUser);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchMoji);

@@ -59,6 +59,9 @@ class AuthUser extends Component {
         case 'priMojis':
             this.props.navigation.navigate('PriMojis');
             break;
+        case 'search':
+            this.props.navigation.navigate('SearchUser');
+            break;
         default:
             console.log('error: type not found');
         }
@@ -98,7 +101,7 @@ class AuthUser extends Component {
                   <Text style={styles.link}>Notifs: {this.props.authUser.notifsCount}</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('SearchUser')}>
+                <TouchableOpacity onPress={() => this.pushNavUserHandler('search')}>
                   <Text style={styles.link}>Search User</Text>
                 </TouchableOpacity>
 

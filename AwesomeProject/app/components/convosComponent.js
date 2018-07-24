@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.convoReducer);
+    // console.log(state.convoReducer.convos);
     return {
         convos: state.convoReducer.convos,
         authUser: state.userReducer.authUser,

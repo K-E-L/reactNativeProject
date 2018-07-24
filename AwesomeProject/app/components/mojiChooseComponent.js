@@ -46,6 +46,10 @@ class MojiChoose extends Component {
               <TouchableOpacity onPress={() => this.setMojiTypeHandler('Following')}>
                 <Text style={styles.link}>Recent Following</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('SearchMoji')}>
+                <Text style={styles.link}>Search Moji</Text>
+              </TouchableOpacity>
             </View>
         );
     }

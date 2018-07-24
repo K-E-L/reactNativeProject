@@ -9,9 +9,11 @@ import {
     GET_POPULAR_MOJIS,
     GET_RECENT_MOJIS,
     REPORT,
+    SEARCH_MOJI,
     SET_COMMENT_BODY,
-    SET_REPORT_BODY,
     SET_COMMENT_MOJIS_MAP,
+    SET_MOJI_SEARCH_BODY,
+    SET_REPORT_BODY,
     SPLIT_COMMENT_BODY
 } from '../types';
 
@@ -25,9 +27,15 @@ const initialState = {
     reportBody: '',
     commentBody: '',
     commentSplit: [],
-    
     mojiCommentsLoading: [],
-    commentMojisMap: []
+    commentMojisMap: [],
+    
+    mojiSearchBody: '',
+    mojiSearch: {
+        data: {},
+        type: ''
+    },
+    searchMojiLoaded: false
 };
 
 function mojiReducer (state = initialState, action) {
@@ -101,7 +109,6 @@ function mojiReducer (state = initialState, action) {
             ...state,
             mojiCommentsLoading: tempLoading
         };
-
     case SET_COMMENT_MOJIS_MAP:
         let tempCommentsLoading = state.mojiCommentsLoading;
         tempCommentsLoading[action.payload.index] = false;
@@ -128,6 +135,26 @@ function mojiReducer (state = initialState, action) {
             commentMojisMap: [...tempMap],
             mojiCommentsLoading: tempCommentsLoading,
         };
+        
+    case SET_MOJI_SEARCH_BODY:
+        return {
+            ...state,
+            mojiSearchBody: action.payload
+        };
+    case SEARCH_MOJI:
+        console.log('reducer', action.payload);
+        if (action.payload.error === 'Moji not found') {
+            return {
+                ...state
+            };
+        }
+        else {
+            return {
+                ...state,
+                mojiSearch: action.payload,
+                searchMojiLoaded: true
+            };
+        }
 
 
         

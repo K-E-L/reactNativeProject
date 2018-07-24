@@ -13,6 +13,7 @@ import Mojis from './mojisComponent';
 import Notifs from './notifsComponent';
 import PriMojis from './priMojisComponent';
 import PubMojis from './pubMojisComponent';
+import SearchMoji from './searchMojiComponent';
 import SearchUser from './searchUserComponent';
 import User from './userComponent';
 
@@ -55,7 +56,8 @@ export const MojiStackNavigator = createStackNavigator({
     // User: { screen: User },
     // Followings: { screen: Followings },
     // Followers: { screen: Followers },
-    Comment: { screen: Comment }
+    Comment: { screen: Comment },
+    SearchMoji: { screen: SearchMoji }
 }, {
     initialRouteName: 'MojiChoose',
 });

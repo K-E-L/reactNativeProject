@@ -9,8 +9,10 @@ import {
     GET_POPULAR_MOJIS,
     GET_RECENT_MOJIS,
     REPORT,
+    SEARCH_MOJI,
     SET_COMMENT_BODY,
     SET_COMMENT_MOJIS_MAP,
+    SET_MOJI_SEARCH_BODY,
     SET_REPORT_BODY,
     SPLIT_COMMENT_BODY
 } from '../types';
@@ -345,5 +347,36 @@ export const commentLoaded = (index) => dispatch => {
     dispatch({
         type: COMMENT_LOADED,
         payload: index
+    });
+};
+
+export const searchMoji = (login_cred, name) => dispatch => {
+    fetch('http://167.99.162.15/api/mojis/search', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: name
+        })
+    }).then(res => res.json())
+        .then(moji =>
+              dispatch({
+                  type: SEARCH_MOJI,
+                  payload: moji
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+    
+};
+
+export const setMojiSearchBody = (text) => dispatch => {
+    dispatch({
+        type: SET_MOJI_SEARCH_BODY,
+        payload: text
     });
 };

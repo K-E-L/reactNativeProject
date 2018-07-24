@@ -72,6 +72,7 @@ class Convo extends Component {
     }
 
     backHandler() {
+        this.props.getConvos(this.props.token);
         this.props.navigation.pop();
     }
 

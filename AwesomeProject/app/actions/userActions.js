@@ -9,7 +9,8 @@ import {
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
     GET_USER,
-    SEARCH_USER
+    SEARCH_USER,
+    SET_USER_SEARCH_BODY
 } from '../types';
 
 export const getAuthUser = (login_cred) => dispatch => {
@@ -285,3 +286,11 @@ export const searchUser = (login_cred, username) => dispatch => {
         });
     
 };
+
+export const setUserSearchBody = (text) => dispatch => {
+    dispatch({
+        type: SET_USER_SEARCH_BODY,
+        payload: text
+    });
+};
+

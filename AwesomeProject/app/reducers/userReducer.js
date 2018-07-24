@@ -9,7 +9,8 @@ import {
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
     GET_USER,
-    SEARCH_USER
+    SEARCH_USER,
+    SET_USER_SEARCH_BODY
 } from '../types';
 
 const initialState = {
@@ -28,7 +29,11 @@ const initialState = {
     priMojis: [],
     
     userSearchBody: '',
-    searchUser: {}
+    userSearch: {
+        data: {},
+        type: ''
+    },
+    searchUserLoaded: false
 };
 
 function userReducer (state = initialState, action) {
@@ -79,23 +84,32 @@ function userReducer (state = initialState, action) {
             ...state,
             priMojis: action.payload
         };
+    case SET_USER_SEARCH_BODY:
+        return {
+            ...state,
+            userSearchBody: action.payload
+        };
     case SEARCH_USER:
-        // stopped here..
         console.log('reducer', action.payload);
-        if (!Array.isArray(action.payload) || !action.payload.length) {
+        if (action.payload.error === 'User not found') {
             return {
-                ...state,
-                // userSearchBody: action.payload.data.username,
-                // searchUser: action.payload
+                ...state
             };
         }
+        // else if (action.payload.error === { username: [ 'The username field is required.' ] }) {
+        //     console.log('here');
+        //     return {
+        //         ...state
+        //     };
+        // }
         else {
             return {
                 ...state,
-                userSearchBody: action.payload.data.username,
-                searchUser: action.payload
+                userSearch: action.payload,
+                searchUserLoaded: true
             };
         }
+            
 
     default:
         return state;
