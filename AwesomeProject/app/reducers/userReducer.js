@@ -1,14 +1,17 @@
 // import: types
 import {
+    GET_ALL_NOTIFS,
     GET_AUTH_USER,
     GET_COLLEC,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
     GET_MESSAGABLE,
-    GET_NOTIFS,
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
     GET_USER,
+    GET_USER_NOTIFS,
+    GET_CONVO_NOTIFS,
+    GET_MOJI_NOTIFS,
     SEARCH_USER,
     SET_USER_SEARCH_BODY
 } from '../types';
@@ -23,7 +26,12 @@ const initialState = {
     followings: [],
     followers: [],
     messagable: [],
-    notifs: [],
+    
+    allNotifs: [],
+    userNotifs: [],
+    convoNotifs: [],
+    mojiNotifs: [],
+    
     collec: [],
     pubMojis: [],
     priMojis: [],
@@ -64,10 +72,25 @@ function userReducer (state = initialState, action) {
             ...state,
             messagable: action.payload
         };
-    case GET_NOTIFS:
+    case GET_ALL_NOTIFS:
         return {
             ...state,
-            notifs: action.payload
+            allNotifs: action.payload
+        };
+    case GET_USER_NOTIFS:
+        return {
+            ...state,
+            userNotifs: action.payload
+        };
+    case GET_CONVO_NOTIFS:
+        return {
+            ...state,
+            convoNotifs: action.payload
+        };
+    case GET_MOJI_NOTIFS:
+        return {
+            ...state,
+            mojiNotifs: action.payload
         };
     case GET_COLLEC:
         return {

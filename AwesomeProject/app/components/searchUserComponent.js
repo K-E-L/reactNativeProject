@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('userSearch', state.userReducer.userSearch);
+    // console.log('userSearch', state.userReducer.userSearch);
     return {
         userSearchBody: state.userReducer.userSearchBody,
         userSearch: state.userReducer.userSearch,

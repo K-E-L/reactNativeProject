@@ -1,6 +1,7 @@
 // import: types
 import {
     ADD_MESSAGE_MOJI,
+    CLEAR_LOADED,
     GET_CONVO,
     GET_CONVOS,
     GET_CONVO_MESSAGES,
@@ -31,7 +32,7 @@ function convoReducer (state = initialState, action) {
     case GET_CONVOS:
         return {
             ...state,
-            convos: action.payload
+            convos: action.payload,
         };
     case GET_CONVO:
         return {
@@ -44,10 +45,11 @@ function convoReducer (state = initialState, action) {
         for(let i = state.convoMessagesLoading.length; i < action.payload.length; i++) {
             tempMessages.push(true);
         }
+
         return {
             ...state,
             convoMessages: action.payload,
-            convoMessagesLoading: tempMessages
+            convoMessagesLoading: [...tempMessages]
         };
     case GET_CONVO_USERS:
         return {
@@ -86,9 +88,13 @@ function convoReducer (state = initialState, action) {
         
         return {
             ...state,
-            convoMessagesLoading: tempLoading
+            convoMessagesLoading: [...tempLoading]
         };
-        
+    case CLEAR_LOADED:
+        return {
+            ...state,
+            convoMessagesLoading: []
+        };
     case SET_MESSAGE_MOJIS_MAP:
         let tempMessagesLoading = state.convoMessagesLoading;
         tempMessagesLoading[action.payload.index] = false;

@@ -20,6 +20,9 @@ import * as Actions from '../actions/rootActions';
 // import: dumb component
 import MojiItemImage from './mojiItemImageComponent';
 
+// import: dumb component
+import WordItem from './wordItemComponent';
+
 class MessageItem extends Component {
     constructor(props) {
         super(props);
@@ -29,18 +32,20 @@ class MessageItem extends Component {
         this.maxNumber = 2;
     }
 
+    // stopped here.. rendering from the map but mojis aren't there..
     componentDidMount() {
         this.props.setMessageMojiMap(this.props.token, this.props.item.body, this.props.index);
     }
 
-    renderItemHandler(item, index) {
+    renderItemHandler(item) {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
             return <MojiItemImage
             item={this.props.messageMojisMap.find(object => object.id == item.substring(3, item.length))}
             navigation={this.props.navigation}/>;
         }
         else {
-            return <Text style={styles.text}>{item + ' '}</Text>;
+            // this.props.triggerStateChange();
+            return <WordItem word={item}/>;
         }
     }
 
@@ -55,7 +60,7 @@ class MessageItem extends Component {
               <FlatList
                 data={this.props.item.body}
                 horizontal={true}
-                renderItem={({item, index}) => this.renderItemHandler(item, index)}
+                renderItem={({item}) => this.renderItemHandler(item)}
                 keyExtractor={(item, index) => index.toString()}/>
                 
               <TouchableOpacity onPress={() => this.props.likeMessage(
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('messageItem', state.convoReducer.convoMessagesLoading);
+    console.log('messageItem', state.convoReducer.messageMojisMap);
     return {
         token: state.authReducer.token,
         convoID: state.navReducer.convoID,

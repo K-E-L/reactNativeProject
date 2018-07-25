@@ -7,6 +7,7 @@ import {
     PUSH_NAV_USER,
     SET_COMMENT_ID,
     SET_CONVO_ID,
+    SET_CONVO_NAME,
     SET_CONVO_TYPE,
     SET_MESSAGE_MOJIS_STACK,
     SET_MOJI_ID,
@@ -14,13 +15,15 @@ import {
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
     TOGGLE_MOJI_PREVIEW,
-    TOGGLE_MOJI_KEYBOARD
+    TOGGLE_MOJI_KEYBOARD,
+    TRIGGER_STATE_CHANGE
 } from '../types';
 
 const initialState = {
     userStack: [],
     mojiStack: [],
     convoID: 0,
+    convoName: '',
     convoType: '',
     mojiID: 0,
     mojiType: '',
@@ -28,8 +31,8 @@ const initialState = {
     mojiKeyboard: false,
     mojiKeyboardType: '',
     mojiPreview: false,
-    
-    mojiPreviewType: ''
+    mojiPreviewType: '',
+    stateChange: false
 };
 
 function navReducer (state = initialState, action) {
@@ -58,6 +61,11 @@ function navReducer (state = initialState, action) {
         return {
             ...state,
             convoID: action.payload
+        };
+    case SET_CONVO_NAME:
+        return {
+            ...state,
+            convoName: action.payload
         };
     case SET_CONVO_TYPE:
         return {
@@ -99,7 +107,19 @@ function navReducer (state = initialState, action) {
             ...state,
             mojiPreviewType: action.payload
         };
-        
+    case TRIGGER_STATE_CHANGE:
+        if (state.stateChange === false) {
+            return {
+                ...state,
+                stateChange: true
+            };
+        }
+        else {
+            return {
+                ...state,
+                stateChange: false
+            };
+        }
     default:
         return state;
     }

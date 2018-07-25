@@ -32,12 +32,18 @@ class Notifs extends Component {
         title: 'Notifs', header: null
     });
 
-    componentWillMount() {
-        this.props.getNotifs(this.props.token);
+    componentDidMount() {
+        this.props.getUserNotifs(this.props.token);
+        this.props.getConvoNotifs(this.props.token);
+        this.props.getMojiNotifs(this.props.token);
+        this.props.getAllNotifs(this.props.token);
     }
 
     refresh = () => {
-        this.props.getNotifs(this.props.token);
+        this.props.getUserNotifs(this.props.token);
+        this.props.getConvoNotifs(this.props.token);
+        this.props.getMojiNotifs(this.props.token);
+        this.props.getAllNotifs(this.props.token);
     }
 
     backHandler() {
@@ -52,12 +58,34 @@ class Notifs extends Component {
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.h3}>Notifs</Text>
+                <Text style={styles.h3}>User Notifs</Text>
               <FlatList
-                data={this.props.notifs}
+                data={this.props.userNotifs}
                 renderItem={({item}) =>
                 <NotifItem item={item}/>}
                 keyExtractor={item => item.id.toString()}/>
+
+                <Text style={styles.h3}>Convo Notifs</Text>
+              <FlatList
+                data={this.props.convoNotifs}
+                renderItem={({item}) =>
+                <NotifItem item={item}/>}
+                keyExtractor={item => item.id.toString()}/>
+
+                <Text style={styles.h3}>Moji Notifs</Text>
+              <FlatList
+                data={this.props.mojiNotifs}
+                renderItem={({item}) =>
+                <NotifItem item={item}/>}
+                keyExtractor={item => item.id.toString()}/>
+
+                <Text style={styles.h3}>Read Notifs</Text>
+              <FlatList
+                data={this.props.allNotifs}
+                renderItem={({item}) =>
+                <NotifItem item={item}/>}
+                keyExtractor={item => item.id.toString()}/>
+
 
             </View>
             </PTRView>
@@ -76,8 +104,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
+    // console.log('notifs', state.userReducer.convoNotifs);
     return {
-        notifs: state.userReducer.notifs,
+        userNotifs: state.userReducer.userNotifs,
+        convoNotifs: state.userReducer.convoNotifs,
+        mojiNotifs: state.userReducer.mojiNotifs,
+        allNotifs: state.userReducer.allNotifs,
         token: state.authReducer.token,
     };
 }

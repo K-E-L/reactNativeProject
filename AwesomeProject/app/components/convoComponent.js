@@ -41,6 +41,7 @@ class Convo extends Component {
         this.focusMessageHandler = this.focusMessageHandler.bind(this);
         this.endEditingMessageHandler = this.endEditingMessageHandler.bind(this);
         this.changeTextMessageHandler = this.changeTextMessageHandler.bind(this);
+        this.searchAndDestroy = this.searchAndDestroy.bind(this);
     }    
 
     static navigationOptions = ({ navigation }) => ({
@@ -51,11 +52,21 @@ class Convo extends Component {
         this.props.getConvo(this.props.token, this.props.convoID);
         this.props.getConvoMessages(this.props.token, this.props.convoID);
         this.props.getConvoUsers(this.props.token, this.props.convoID);
+        this.searchAndDestroy(this.props.token, this.props.convoName);
     }
     refresh = () => {
         this.props.getConvo(this.props.token, this.props.convoID);
         this.props.getConvoMessages(this.props.token, this.props.convoID);
         this.props.getConvoUsers(this.props.token, this.props.convoID);
+        this.searchAndDestroy(this.props.token, this.props.convoName);
+    }
+
+    searchAndDestroy(token, name) {
+        let obj = this.props.convoNotifs.find(function (obj) { return (obj.spec_type === name && obj.read === 0); });
+
+        if (typeof obj !== "undefined") {
+            this.props.destroyNotif(token, obj.id);
+        }
     }
 
     destroyConvoHandler(login_cred, id) {
@@ -73,6 +84,7 @@ class Convo extends Component {
 
     backHandler() {
         this.props.getConvos(this.props.token);
+        this.props.clearLoaded();
         this.props.navigation.pop();
     }
 
@@ -219,10 +231,14 @@ function mapStateToProps(state, props) {
         messageBody: state.convoReducer.messageBody,
         authUser: state.userReducer.authUser,
         convoID: state.navReducer.convoID,
+        convoName: state.navReducer.convoName,
         userStack: state.navReducer.userStack,
         mojiKeyboard: state.navReducer.mojiKeyboard,
         mojiPreview: state.navReducer.mojiPreview,
         messageSplit: state.convoReducer.messageSplit,
+
+        convoNotifs: state.userReducer.convoNotifs,
+        
         token: state.authReducer.token
     };
 }

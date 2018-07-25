@@ -1,14 +1,17 @@
 // import: types
 import {
+    GET_ALL_NOTIFS,
     GET_AUTH_USER,
     GET_COLLEC,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
     GET_MESSAGABLE,
-    GET_NOTIFS,
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
     GET_USER,
+    GET_USER_NOTIFS,
+    GET_CONVO_NOTIFS,
+    GET_MOJI_NOTIFS,
     SEARCH_USER,
     SET_USER_SEARCH_BODY
 } from '../types';
@@ -131,6 +134,7 @@ export const FollowUnfollow = (login_cred, user_id, userType, auth_id) => dispat
                 id: user_id
             })
         }).then(res => res.json())
+            .then(res => console.log('action', res))
             .then(() => {dispatch(getFollowings(login_cred, auth_id));})
             .then(() => {dispatch(getAuthUser(login_cred));})
             .catch((error) => {
@@ -163,7 +167,7 @@ export const FollowUnfollow = (login_cred, user_id, userType, auth_id) => dispat
     }
 };
 
-export const getNotifs = (login_cred) => dispatch => {
+export const getAllNotifs = (login_cred) => dispatch => {
     return fetch('http://167.99.162.15/api/users/auth/notifs', {
               method: 'POST',
               headers: {
@@ -174,7 +178,67 @@ export const getNotifs = (login_cred) => dispatch => {
     }).then(res => res.json())
         .then(notifs =>
               dispatch({
-                  type: GET_NOTIFS,
+                  type: GET_ALL_NOTIFS,
+                  payload: notifs.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getUserNotifs = (login_cred) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/auth/userNotifs', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+    }).then(res => res.json())
+        .then(notifs =>
+              dispatch({
+                  type: GET_USER_NOTIFS,
+                  payload: notifs.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getConvoNotifs = (login_cred) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/auth/convoNotifs', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+    }).then(res => res.json())
+        .then(notifs =>
+              dispatch({
+                  type: GET_CONVO_NOTIFS,
+                  payload: notifs.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getMojiNotifs = (login_cred) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/auth/mojiNotifs', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+    }).then(res => res.json())
+        .then(notifs =>
+              dispatch({
+                  type: GET_MOJI_NOTIFS,
                   payload: notifs.data
               })
              )
@@ -195,7 +259,10 @@ export const destroyNotif = (login_cred, id) => dispatch => {
             id: id
         })
     }).then(res => res.json())
-        .then(() => {dispatch(getNotifs(login_cred));})
+        .then(() => {dispatch(getAllNotifs(login_cred));})
+        .then(() => {dispatch(getUserNotifs(login_cred));})
+        .then(() => {dispatch(getConvoNotifs(login_cred));})
+        .then(() => {dispatch(getMojiNotifs(login_cred));})
         .catch((error) => {
             console.error(error);
         });

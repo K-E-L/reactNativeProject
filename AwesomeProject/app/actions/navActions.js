@@ -6,6 +6,7 @@ import {
     PUSH_NAV_USER,
     SET_COMMENT_ID,
     SET_CONVO_ID,
+    SET_CONVO_NAME,
     SET_CONVO_TYPE,
     SET_MESSAGE_MOJIS_ARRAY,
     SET_MOJI_ID,
@@ -13,7 +14,8 @@ import {
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
     TOGGLE_MOJI_PREVIEW,
-    TOGGLE_MOJI_KEYBOARD
+    TOGGLE_MOJI_KEYBOARD,
+    TRIGGER_STATE_CHANGE,
 } from '../types';
 
 export const pushNavUser = (id) => dispatch => {
@@ -55,6 +57,13 @@ export const setConvoID = (id) => dispatch => {
     dispatch({
         type: SET_CONVO_ID,
         payload: id
+    });
+};
+
+export const setConvoName = (name) => dispatch => {
+    dispatch({
+        type: SET_CONVO_NAME,
+        payload: name
     });
 };
 
@@ -111,5 +120,12 @@ export const setMojiPreviewType = (type) => dispatch => {
     dispatch({
         type: SET_MOJI_PREVIEW_TYPE,
         payload: type
+    });
+};
+
+export const triggerStateChange = () => dispatch => {
+    dispatch({
+        type: TRIGGER_STATE_CHANGE,
+        payload: null
     });
 };

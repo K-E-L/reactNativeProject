@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('mojiSearch', state.mojiReducer.mojiSearch);
+    // console.log('mojiSearch', state.mojiReducer.mojiSearch);
     return {
         mojiSearchBody: state.mojiReducer.mojiSearchBody,
         mojiSearch: state.mojiReducer.mojiSearch,

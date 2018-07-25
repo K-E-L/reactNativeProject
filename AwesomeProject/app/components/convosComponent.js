@@ -19,10 +19,12 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
+// import: dumb components
+import ConvoItem from'./convoItemComponent';
+
 class Convos extends Component {
     constructor(props) {
         super(props);
-        this.setConvoIdHandler = this.setConvoIdHandler.bind(this);
         this.setConvoTypeHandler = this.setConvoTypeHandler.bind(this);
     }
 
@@ -30,17 +32,14 @@ class Convos extends Component {
         title: 'Convos', header: null
     });
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getConvos(this.props.token);
+        this.props.getConvoNotifs(this.props.token);
     }
 
     refresh = () => {
         this.props.getConvos(this.props.token);
-    }
-
-    setConvoIdHandler(id) {
-        this.props.setConvoID(id);
-        this.props.navigation.navigate('Convo');
+        this.props.getConvoNotifs(this.props.token);
     }
 
     setConvoTypeHandler(type) {
@@ -61,11 +60,10 @@ class Convos extends Component {
                   keyboardShouldPersistTaps='always'
                   data={this.props.convos}
                   renderItem={({item}) =>
-                              <Text onPress={() => this.setConvoIdHandler(item.id)}
-                              style={styles.h3}>{item.name}</Text>}
-                              keyExtractor={item => item.id.toString()}/>
-
-
+                              <ConvoItem
+                                    item={item}
+                                navigation={this.props.navigation}/>}
+                              keyExtractor={(item, index) => index.toString()}/>
 
               </View>
             </PTRView>
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.convoReducer.convos);
+    console.log('convos', state.convoReducer.convoMessagesLoading);
     return {
         convos: state.convoReducer.convos,
         authUser: state.userReducer.authUser,
