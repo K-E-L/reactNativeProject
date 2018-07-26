@@ -5,6 +5,7 @@ import Convo from './convoComponent';
 import Convos from './convosComponent';
 import Followers from './followersComponent';
 import Followings from './followingsComponent';
+import Images from './imagesComponent';
 import Login from './loginComponent';
 import Messagable from './messagableComponent';
 import Moji from './mojiComponent';
@@ -57,7 +58,8 @@ export const MojiStackNavigator = createStackNavigator({
     // Followings: { screen: Followings },
     // Followers: { screen: Followers },
     Comment: { screen: Comment },
-    SearchMoji: { screen: SearchMoji }
+    SearchMoji: { screen: SearchMoji },
+    Images: { screen: Images }
 }, {
     initialRouteName: 'MojiChoose',
 });

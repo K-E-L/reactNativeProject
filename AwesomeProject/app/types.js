@@ -46,6 +46,7 @@ export const SET_CONVO_ID = 'SET_CONVO_ID';
 export const SET_CONVO_NAME = 'SET_CONVO_NAME';
 export const SET_CONVO_TYPE = 'SET_CONVO_TYPE';
 export const SET_EMAIL = 'SET_EMAIL';
+export const SET_IMAGES = 'SET_IMAGES';
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
 export const SET_MESSAGE_BODY = 'SET_MESSAGE_BODY';
 export const SET_MESSAGE_MOJIS_MAP = 'SET_MESSAGE_MOJIS_MAP';

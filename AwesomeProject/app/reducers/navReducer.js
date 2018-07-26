@@ -14,6 +14,7 @@ import {
     SET_MOJI_KEYBOARD_TYPE,
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
+    SET_IMAGES,
     TOGGLE_MOJI_PREVIEW,
     TOGGLE_MOJI_KEYBOARD,
     TRIGGER_STATE_CHANGE
@@ -32,7 +33,9 @@ const initialState = {
     mojiKeyboardType: '',
     mojiPreview: false,
     mojiPreviewType: '',
-    stateChange: false
+    stateChange: false,
+    
+    images: []
 };
 
 function navReducer (state = initialState, action) {
@@ -120,6 +123,12 @@ function navReducer (state = initialState, action) {
                 stateChange: false
             };
         }
+    case SET_IMAGES:
+        return {
+            ...state,
+            images: action.payload
+        };
+        
     default:
         return state;
     }

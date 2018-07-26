@@ -13,6 +13,7 @@ import {
     SET_MOJI_KEYBOARD_TYPE,
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
+    SET_IMAGES,
     TOGGLE_MOJI_PREVIEW,
     TOGGLE_MOJI_KEYBOARD,
     TRIGGER_STATE_CHANGE,
@@ -127,5 +128,12 @@ export const triggerStateChange = () => dispatch => {
     dispatch({
         type: TRIGGER_STATE_CHANGE,
         payload: null
+    });
+};
+
+export const setImages = (image) => dispatch => {
+    dispatch({
+        type: SET_IMAGES,
+        payload: image
     });
 };

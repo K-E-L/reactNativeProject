@@ -380,3 +380,29 @@ export const setMojiSearchBody = (text) => dispatch => {
         payload: text
     });
 };
+
+export const upload = (login_cred, file) => dispatch => {
+    console.log('file', file);
+    fetch('http://167.99.162.15/api/mojis/create', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+            // 'Content-Type': 'application/json',
+        },
+        // body: JSON.stringify({file: file})
+        body: file
+    }).then(res => res.json())
+        .then(res => console.log('action', res))
+        // .then(comment =>
+        //       dispatch({
+        //           type: COMMENT,
+        //           payload: comment
+        //       })
+        //      )
+        // .then(() => {dispatch(getMojiComments(login_cred, id));})
+        .catch((error) => {
+            console.error(error);
+        });
+};

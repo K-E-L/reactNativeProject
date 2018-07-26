@@ -54,6 +54,7 @@ class Convo extends Component {
         this.props.getConvoUsers(this.props.token, this.props.convoID);
         this.searchAndDestroy(this.props.token, this.props.convoName);
     }
+    
     refresh = () => {
         this.props.getConvo(this.props.token, this.props.convoID);
         this.props.getConvoMessages(this.props.token, this.props.convoID);

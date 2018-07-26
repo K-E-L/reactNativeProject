@@ -4,13 +4,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
     Button,
+    CameraRoll,
     Dimensions,
     FlatList,
+    Image,
     ListItem,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
+    ScrollView,
     View
 } from 'react-native';
 
@@ -19,7 +22,7 @@ import * as Actions from '../actions/rootActions';
 
 // const ScreenHeight = Dimensions.get("window").height;
 
-class MojiChoose extends Component {
+class MojiChoose extends Component {    
     constructor(props) {
         super(props);
         this.setMojiTypeHandler = this.setMojiTypeHandler.bind(this);
@@ -50,6 +53,11 @@ class MojiChoose extends Component {
               <TouchableOpacity onPress={() => this.props.navigation.navigate('SearchMoji')}>
                 <Text style={styles.link}>Search Moji</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Images')}>
+                <Text style={styles.link}>Load Images</Text>
+              </TouchableOpacity>
+              
             </View>
         );
     }
