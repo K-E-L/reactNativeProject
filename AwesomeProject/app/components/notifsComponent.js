@@ -62,30 +62,40 @@ class Notifs extends Component {
               <FlatList
                 data={this.props.user_notifs}
                 renderItem={({item}) =>
-                <NotifItem item={item}/>}
+                            <NotifItem
+                                  item={item}
+                                  type='users'
+                                  navigation={this.props.navigation}/>}
                 keyExtractor={item => item.id.toString()}/>
 
                 <Text style={styles.h3}>Convo Notifs</Text>
               <FlatList
                 data={this.props.convo_notifs}
                 renderItem={({item}) =>
-                <NotifItem item={item}/>}
+                            <NotifItem
+                                  item={item}
+                                  type='convos'
+                              navigation={this.props.navigation}/>}
                 keyExtractor={item => item.id.toString()}/>
 
                 <Text style={styles.h3}>Moji Notifs</Text>
               <FlatList
                 data={this.props.moji_notifs}
                 renderItem={({item}) =>
-                <NotifItem item={item}/>}
+                            <NotifItem
+                                  item={item}
+                                  type='mojis'
+                              navigation={this.props.navigation}/>}
                 keyExtractor={item => item.id.toString()}/>
 
                 <Text style={styles.h3}>Read Notifs</Text>
               <FlatList
                 data={this.props.all_notifs}
                 renderItem={({item}) =>
-                <Text style={styles.text}
-                    onPress={() => this.props.navigation.navigate('Convos')}>
-                {item.body}: {item.created_at}</Text>}
+                            <NotifItem
+                                  item={item}
+                                  type='all'
+                              navigation={this.props.navigation}/>}
                 keyExtractor={item => item.id.toString()}/>
 
 
@@ -106,7 +116,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('notifs', state.userReducer.convo_notifs);
+    console.log('notifs', state.userReducer.user_notifs);
     return {
         user_notifs: state.userReducer.user_notifs,
         convo_notifs: state.userReducer.convo_notifs,

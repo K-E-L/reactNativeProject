@@ -38,6 +38,7 @@ class User extends Component {
         this.followUnfollowHandler = this.followUnfollowHandler.bind(this);
         this.createConvoHandler = this.createConvoHandler.bind(this);
         this.backHandler = this.backHandler.bind(this);
+        this.searchAndDestroy = this.searchAndDestroy.bind(this);
     }
     
     static navigationOptions = ({ navigation }) => ({
@@ -46,12 +47,16 @@ class User extends Component {
     
     componentDidMount() {
         this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
-        this.props.getUserNotifs(this.props.token);
+        // this.props.getUserNotifs(this.props.token);
+        
+        this.searchAndDestroy(this.props.token, this.props.user_name);
     }
 
     refresh = () => {
         this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
-        this.props.getUserNotifs(this.props.token);
+        // this.props.getUserNotifs(this.props.token);
+        
+        this.searchAndDestroy(this.props.token, this.props.user_name);
     }
 
     followUnfollowHandler(login_cred, user_id, type, auth_id) {
@@ -67,12 +72,12 @@ class User extends Component {
         // this.props.navigation.navigate('Authuser');
     }
 
-    // searchAndDestroy(token, name) {
-    //     let obj = this.props.user_notifs.find(function (obj) { return (obj.spec_type === name && obj.read === 0); });
-    //     if (typeof obj !== "undefined") {
-    //         this.props.destroyNotif(token, obj.id);
-    //     }
-    // }
+    searchAndDestroy(token, name) {
+        let obj = this.props.user_notifs.find(function (obj) { return (obj.spec_name === name && obj.read === 0); });
+        if (typeof obj !== "undefined") {
+            this.props.destroyNotif(token, obj.id);
+        }
+    }
 
     createConvoHandler(login_cred, id) {
         // alert
@@ -182,9 +187,10 @@ function mapStateToProps(state, props) {
     return {
         user: state.userReducer.user,
         auth_user: state.userReducer.auth_user,
-        convo_notifs: state.userReducer.user_notifs,
+        user_notifs: state.userReducer.user_notifs,
         
         user_stack: state.navReducer.user_stack,
+        user_name: state.navReducer.user_name,
         
         token: state.authReducer.token,
     };

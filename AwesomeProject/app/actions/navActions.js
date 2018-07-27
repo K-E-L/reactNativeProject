@@ -16,6 +16,7 @@ import {
     SET_MOJI_KEYBOARD_TYPE,
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
+    SET_USER_NAME,
     TOGGLE_MOJI_PREVIEW,
     TOGGLE_IMAGE_PRIVATE,
     TOGGLE_MOJI_KEYBOARD,
@@ -159,5 +160,12 @@ export const toggleImagePrivate = () => dispatch => {
     dispatch({
         type: TOGGLE_IMAGE_PRIVATE,
         payload: null
+    });
+};
+
+export const setUserName = (name) => dispatch => {
+    dispatch({
+        type: SET_USER_NAME,
+        payload: name
     });
 };

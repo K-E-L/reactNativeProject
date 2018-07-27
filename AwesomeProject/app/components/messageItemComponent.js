@@ -23,6 +23,9 @@ import MojiItemImage from './mojiItemImageComponent';
 // import: dumb component
 import WordItem from './wordItemComponent';
 
+// import: dumb component
+import UserItem from './userItemComponent';
+
 class MessageItem extends Component {
     constructor(props) {
         super(props);
@@ -53,8 +56,14 @@ class MessageItem extends Component {
         if (!this.props.convo_messages_loading[this.props.index]) {
         return (
             <View>
+              <UserItem
+                id={this.props.item.creator_id}
+                name={this.props.item.creator_name}
+                type={'smallName'}
+                navigation={this.props.navigation}/>
+
               <Text style={styles.text}>
-                {this.props.item.creator_name}: {this.props.item.created_at}: Likes {this.props.item.like_count}
+                {this.props.item.created_at}: Likes {this.props.item.like_count}
               </Text>
 
               <FlatList

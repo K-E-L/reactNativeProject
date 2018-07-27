@@ -20,19 +20,61 @@ import * as Actions from '../actions/rootActions';
 import PTRView from 'react-native-pull-to-refresh';
 
 class NotifItem extends Component {
-    render() {
-        return (
-            <View>
-              <Text style={styles.text}
-                    onPress={() => this.props.navigation.navigate('Convos')}>
-                {this.props.item.body}: {this.props.item.created_at}</Text>
-              
-                <TouchableOpacity onPress={() => this.props.destroyNotif(this.props.token, this.props.item.id)}>
-                  <Text style={styles.link}>Read</Text>
-                </TouchableOpacity>
+    constructor(props) {
+        super(props);
+        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
+    }
 
-            </View>
-        );
+    pushNavUserHandler(id, name) {
+        this.props.pushNavUser(id);
+        this.props.setUserName(name);
+        this.props.navigation.push('User');
+    }
+
+    // setConvoHandler(id, name) {
+    //     this.props.setConvoID(id);
+    //     this.props.setConvoName(name);
+    //     this.props.navigation.push('Convo');
+    // }
+
+    render() {
+        if (this.props.type === 'users') {
+            return (
+                <View>
+                  <Text style={styles.text}
+                        onPress={() => this.pushNavUserHandler(this.props.item.spec_id, this.props.item.spec_name)}>
+                    {this.props.item.body}: {this.props.item.created_at}</Text>
+                  
+                  <TouchableOpacity onPress={() => this.props.destroyNotif(this.props.token, this.props.item.id)}>
+                    <Text style={styles.link}>Read</Text>
+                  </TouchableOpacity>
+
+                </View>
+            );
+        }
+        if (this.props.type === 'convos') {
+            return (
+                <View>
+                  <Text style={styles.text}
+                        onPress={() => this.props.navigation.navigate('Convos')}>
+                    {this.props.item.body}: {this.props.item.created_at}</Text>
+                  
+                  <TouchableOpacity onPress={() => this.props.destroyNotif(this.props.token, this.props.item.id)}>
+                    <Text style={styles.link}>Read</Text>
+                  </TouchableOpacity>
+
+                </View>
+            );
+        }
+        else {
+            return (
+                <View>
+                  <Text style={styles.text}
+                        onPress={() => this.props.navigation.navigate('Convos')}>
+                    {this.props.item.body}: {this.props.item.created_at}</Text>
+                </View>
+            );
+        }
     }
 };
 

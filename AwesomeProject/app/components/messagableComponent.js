@@ -20,7 +20,7 @@ import * as Actions from '../actions/rootActions';
 import PTRView from 'react-native-pull-to-refresh';
 
 // import: dumb component
-import UserItem from './userItemComponent';
+import MessagableItem from './messagableItemComponent';
 
 class Messagable extends Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class Messagable extends Component {
         title: 'Messagable', header: null
     });
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getMessagable(this.props.token, this.props.auth_user.id);
     }
 
@@ -55,7 +55,7 @@ class Messagable extends Component {
                 <FlatList
                   data={this.props.messagable}
                   renderItem={({item}) =>
-                              <UserItem
+                              <MessagableItem
                                     item={item}
                                 navigation={this.props.navigation}/>}
                               keyExtractor={item => item.id.toString()}/>

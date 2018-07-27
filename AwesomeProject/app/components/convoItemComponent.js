@@ -27,11 +27,11 @@ class ConvoItem extends Component {
     setConvoHandler(id, name) {
         this.props.setConvoID(id);
         this.props.setConvoName(name);
-        this.props.navigation.navigate('Convo');
+        this.props.navigation.push('Convo');
     }
 
     searchConvoNotifs(name) {
-        let obj = this.props.convo_notifs.find(function (obj) { return (obj.spec_type === name && obj.read === 0); });
+        let obj = this.props.convo_notifs.find(function (obj) { return (obj.spec_name === name && obj.read === 0); });
 
         if (typeof obj === "undefined") {
             return false;

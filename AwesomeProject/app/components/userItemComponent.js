@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-    Alert,
     Button,
     FlatList,
     Image,
@@ -21,55 +20,55 @@ import * as Actions from '../actions/rootActions';
 class UserItem extends Component {
     constructor(props) {
         super(props);
-        this.funcHandler = this.funcHandler.bind(this);
+        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
+        this.pushWithNameHandler = this.pushWithNameHandler.bind(this);
     }
 
-    componentWillMount() {
-        // nothing
+    pushNavUserHandler(id) {
+        this.props.pushNavUser(id);
+        this.props.navigation.push('User');
     }
 
-    // setUserItemHandler(item) {
-    //     this.props.setUserItem(item);
-    // }
-
-    funcHandler(login_cred, user_id, convo_id) {
-        // alert
-        Alert.alert(
-            this.props.convo_type,
-            this.props.convo_type,
-            [{text: 'Ok'}],
-            { cancelable: false }
-        );
-
-        switch (this.props.convo_type) {
-        case 'createConvo':
-            this.props.createConvo(login_cred, user_id);
-            this.props.navigation.navigate('Convos');
-            break;
-        case 'addUser':
-            this.props.addUser(login_cred, user_id, convo_id);
-            this.props.navigation.navigate('Convo');
-            break;
-        default:
-            console.log('error: type not found');
-        }
+    pushWithNameHandler(id, name) {
+        this.props.pushNavUser(id);
+        this.props.setUserName(name);
+        this.props.navigation.push('User');
     }
     
     render() {
-        return (
-            <View>              
-              <Text
-                style={styles.h3}
-                onPress={() => this.funcHandler(
-                    this.props.token,
-                    this.props.item.id,
-                    this.props.convo_id
-                )}>
-                {this.props.item.name}: {this.props.item.username}
-              </Text>
-
-            </View>
-        );
+        if(this.props.type === 'name') {
+            return (
+                <View>
+                  <Text
+                    onPress={() => this.pushWithNameHandler(this.props.id, this.props.name)}
+                    style={styles.h3}>
+                    {this.props.name}: {this.props.username}
+                  </Text>
+                </View>
+            );
+        }
+        if(this.props.type === 'smallName') {
+            return (
+                <View>
+                  <Text
+                    onPress={() => this.pushWithNameHandler(this.props.id, this.props.name)}
+                    style={styles.text}>
+                    {this.props.name}
+                  </Text>
+                </View>
+            );
+        }
+        else {
+            return (
+                <View>
+                  <Text
+                    onPress={() => this.pushNavUserHandler(this.props.id)}
+                    style={styles.text}>
+                    {this.props.username}
+                  </Text>
+                </View>
+            );
+        }
     }
 };
 
@@ -86,9 +85,6 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, props) {
     return {
         token: state.authReducer.token,
-        auth_user: state.userReducer.auth_user,
-        convo_id: state.navReducer.convo_id,
-        convo_type: state.navReducer.convo_type
     };
 }
 

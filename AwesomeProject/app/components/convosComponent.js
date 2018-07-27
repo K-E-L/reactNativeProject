@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('convos', state.convoReducer.convoMessagesLoading);
+    // console.log('convos', state.convoReducer.convoMessagesLoading);
     return {
         convos: state.convoReducer.convos,
         auth_user: state.userReducer.auth_user,

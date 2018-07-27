@@ -19,11 +19,13 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
+// import: dumb component
+import UserItem from './userItemComponent';
+
 class SearchUser extends Component {
     constructor(props) {
         super(props);
         this.backHandler = this.backHandler.bind(this);
-        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
         this.changeTextSearchUserHandler = this.changeTextSearchUserHandler.bind(this);
     }
 
@@ -37,11 +39,6 @@ class SearchUser extends Component {
 
     backHandler() {
         this.props.navigation.pop();
-    }
-
-    pushNavUserHandler(id) {
-        this.props.pushNavUser(id);
-        this.props.navigation.push('User');
     }
 
     changeTextSearchUserHandler(text, token) {
@@ -63,13 +60,15 @@ class SearchUser extends Component {
                   onChangeText={(text) => this.changeTextSearchUserHandler(text, this.props.token)}
                   value={this.props.user_search_body}
                   placeholder="Search by Username.."
-                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}
-                  />
+                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}/>
 
-                  {this.props.search_user_loaded && <Text onPress={() => this.pushNavUserHandler(this.props.user_search.data.id)}
-                        style={styles.h3}>
-                        {this.props.user_search.data.name}: {this.props.user_search.data.username}
-                  </Text>}
+                  {this.props.search_user_loaded &&
+                      <UserItem
+                            id={this.props.user_search.data.id}
+                            username={this.props.user_search.data.username}
+                            name={this.props.user_search.data.name}
+                            type={'name'}
+                        navigation={this.props.navigation}/>}
                   
               </View>
             </PTRView>

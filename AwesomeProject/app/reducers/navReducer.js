@@ -12,11 +12,11 @@ import {
     SET_CONVO_TYPE,
     SET_IMAGE_NAME_BODY,
     SET_MESSAGE_MOJIS_STACK,
-    SET_MOJI_ID,
     SET_MOJI_KEYBOARD_TYPE,
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
     SET_IMAGES,
+    SET_USER_NAME,
     TOGGLE_MOJI_PREVIEW,
     TOGGLE_MOJI_KEYBOARD,
     TOGGLE_IMAGE_PRIVATE,
@@ -25,12 +25,15 @@ import {
 
 const initialState = {
     user_stack: [],
+    user_name: '',
+    
     moji_stack: [],
+    moji_type: '',
+    
     convo_id: 0,
     convo_name: '',
     convo_type: '',
-    moji_id: 0,
-    moji_type: '',
+
     comment_id: 0,
     moji_keyboard: false,
     moji_keyboard_type: '',
@@ -83,11 +86,6 @@ function navReducer (state = initialState, action) {
         return {
             ...state,
             convo_type: action.payload
-        };
-    case SET_MOJI_ID:
-        return {
-            ...state,
-            moji_id: action.payload
         };
     case SET_MOJI_TYPE:
         return {
@@ -161,6 +159,11 @@ function navReducer (state = initialState, action) {
                 image_private: false,
             };
         }
+    case SET_USER_NAME:
+        return {
+            ...state,
+            user_name: action.payload
+        };
         
         
     default:

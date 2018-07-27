@@ -135,6 +135,7 @@ export const FollowUnfollow = (login_cred, user_id, userType, auth_id) => dispat
             })
         }).then(res => res.json())
             .then(res => console.log('action', res))
+            .then(() => {dispatch(getUser(login_cred, user_id));})
             .then(() => {dispatch(getFollowings(login_cred, auth_id));})
             .then(() => {dispatch(getAuthUser(login_cred));})
             .catch((error) => {
@@ -153,6 +154,7 @@ export const FollowUnfollow = (login_cred, user_id, userType, auth_id) => dispat
                 id: user_id
             })
         }).then(res => res.json())
+            .then(() => {dispatch(getUser(login_cred, user_id));})
             .then(() => {dispatch(getFollowings(login_cred, auth_id));})
             .then(() => {dispatch(getAuthUser(login_cred));})
             .catch((error) => {

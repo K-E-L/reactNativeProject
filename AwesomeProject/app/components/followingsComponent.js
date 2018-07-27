@@ -19,11 +19,13 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
+// import: dumb component
+import UserItem from './userItemComponent';
+
 class Followings extends Component {
     constructor(props) {
         super(props);
         this.backHandler = this.backHandler.bind(this);
-        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
@@ -43,11 +45,6 @@ class Followings extends Component {
         this.props.navigation.pop();
     }
 
-    pushNavUserHandler(item) {
-        this.props.pushNavUser(item.id);
-        this.props.navigation.push('User');
-    }
-    
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
@@ -61,10 +58,12 @@ class Followings extends Component {
                <FlatList
                  data={this.props.followings}
                  renderItem={({item}) =>
-                             <Text onPress={() => this.pushNavUserHandler(item)}
-                                   style={styles.h3}>
-                                   {item.name}: {item.username}
-                             </Text>}
+                             <UserItem
+                                   id={item.id}
+                                   username={item.username}
+                                   name={item.name}
+                                   type={'name'}
+                                   navigation={this.props.navigation}/>}
                               keyExtractor={item => item.id.toString()}/>
 
               </View>

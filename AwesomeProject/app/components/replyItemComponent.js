@@ -19,6 +19,9 @@ import * as Actions from '../actions/rootActions';
 // import: dumb component
 import MojiItemImage from './mojiItemImageComponent';
 
+// import: dumb component
+import UserItem from './userItemComponent';
+
 class ReplyItem extends Component {
     constructor(props) {
         super(props);
@@ -47,8 +50,15 @@ class ReplyItem extends Component {
         if (!this.props.comment_replies_loading[this.props.index]) {
         return (
             <View>
+
+              <UserItem
+                id={this.props.item.creator_id}
+                username={this.props.item.creator_username}
+                type={'username'}
+                navigation={this.props.navigation}/>
+              
               <Text style={styles.text}>
-                {this.props.item.creator_username} - {this.props.item.created_at} - Likes: {this.props.item.like_count} Dislikes: {this.props.item.dislike_count}</Text>
+                {this.props.item.created_at} - Likes: {this.props.item.like_count} Dislikes: {this.props.item.dislike_count}</Text>
 
               <FlatList
                 data={this.props.item.body}
@@ -76,7 +86,6 @@ class ReplyItem extends Component {
               <TouchableOpacity onPress={() => this.props.setReplyBody('@' + this.props.item.creator_username + ' ')}>
                 <Text style={styles.link}>Reply @{this.props.item.creator_username}</Text>
               </TouchableOpacity>
-
 
             </View>
         );

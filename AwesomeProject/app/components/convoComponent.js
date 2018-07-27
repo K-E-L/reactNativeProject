@@ -31,11 +31,13 @@ import MojiPreview from './mojiPreviewComponent';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
+// import: dumb component
+import UserItem from './userItemComponent';
+
 class Convo extends Component {
     constructor(props) {
         super(props);
         this.destroyConvoHandler = this.destroyConvoHandler.bind(this);
-        this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
         this.backHandler = this.backHandler.bind(this);
         this.setConvoHandler = this.setConvoHandler.bind(this);
         this.focusMessageHandler = this.focusMessageHandler.bind(this);
@@ -94,11 +96,6 @@ class Convo extends Component {
         this.props.navigation.push('Messagable');
     }
 
-    pushNavUserHandler(item) {
-        this.props.pushNavUser(item.id);
-        this.props.navigation.push('User');
-    }
-
     focusMessageHandler() {
         this.props.toggleMojiKeyboard(true);
         this.props.setMojiKeyboardType('Message');
@@ -146,11 +143,11 @@ class Convo extends Component {
                 <FlatList
                   data={this.props.convo_users}
                   renderItem={({item}) =>
-                              <Text
-                                    onPress={() => this.pushNavUserHandler(item)}
-                                    style={styles.text}>
-                                    {item.name}
-                              </Text>}
+                              <UserItem
+                                    id={item.id}
+                                    name={item.name}
+                                    type={'smallName'}
+                                navigation={this.props.navigation}/>}
                               keyExtractor={item => item.id.toString()}/>
                               
                 <TouchableOpacity

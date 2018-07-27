@@ -17,6 +17,9 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
+// import: dumb component
+import UserItem from './userItemComponent';
+
 class MojiItem extends Component {
     constructor(props) {
         super(props);
@@ -31,9 +34,15 @@ class MojiItem extends Component {
 
     render() {
         return (
-            <View>              
+            <View>
+              <UserItem
+                id={this.props.item.creator_id}
+                username={this.props.item.creator_username}
+                type={'username'}
+                navigation={this.props.navigation}/>
+
               <Text style={styles.text}>
-                {this.props.item.name}: {this.props.item.creator_username} : {this.props.item.created_at}</Text>
+                {this.props.item.name}: {this.props.item.created_at}</Text>
 
               <TouchableOpacity onPress={() => this.setMojiIdHandler(this.props.item.id)}>
                 <Image style={{width: 20, height: 20}}
