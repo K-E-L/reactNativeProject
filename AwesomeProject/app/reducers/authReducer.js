@@ -10,8 +10,8 @@ const initialState = {
     token: {},
     email: '',
     password: '',
-    loggedIn: false,
-    loginLoading: false
+    logged_in: false,
+    login_loading: false
 };
 
 function authReducer (state = initialState, action) {
@@ -29,15 +29,15 @@ function authReducer (state = initialState, action) {
     case SET_LOGGED_IN:
         return {
             ...state,
-            loggedIn: true,
-            loginLoading: true
+            logged_in: true,
+            login_loading: true
         };
     case LOGIN:
         return {
             ...state,
             token: action.payload,
-            loggedIn: true,
-            loginLoading: false
+            logged_in: true,
+            login_loading: false
         };
     default:
         return state;

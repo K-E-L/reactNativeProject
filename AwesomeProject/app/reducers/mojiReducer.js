@@ -23,19 +23,19 @@ const initialState = {
         data: {},
         type: ''
     },
-    mojiComments: [],
-    reportBody: '',
-    commentBody: '',
-    commentSplit: [],
-    mojiCommentsLoading: [],
-    commentMojisMap: [],
+    moji_comments: [],
+    report_body: '',
+    comment_body: '',
+    comment_split: [],
+    moji_comments_loading: [],
+    comment_mojis_map: [],
     
-    mojiSearchBody: '',
-    mojiSearch: {
+    moji_search_body: '',
+    moji_search: {
         data: {},
         type: ''
     },
-    searchMojiLoaded: false
+    search_moji_loaded: false
 };
 
 function mojiReducer (state = initialState, action) {
@@ -61,59 +61,59 @@ function mojiReducer (state = initialState, action) {
             moji: action.payload
         };
     case GET_MOJI_COMMENTS:
-        let tempComments = state.mojiCommentsLoading;
-        for(let i = state.mojiCommentsLoading.length; i < action.payload.length; i++) {
+        let tempComments = state.moji_comments_loading;
+        for(let i = state.moji_comments_loading.length; i < action.payload.length; i++) {
             tempComments.push(true);
         }
         return {
             ...state,
-            mojiComments: action.payload,
-            mojiCommentsLoading: tempComments,
+            moji_comments: action.payload,
+            moji_comments_loading: tempComments,
         };
     case SET_COMMENT_BODY:
         return {
             ...state,
-            commentBody: action.payload
+            comment_body: action.payload
         };
     case COMMENT:
         return {
             ...state,
-            commentBody: ''
+            comment_body: ''
         };
     case SET_REPORT_BODY:
         return {
             ...state,
-            reportBody: action.payload
+            report_body: action.payload
         };
     case REPORT:
         return {
             ...state,
-            reportBody: ''
+            report_body: ''
         };
     case ADD_COMMENT_MOJI:
         return {
             ...state,
-            commentBody: state.commentBody + action.payload
+            comment_body: state.comment_body + action.payload
         };
     case SPLIT_COMMENT_BODY:
         return {
             ...state,
-            commentSplit: state.commentBody.split(' ')
+            comment_split: state.comment_body.split(' ')
         };
         
     case COMMENT_LOADED:
-        let tempLoading = state.mojiCommentsLoading;
+        let tempLoading = state.moji_comments_loading;
         tempLoading[action.payload] = false;
         
         return {
             ...state,
-            mojiCommentsLoading: tempLoading
+            moji_comments_loading: tempLoading
         };
     case SET_COMMENT_MOJIS_MAP:
-        let tempCommentsLoading = state.mojiCommentsLoading;
+        let tempCommentsLoading = state.moji_comments_loading;
         tempCommentsLoading[action.payload.index] = false;
 
-        let tempMap = state.commentMojisMap;
+        let tempMap = state.comment_mojis_map;
         
         function exists(id) {
             for (let j=0; j < tempMap.length; j++) {
@@ -132,14 +132,14 @@ function mojiReducer (state = initialState, action) {
 
         return {
             ...state,
-            commentMojisMap: [...tempMap],
-            mojiCommentsLoading: tempCommentsLoading,
+            comment_mojis_map: [...tempMap],
+            moji_comments_loading: tempCommentsLoading,
         };
         
     case SET_MOJI_SEARCH_BODY:
         return {
             ...state,
-            mojiSearchBody: action.payload
+            moji_search_body: action.payload
         };
     case SEARCH_MOJI:
         console.log('reducer', action.payload);
@@ -151,8 +151,8 @@ function mojiReducer (state = initialState, action) {
         else {
             return {
                 ...state,
-                mojiSearch: action.payload,
-                searchMojiLoaded: true
+                moji_search: action.payload,
+                search_moji_loaded: true
             };
         }
 

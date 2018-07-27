@@ -17,8 +17,8 @@ import {
 } from '../types';
 
 const initialState = {
-    authUser: {},
-    authUserEmail: '',
+    auth_user: {},
+    auth_user_email: '',
     user: {
         data: {},
         type: ''
@@ -27,21 +27,21 @@ const initialState = {
     followers: [],
     messagable: [],
     
-    allNotifs: [],
-    userNotifs: [],
-    convoNotifs: [],
-    mojiNotifs: [],
+    user_notifs: [],
+    convo_notifs: [],
+    moji_notifs: [],
+    all_notifs: [],
     
     collec: [],
-    pubMojis: [],
-    priMojis: [],
+    pub_mojis: [],
+    pri_mojis: [],
     
-    userSearchBody: '',
-    userSearch: {
+    user_search_body: '',
+    user_search: {
         data: {},
         type: ''
     },
-    searchUserLoaded: false
+    search_user_loaded: false
 };
 
 function userReducer (state = initialState, action) {
@@ -49,8 +49,8 @@ function userReducer (state = initialState, action) {
     case GET_AUTH_USER:
         return {
             ...state,
-            authUser: action.payload.data,
-            authUserEmail: action.payload.email
+            auth_user: action.payload.data,
+            auth_user_email: action.payload.email
         };
     case GET_USER:        
         return {
@@ -75,22 +75,22 @@ function userReducer (state = initialState, action) {
     case GET_ALL_NOTIFS:
         return {
             ...state,
-            allNotifs: action.payload
+            all_notifs: action.payload
         };
     case GET_USER_NOTIFS:
         return {
             ...state,
-            userNotifs: action.payload
+            user_notifs: action.payload
         };
     case GET_CONVO_NOTIFS:
         return {
             ...state,
-            convoNotifs: action.payload
+            convo_notifs: action.payload
         };
     case GET_MOJI_NOTIFS:
         return {
             ...state,
-            mojiNotifs: action.payload
+            moji_notifs: action.payload
         };
     case GET_COLLEC:
         return {
@@ -100,17 +100,17 @@ function userReducer (state = initialState, action) {
     case GET_PUB_MOJIS:
         return {
             ...state,
-            pubMojis: action.payload
+            pub_mojis: action.payload
         };
     case GET_PRI_MOJIS:
         return {
             ...state,
-            priMojis: action.payload
+            pri_mojis: action.payload
         };
     case SET_USER_SEARCH_BODY:
         return {
             ...state,
-            userSearchBody: action.payload
+            user_search_body: action.payload
         };
     case SEARCH_USER:
         console.log('reducer', action.payload);
@@ -128,8 +128,8 @@ function userReducer (state = initialState, action) {
         else {
             return {
                 ...state,
-                userSearch: action.payload,
-                searchUserLoaded: true
+                user_search: action.payload,
+                search_user_loaded: true
             };
         }
             

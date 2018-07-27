@@ -33,11 +33,11 @@ class Messagable extends Component {
     });
 
     componentWillMount() {
-        this.props.getMessagable(this.props.token, this.props.authUser.id);
+        this.props.getMessagable(this.props.token, this.props.auth_user.id);
     }
 
     refresh = () => {
-        this.props.getMessagable(this.props.token, this.props.authUser.id);
+        this.props.getMessagable(this.props.token, this.props.auth_user.id);
     }
 
     backHandler() {
@@ -80,9 +80,9 @@ function mapStateToProps(state, props) {
     // console.log(state.userReducer.messagable);
     return {
         messagable: state.userReducer.messagable,
-        authUser: state.userReducer.authUser,
-        convoID: state.navReducer.convoID,
-        convoType: state.navReducer.convoType,
+        auth_user: state.userReducer.auth_user,
+        convo_id: state.navReducer.convo_id,
+        convo_type: state.navReducer.convo_type,
         token: state.authReducer.token
     };
 }

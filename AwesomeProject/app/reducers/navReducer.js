@@ -5,10 +5,12 @@ import {
     POP_NAV_USER,
     PUSH_NAV_MOJI,
     PUSH_NAV_USER,
+    SELEC_IMAGE,
     SET_COMMENT_ID,
     SET_CONVO_ID,
     SET_CONVO_NAME,
     SET_CONVO_TYPE,
+    SET_IMAGE_NAME_BODY,
     SET_MESSAGE_MOJIS_STACK,
     SET_MOJI_ID,
     SET_MOJI_KEYBOARD_TYPE,
@@ -17,25 +19,32 @@ import {
     SET_IMAGES,
     TOGGLE_MOJI_PREVIEW,
     TOGGLE_MOJI_KEYBOARD,
+    TOGGLE_IMAGE_PRIVATE,
     TRIGGER_STATE_CHANGE
 } from '../types';
 
 const initialState = {
-    userStack: [],
-    mojiStack: [],
-    convoID: 0,
-    convoName: '',
-    convoType: '',
-    mojiID: 0,
-    mojiType: '',
-    commentID: 0,
-    mojiKeyboard: false,
-    mojiKeyboardType: '',
-    mojiPreview: false,
-    mojiPreviewType: '',
+    user_stack: [],
+    moji_stack: [],
+    convo_id: 0,
+    convo_name: '',
+    convo_type: '',
+    moji_id: 0,
+    moji_type: '',
+    comment_id: 0,
+    moji_keyboard: false,
+    moji_keyboard_type: '',
+    moji_preview: false,
+    moji_preview_type: '',
     stateChange: false,
     
-    images: []
+    images: [],
+    selec_image: {
+        image: {}
+    },
+    image_loaded: false,
+    image_name_body: '',
+    image_private: false
 };
 
 function navReducer (state = initialState, action) {
@@ -43,72 +52,72 @@ function navReducer (state = initialState, action) {
     case PUSH_NAV_USER:
         return {
             ...state,
-            userStack: [...state.userStack, action.payload]
+            user_stack: [...state.user_stack, action.payload]
         };
     case POP_NAV_USER:
         return {
             ...state,
-            userStack: state.userStack.slice(0, (state.userStack.length - 1))
+            user_stack: state.user_stack.slice(0, (state.user_stack.length - 1))
         };
     case PUSH_NAV_MOJI:
         return {
             ...state,
-            mojiStack: [...state.mojiStack, action.payload]
+            moji_stack: [...state.moji_stack, action.payload]
         };
     case POP_NAV_MOJI:
         return {
             ...state,
-            mojiStack: state.mojiStack.slice(0, (state.mojiStack.length - 1))
+            moji_stack: state.moji_stack.slice(0, (state.moji_stack.length - 1))
         };
     case SET_CONVO_ID:
         return {
             ...state,
-            convoID: action.payload
+            convo_id: action.payload
         };
     case SET_CONVO_NAME:
         return {
             ...state,
-            convoName: action.payload
+            convo_name: action.payload
         };
     case SET_CONVO_TYPE:
         return {
             ...state,
-            convoType: action.payload
+            convo_type: action.payload
         };
     case SET_MOJI_ID:
         return {
             ...state,
-            mojiID: action.payload
+            moji_id: action.payload
         };
     case SET_MOJI_TYPE:
         return {
             ...state,
-            mojiType: action.payload
+            moji_type: action.payload
         };
     case SET_COMMENT_ID:
         return {
             ...state,
-            commentID: action.payload
+            comment_id: action.payload
         };
     case TOGGLE_MOJI_KEYBOARD:
         return {
             ...state,
-            mojiKeyboard: action.payload
+            moji_keyboard: action.payload
         };
     case SET_MOJI_KEYBOARD_TYPE:
         return {
             ...state,
-            mojiKeyboardType: action.payload
+            moji_keyboard_type: action.payload
         };
     case TOGGLE_MOJI_PREVIEW:
         return {
             ...state,
-            mojiPreview: action.payload
+            moji_preview: action.payload
         };
     case SET_MOJI_PREVIEW_TYPE:
         return {
             ...state,
-            mojiPreviewType: action.payload
+            moji_preview_type: action.payload
         };
     case TRIGGER_STATE_CHANGE:
         if (state.stateChange === false) {
@@ -128,6 +137,31 @@ function navReducer (state = initialState, action) {
             ...state,
             images: action.payload
         };
+    case SELEC_IMAGE:
+        return {
+            ...state,
+            selec_image: action.payload,
+            image_loaded: true
+        };
+    case SET_IMAGE_NAME_BODY:
+        return {
+            ...state,
+            image_name_body: action.payload,
+        };
+    case TOGGLE_IMAGE_PRIVATE:
+        if (state.image_private === false) {
+            return {
+                ...state,
+                image_private: true,
+            };
+        }
+        else {
+            return {
+                ...state,
+                image_private: false,
+            };
+        }
+        
         
     default:
         return state;

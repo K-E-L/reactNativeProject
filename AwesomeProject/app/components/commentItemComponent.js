@@ -36,7 +36,7 @@ class CommentItem extends Component {
     renderItemHandler(item, index) {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
             return <MojiItemImage
-            item={this.props.commentMojisMap.find(object => object.id == item.substring(3, item.length))}
+            item={this.props.comment_mojis_map.find(object => object.id == item.substring(3, item.length))}
             navigation={this.props.navigation}/>;
         }
         else {
@@ -50,7 +50,7 @@ class CommentItem extends Component {
     }    
 
     render() {
-        if (!this.props.mojiCommentsLoading[this.props.index]) {
+        if (!this.props.moji_comments_loading[this.props.index]) {
             return (
                 <View>
                   <Text style={styles.text}>
@@ -108,11 +108,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('commentItem', state.mojiReducer.mojiCommentsLoading);
+    // console.log('commentItem', state.mojiReducer.moji_comments_loading);
     return {
         token: state.authReducer.token,
         moji: state.mojiReducer.moji,
-        mojiCommentsLoading: state.mojiReducer.mojiCommentsLoading,               commentMojisMap: state.mojiReducer.commentMojisMap
+        moji_comments_loading: state.mojiReducer.moji_comments_loading,
+        comment_mojis_map: state.mojiReducer.comment_mojis_map
     };
 }
 

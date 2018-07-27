@@ -45,11 +45,13 @@ class User extends Component {
     });
     
     componentDidMount() {
-        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
+        this.props.getUserNotifs(this.props.token);
     }
 
     refresh = () => {
-        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
+        this.props.getUserNotifs(this.props.token);
     }
 
     followUnfollowHandler(login_cred, user_id, type, auth_id) {
@@ -64,6 +66,13 @@ class User extends Component {
         this.props.FollowUnfollow(login_cred, user_id, type, auth_id);
         // this.props.navigation.navigate('Authuser');
     }
+
+    // searchAndDestroy(token, name) {
+    //     let obj = this.props.user_notifs.find(function (obj) { return (obj.spec_type === name && obj.read === 0); });
+    //     if (typeof obj !== "undefined") {
+    //         this.props.destroyNotif(token, obj.id);
+    //     }
+    // }
 
     createConvoHandler(login_cred, id) {
         // alert
@@ -80,10 +89,10 @@ class User extends Component {
 
     backHandler() {
         this.props.popNavUser();
-        if (this.props.userStack.length !== 1) {
-            this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
-            this.props.getFollowers(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
-            this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 2]);
+        if (this.props.user_stack.length !== 1) {
+            this.props.getFollowings(this.props.token, this.props.user_stack[this.props.user_stack.length - 2]);
+            this.props.getFollowers(this.props.token, this.props.user_stack[this.props.user_stack.length - 2]);
+            this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 2]);
         }
         this.props.navigation.pop();
     }
@@ -104,7 +113,7 @@ class User extends Component {
                     this.props.token,
                     this.props.user.data.id,
                     this.props.user.type,
-                    this.props.authUser.id
+                    this.props.auth_user.id
                 )}>{this.props.user.type}</Text>
 
               <Text
@@ -169,11 +178,14 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('user', state.navReducer.userStack);
+    console.log('user', state.userReducer.user_notifs);
     return {
         user: state.userReducer.user,
-        authUser: state.userReducer.authUser,
-        userStack: state.navReducer.userStack,
+        auth_user: state.userReducer.auth_user,
+        convo_notifs: state.userReducer.user_notifs,
+        
+        user_stack: state.navReducer.user_stack,
+        
         token: state.authReducer.token,
     };
 }

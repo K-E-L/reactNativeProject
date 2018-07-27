@@ -60,30 +60,32 @@ class Notifs extends Component {
 
                 <Text style={styles.h3}>User Notifs</Text>
               <FlatList
-                data={this.props.userNotifs}
+                data={this.props.user_notifs}
                 renderItem={({item}) =>
                 <NotifItem item={item}/>}
                 keyExtractor={item => item.id.toString()}/>
 
                 <Text style={styles.h3}>Convo Notifs</Text>
               <FlatList
-                data={this.props.convoNotifs}
+                data={this.props.convo_notifs}
                 renderItem={({item}) =>
                 <NotifItem item={item}/>}
                 keyExtractor={item => item.id.toString()}/>
 
                 <Text style={styles.h3}>Moji Notifs</Text>
               <FlatList
-                data={this.props.mojiNotifs}
+                data={this.props.moji_notifs}
                 renderItem={({item}) =>
                 <NotifItem item={item}/>}
                 keyExtractor={item => item.id.toString()}/>
 
                 <Text style={styles.h3}>Read Notifs</Text>
               <FlatList
-                data={this.props.allNotifs}
+                data={this.props.all_notifs}
                 renderItem={({item}) =>
-                <NotifItem item={item}/>}
+                <Text style={styles.text}
+                    onPress={() => this.props.navigation.navigate('Convos')}>
+                {item.body}: {item.created_at}</Text>}
                 keyExtractor={item => item.id.toString()}/>
 
 
@@ -104,12 +106,13 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('notifs', state.userReducer.convoNotifs);
+    console.log('notifs', state.userReducer.convo_notifs);
     return {
-        userNotifs: state.userReducer.userNotifs,
-        convoNotifs: state.userReducer.convoNotifs,
-        mojiNotifs: state.userReducer.mojiNotifs,
-        allNotifs: state.userReducer.allNotifs,
+        user_notifs: state.userReducer.user_notifs,
+        convo_notifs: state.userReducer.convo_notifs,
+        moji_notifs: state.userReducer.moji_notifs,
+        all_notifs: state.userReducer.all_notifs,
+        
         token: state.authReducer.token,
     };
 }

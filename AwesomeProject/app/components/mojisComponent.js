@@ -33,7 +33,7 @@ class Mojis extends Component {
     });
 
     componentWillMount() {
-        switch (this.props.mojiType) {
+        switch (this.props.moji_type) {
         case 'Popular':
             this.props.getPopularMojis(this.props.token);
             break;
@@ -49,7 +49,7 @@ class Mojis extends Component {
     }
 
     refresh = () => {
-        switch (this.props.mojiType) {
+        switch (this.props.moji_type) {
         case 'Popular':
             this.props.getPopularMojis(this.props.token);
             break;
@@ -77,7 +77,7 @@ class Mojis extends Component {
                 </TouchableOpacity>
 
               <Text
-                style={styles.h3}>{this.props.mojiType}
+                style={styles.h3}>{this.props.moji_type}
               </Text>
               
               <FlatList
@@ -102,10 +102,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.mojiReducer.mojis);
+    console.log('mojis', state.mojiReducer.mojis);
     return {
         mojis: state.mojiReducer.mojis,
-        mojiType: state.navReducer.mojiType,
+        moji_type: state.navReducer.moji_type,
         token: state.authReducer.token
     };
 }

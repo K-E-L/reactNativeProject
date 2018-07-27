@@ -31,7 +31,7 @@ class ConvoItem extends Component {
     }
 
     searchConvoNotifs(name) {
-        let obj = this.props.convoNotifs.find(function (obj) { return (obj.spec_type === name && obj.read === 0); });
+        let obj = this.props.convo_notifs.find(function (obj) { return (obj.spec_type === name && obj.read === 0); });
 
         if (typeof obj === "undefined") {
             return false;
@@ -77,10 +77,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('convoItem', state.userReducer.convoNotifs);
+    console.log('convoItem', state.userReducer.convo_notifs);
     return {
         token: state.authReducer.token,
-        convoNotifs: state.userReducer.convoNotifs,
+        convo_notifs: state.userReducer.convo_notifs,
     };
 }
 

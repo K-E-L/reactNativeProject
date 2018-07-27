@@ -10,6 +10,7 @@ import {
     ListItem,
     ScrollView,
     StyleSheet,
+    Switch,
     Text,
     TextInput,
     TouchableOpacity,
@@ -30,6 +31,7 @@ class Images extends Component {
         super(props);
         this.backHandler = this.backHandler.bind(this);
         this.loadImages = this.loadImages.bind(this);
+        this.uploadHandler = this.uploadHandler.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
@@ -61,12 +63,26 @@ class Images extends Component {
             });
     };
 
+    uploadHandler() {
+        // FormData() is fine, no syntax error
+        let data = new FormData();
+        data.append('name', this.props.image_name_body);
+        data.append('private', this.props.image_private);
+        data.append('photo', {
+            uri: this.props.selec_image.image.uri,
+            type: 'image/jpeg',
+            name: this.props.image_name_body
+        });
+
+        this.props.upload(this.props.token, data);
+    }
+    
     render() {
         return (
             <PTRView onRefresh={this.refresh}>
               <TouchableOpacity onPress={() => this.backHandler()}>
                 <Text style={styles.h3}>Back</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>             
               
               <FlatList
                 data={this.props.images}
@@ -76,29 +92,64 @@ class Images extends Component {
                                   item={item}
                                   index={index}
                               />}
-                              keyExtractor={(item, index) => index.toString()}/>
+                            keyExtractor={(item, index) => index.toString()}/>
+              <Text style={styles.h3}>Selected Image: </Text>
+                            
+              {this.props.image_loaded && <Image
+                  style={{
+                      width: 100,
+                      height: 100,
+                  }}
+                                           source={{ uri: this.props.selec_image.image.uri }}/>}
 
-                              
+              <Text style={styles.h3}>Name: </Text>
+              
+              <TextInput
+                onChangeText={(text) => this.props.setImageNameBody(text)}
+                value={this.props.image_name_body}
+                placeholder='name'/>
+
+              <Text style={styles.h3}>Make Private?</Text>
+
+              <Switch
+                onValueChange = {this.props.toggleImagePrivate}
+                value = {this.props.image_private}/>
+
+              <TouchableOpacity
+                onPress={() => this.uploadHandler()}>
+                <Text style={styles.link}>Upload</Text>
+              </TouchableOpacity>
+
+              
             </PTRView>
         );
     }
 };
 
 const styles = StyleSheet.create({
-  h3: {
-      fontSize: 30,
-  },
-  text: {
-      fontSize: 15,
-  }
+    h3: {
+        fontSize: 30,
+    },
+    text: {
+        fontSize: 15,
+    },
+    link: {
+        fontSize: 30,
+        color: '#00a9ff'
+    }
 });
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('images', state.navReducer.images);
+    console.log('images', state.navReducer.selec_image);
     return {
         token: state.authReducer.token,
-        images: state.navReducer.images
+        
+        images: state.navReducer.images,
+        selec_image: state.navReducer.selec_image,        
+        image_loaded: state.navReducer.image_loaded,
+        image_name_body: state.navReducer.image_name_body,
+        image_private: state.navReducer.image_private
     };
 }
 

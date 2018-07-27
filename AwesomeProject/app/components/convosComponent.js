@@ -89,7 +89,7 @@ function mapStateToProps(state, props) {
     console.log('convos', state.convoReducer.convoMessagesLoading);
     return {
         convos: state.convoReducer.convos,
-        authUser: state.userReducer.authUser,
+        auth_user: state.userReducer.auth_user,
         token: state.authReducer.token,
     };
 }

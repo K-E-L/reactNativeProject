@@ -40,11 +40,11 @@ class Comment extends Component {
     });
 
     componentDidMount() {
-        this.props.getCommentReplies(this.props.token, this.props.commentID);
+        this.props.getCommentReplies(this.props.token, this.props.comment_id);
     }
 
     refresh = () => {
-        this.props.getCommentReplies(this.props.token, this.props.commentID);
+        this.props.getCommentReplies(this.props.token, this.props.comment_id);
     }
 
     backHandler() {
@@ -77,29 +77,29 @@ class Comment extends Component {
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
 
-                {this.props.mojiPreview && <MojiPreview />}
+                {this.props.moji_preview && <MojiPreview />}
                 
                 <TextInput
                   onChangeText={(text) => this.changeTextReplyHandler(text)}
-                  value={this.props.replyBody}
+                  value={this.props.reply_body}
                   placeholder="Reply.."
                   onFocus={() => this.focusReplyHandler()}
                   onEndEditing={() => this.endEditingReplyHandler()}
                   onSubmitEditing={() => this.props.reply(
                       this.props.token,
-                      this.props.commentID,
-                      this.props.replyBody
+                      this.props.comment_id,
+                      this.props.reply_body
                   )}/>
 
                 <TouchableOpacity onPress={() => this.props.reply(
                       this.props.token,
-                      this.props.commentID,
-                      this.props.replyBody
+                      this.props.comment_id,
+                      this.props.reply_body
                   )}>
                   <Text style={styles.link}>Reply</Text>
                 </TouchableOpacity>
 
-                {this.props.mojiKeyboard && <CollecKeyboard />}
+                {this.props.moji_keyboard && <CollecKeyboard />}
                 
                 <FlatList
                   data={this.props.replies}
@@ -130,14 +130,14 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.commentReducer.replyBody);
+    console.log(state.commentReducer.reply_body);
     return {
         replies: state.commentReducer.replies,
-        replyBody: state.commentReducer.replyBody,
-        commentID: state.navReducer.commentID,
-        mojiKeyboard: state.navReducer.mojiKeyboard,
-        mojiPreview: state.navReducer.mojiPreview,
-        replySplit: state.commentReducer.replySplit,
+        reply_body: state.commentReducer.reply_body,
+        comment_id: state.navReducer.comment_id,
+        moji_keyboard: state.navReducer.moji_keyboard,
+        moji_preview: state.navReducer.moji_preview,
+        // replySplit: state.commentReducer.replySplit,
         token: state.authReducer.token
     };
 }

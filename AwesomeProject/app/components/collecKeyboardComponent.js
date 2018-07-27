@@ -28,7 +28,7 @@ class CollecKeyboard extends Component {
     }
 
     funcHandler(item) {
-        switch (this.props.mojiKeyboardType) {
+        switch (this.props.moji_keyboard_type) {
         case 'Message':
             this.props.addMessageMoji(' m/#' + item.id.toString() + ' ');
             this.props.splitMessageBody();
@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log(state.navReducer.mojiKeyboardType);
+    // console.log(state.navReducer.moji_keyboard_type);
     return {
         collec: state.userReducer.collec,
-        mojiKeyboardType: state.navReducer.mojiKeyboardType,
+        moji_keyboard_type: state.navReducer.moji_keyboard_type,
         token: state.authReducer.token
     };
 }

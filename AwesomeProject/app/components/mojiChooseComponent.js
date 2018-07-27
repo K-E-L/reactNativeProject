@@ -55,7 +55,7 @@ class MojiChoose extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Images')}>
-                <Text style={styles.link}>Load Images</Text>
+                <Text style={styles.link}>Upload Moji</Text>
               </TouchableOpacity>
               
             </View>

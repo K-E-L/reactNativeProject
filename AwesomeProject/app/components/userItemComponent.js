@@ -35,13 +35,13 @@ class UserItem extends Component {
     funcHandler(login_cred, user_id, convo_id) {
         // alert
         Alert.alert(
-            this.props.convoType,
-            this.props.convoType,
+            this.props.convo_type,
+            this.props.convo_type,
             [{text: 'Ok'}],
             { cancelable: false }
         );
 
-        switch (this.props.convoType) {
+        switch (this.props.convo_type) {
         case 'createConvo':
             this.props.createConvo(login_cred, user_id);
             this.props.navigation.navigate('Convos');
@@ -63,7 +63,7 @@ class UserItem extends Component {
                 onPress={() => this.funcHandler(
                     this.props.token,
                     this.props.item.id,
-                    this.props.convoID
+                    this.props.convo_id
                 )}>
                 {this.props.item.name}: {this.props.item.username}
               </Text>
@@ -85,10 +85,10 @@ const styles = StyleSheet.create({
 // Pass: redux state to props
 function mapStateToProps(state, props) {
     return {
-        token: state.authReducer.token,        
-        authUser: state.userReducer.authUser,
-        convoID: state.navReducer.convoID,
-        convoType: state.navReducer.convoType
+        token: state.authReducer.token,
+        auth_user: state.userReducer.auth_user,
+        convo_id: state.navReducer.convo_id,
+        convo_type: state.navReducer.convo_type
     };
 }
 

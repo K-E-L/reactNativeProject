@@ -3,7 +3,6 @@ import { Keyboard } from 'react-native';
 import { TabView } from 'react-navigation';
 
 class TabBar extends React.PureComponent {
-
     constructor(props) {
         super(props);
 

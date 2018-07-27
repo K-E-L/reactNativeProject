@@ -25,7 +25,7 @@ import { TabNavigator } from './navComponent';
 
 class Login extends Component {
     render() {
-        if (!this.props.loggedIn && !this.props.loginLoading) {
+        if (!this.props.logged_in && !this.props.login_loading) {
             return (
                 <View>
                   <Text style={styles.h3}>Login</Text>
@@ -52,7 +52,7 @@ class Login extends Component {
                 </View>
             );
         }
-        else if (this.props.loggedIn && this.props.loginLoading) {
+        else if (this.props.logged_in && this.props.login_loading) {
             return  (
                 <Text style={styles.h3}>Loading..</Text>
             );
@@ -82,8 +82,8 @@ function mapStateToProps(state, props) {
     return {
         email: state.authReducer.email,
         password: state.authReducer.password,
-        loggedIn: state.authReducer.loggedIn,
-        loginLoading: state.authReducer.loginLoading
+        logged_in: state.authReducer.logged_in,
+        login_loading: state.authReducer.login_loading
     };
 }
 

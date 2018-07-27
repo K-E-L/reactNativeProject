@@ -29,11 +29,11 @@ class PubMojis extends Component {
     });
 
     componentWillMount() {
-        this.props.getPubMojis(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getPubMojis(this.props.token, this.props.auth_user.id);
     }
 
     refresh = () => {
-        this.props.getPubMojis(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getPubMojis(this.props.token, this.props.auth_user.id);
     }
 
     backHandler() {
@@ -49,7 +49,7 @@ class PubMojis extends Component {
                 </TouchableOpacity>
 
                 <FlatList
-                  data={this.props.pubMojis}
+                  data={this.props.pub_mojis}
                   horizontal={true}
                   renderItem={({item}) =>
                   <MojiItemImage item={item} navigation={this.props.navigation}/>}
@@ -71,10 +71,13 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('pubMojis', state.navReducer.userStack);
+    console.log('pubMojis', state.userReducer.pub_mojis);
     return {
-        pubMojis: state.userReducer.pubMojis,
-        userStack: state.navReducer.userStack,
+        pub_mojis: state.userReducer.pub_mojis,
+        auth_user: state.userReducer.auth_user,
+        
+        user_stack: state.navReducer.user_stack,
+        
         token: state.authReducer.token,
     };
 }

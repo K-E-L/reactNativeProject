@@ -18,28 +18,10 @@ import {
 import * as Actions from '../actions/rootActions';
 
 class ImageItem extends Component {
-    constructor(props) {
-        super(props);
-        this.uploadHandler = this.uploadHandler.bind(this);
-    }
-
-    uploadHandler(file) {
-        // FormData() is fine, no syntax error
-        let data = new FormData();
-        // data.append('name', 'someName');
-        data.append('photo', {
-            uri: file.image.uri,
-            type: 'image/jpeg',
-            name: 'someOtherName'
-        });
-
-        this.props.upload(this.props.token, data);
-    }
-
     render() {
         return (
             <View>              
-              <TouchableOpacity onPress={() => this.uploadHandler(this.props.item.node)}>
+              <TouchableOpacity onPress={() => this.props.selecImage(this.props.item.node)}>
                 <Image
                   key={this.props.index}
                   style={{

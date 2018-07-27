@@ -11,58 +11,58 @@ import {
 
 const initialState = {
     replies: [],
-    replyBody: '',
-    replySplit: [],
+    reply_body: '',
+    reply_split: [],
 
-    commentRepliesLoading: [],
-    replyMojisMap: []
+    comment_replies_loading: [],
+    reply_mojis_map: []
 };
 
 function commentReducer (state = initialState, action) {
     switch (action.type) {
     case GET_COMMENT_REPLIES:
-        let tempReplies = state.commentRepliesLoading;
-        for(let i = state.commentRepliesLoading.length; i < action.payload.length; i++) {
+        let tempReplies = state.comment_replies_loading;
+        for(let i = state.comment_replies_loading.length; i < action.payload.length; i++) {
             tempReplies.push(true);
         }
         return {
             ...state,
             replies: action.payload,
-            commentRepliesLoading: tempReplies
+            comment_replies_loading: tempReplies
         };
     case SET_REPLY_BODY:
         return {
             ...state,
-            replyBody: action.payload
+            reply_body: action.payload
         };
     case REPLY:
         return {
             ...state,
-            replyBody: ''
+            reply_body: ''
         };
     case ADD_REPLY_MOJI:
         return {
             ...state,
-            replyBody: state.replyBody + action.payload
+            reply_body: state.reply_body + action.payload
         };
     case SPLIT_REPLY_BODY:
         return {
             ...state,
-            replySplit: state.replyBody.split(' ')
+            reply_split: state.reply_body.split(' ')
         };
     case REPLY_LOADED:
-        let tempLoading = state.commentRepliesLoading;
+        let tempLoading = state.comment_replies_loading;
         tempLoading[action.payload] = false;
         
         return {
             ...state,
-            commentRepliesLoading: tempLoading
+            comment_replies_loading: tempLoading
         };
     case SET_REPLY_MOJIS_MAP:
-        let tempRepliesLoading = state.commentRepliesLoading;
+        let tempRepliesLoading = state.comment_replies_loading;
         tempRepliesLoading[action.payload.index] = false;
 
-        let tempMap = state.replyMojisMap;
+        let tempMap = state.reply_mojis_map;
         
         function exists(id) {
             for (let j=0; j < tempMap.length; j++) {
@@ -81,8 +81,8 @@ function commentReducer (state = initialState, action) {
 
         return {
             ...state,
-            replyMojisMap: [...tempMap],
-            commentRepliesLoading: tempRepliesLoading,
+            reply_mojis_map: [...tempMap],
+            comment_replies_loading: tempRepliesLoading,
         };
 
 

@@ -58,14 +58,14 @@ class SearchMoji extends Component {
                 
                 <TextInput
                   onChangeText={(text) => this.changeTextSearchMojiHandler(text, this.props.token)}
-                  value={this.props.mojiSearchBody}
+                  value={this.props.moji_search_body}
                   placeholder="Search by Moji name.."
-                  onSubmitEditing={() => this.props.searchMoji(this.props.token, this.props.mojiSearchBody)}
+                  onSubmitEditing={() => this.props.searchMoji(this.props.token, this.props.moji_search_body)}
                   />
 
-                  {this.props.searchMojiLoaded && <Text onPress={() => this.pushNavMojiHandler(this.props.mojiSearch.data.id)}
+                  {this.props.search_moji_loaded && <Text onPress={() => this.pushNavMojiHandler(this.props.moji_search.data.id)}
                         style={styles.h3}>
-                        {this.props.mojiSearch.data.name}: {this.props.mojiSearch.data.creator_username}
+                        {this.props.moji_search.data.name}: {this.props.moji_search.data.creator_username}
                   </Text>}
               </View>
             </PTRView>
@@ -88,11 +88,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('mojiSearch', state.mojiReducer.mojiSearch);
+    // console.log('moji_search', state.mojiReducer.moji_search);
     return {
-        mojiSearchBody: state.mojiReducer.mojiSearchBody,
-        mojiSearch: state.mojiReducer.mojiSearch,
-        searchMojiLoaded: state.mojiReducer.searchMojiLoaded,
+        moji_search_body: state.mojiReducer.moji_search_body,
+        moji_search: state.mojiReducer.moji_search,
+        search_moji_loaded: state.mojiReducer.search_moji_loaded,
+        
         token: state.authReducer.token,
     };
 }

@@ -4,17 +4,20 @@ import {
     POP_NAV_USER,
     PUSH_NAV_MOJI,
     PUSH_NAV_USER,
+    SELEC_IMAGE,
     SET_COMMENT_ID,
     SET_CONVO_ID,
     SET_CONVO_NAME,
     SET_CONVO_TYPE,
+    SET_IMAGES,
+    SET_IMAGE_NAME_BODY,
     SET_MESSAGE_MOJIS_ARRAY,
     SET_MOJI_ID,
     SET_MOJI_KEYBOARD_TYPE,
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
-    SET_IMAGES,
     TOGGLE_MOJI_PREVIEW,
+    TOGGLE_IMAGE_PRIVATE,
     TOGGLE_MOJI_KEYBOARD,
     TRIGGER_STATE_CHANGE,
 } from '../types';
@@ -131,9 +134,30 @@ export const triggerStateChange = () => dispatch => {
     });
 };
 
-export const setImages = (image) => dispatch => {
+export const setImages = (images) => dispatch => {
     dispatch({
         type: SET_IMAGES,
+        payload: images
+    });
+};
+
+export const selecImage = (image) => dispatch => {
+    dispatch({
+        type: SELEC_IMAGE,
         payload: image
+    });
+};
+
+export const setImageNameBody = (body) => dispatch => {
+    dispatch({
+        type: SET_IMAGE_NAME_BODY,
+        payload: body
+    });
+};
+
+export const toggleImagePrivate = () => dispatch => {
+    dispatch({
+        type: TOGGLE_IMAGE_PRIVATE,
+        payload: null
     });
 };

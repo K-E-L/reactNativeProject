@@ -40,7 +40,7 @@ class MessageItem extends Component {
     renderItemHandler(item) {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
             return <MojiItemImage
-            item={this.props.messageMojisMap.find(object => object.id == item.substring(3, item.length))}
+            item={this.props.message_mojis_map.find(object => object.id == item.substring(3, item.length))}
             navigation={this.props.navigation}/>;
         }
         else {
@@ -50,7 +50,7 @@ class MessageItem extends Component {
     }
 
     render() {        
-        if (!this.props.convoMessagesLoading[this.props.index]) {
+        if (!this.props.convo_messages_loading[this.props.index]) {
         return (
             <View>
               <Text style={styles.text}>
@@ -66,7 +66,7 @@ class MessageItem extends Component {
               <TouchableOpacity onPress={() => this.props.likeMessage(
                     this.props.token,
                     this.props.item.id,
-                    this.props.convoID
+                    this.props.convo_id
                 )}>
                 <Text style={styles.link}>Like</Text>
               </TouchableOpacity>
@@ -96,12 +96,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('messageItem', state.convoReducer.messageMojisMap);
+    console.log('messageItem', state.convoReducer.message_mojis_map);
     return {
         token: state.authReducer.token,
-        convoID: state.navReducer.convoID,
-        convoMessagesLoading: state.convoReducer.convoMessagesLoading,
-        messageMojisMap: state.convoReducer.messageMojisMap
+        convo_id: state.navReducer.convo_id,
+        convo_messages_loading: state.convoReducer.convo_messages_loading,
+        message_mojis_map: state.convoReducer.message_mojis_map
     };
 }
 

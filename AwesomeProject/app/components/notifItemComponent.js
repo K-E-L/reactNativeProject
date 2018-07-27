@@ -25,7 +25,7 @@ class NotifItem extends Component {
             <View>
               <Text style={styles.text}
                     onPress={() => this.props.navigation.navigate('Convos')}>
-                {this.props.item.body}: {this.props.item.created_at}: Read {this.props.item.read}</Text>
+                {this.props.item.body}: {this.props.item.created_at}</Text>
               
                 <TouchableOpacity onPress={() => this.props.destroyNotif(this.props.token, this.props.item.id)}>
                   <Text style={styles.link}>Read</Text>

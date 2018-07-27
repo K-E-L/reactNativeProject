@@ -17,14 +17,14 @@ import {
 const initialState = {
     convos: [],
     convo: {},
-    convoMessages: [],
-    convoUsers: [],
-    renameBody: '',
-    messageBody: '',
-    messageSplit: [],
+    convo_messages: [],
+    convo_users: [],
+    rename_body: '',
+    message_body: '',
+    message_split: [],
     
-    convoMessagesLoading: [],
-    messageMojisMap: []
+    convo_messages_loading: [],
+    message_mojis_map: []
 };
 
 function convoReducer (state = initialState, action) {
@@ -38,68 +38,68 @@ function convoReducer (state = initialState, action) {
         return {
             ...state,
             convo: action.payload,
-            renameBody: action.payload.name
+            rename_body: action.payload.name
         };
     case GET_CONVO_MESSAGES:
-        let tempMessages = state.convoMessagesLoading;
-        for(let i = state.convoMessagesLoading.length; i < action.payload.length; i++) {
+        let tempMessages = state.convo_messages_loading;
+        for(let i = state.convo_messages_loading.length; i < action.payload.length; i++) {
             tempMessages.push(true);
         }
 
         return {
             ...state,
-            convoMessages: action.payload,
-            convoMessagesLoading: [...tempMessages]
+            convo_messages: action.payload,
+            convo_messages_loading: [...tempMessages]
         };
     case GET_CONVO_USERS:
         return {
             ...state,
-            convoUsers: action.payload
+            convo_users: action.payload
         };
     case SET_RENAME_BODY:
         return {
             ...state,
-            renameBody: action.payload
+            rename_body: action.payload
         };
     case SET_MESSAGE_BODY:
         return {
             ...state,
-            messageBody: action.payload
+            message_body: action.payload
         };
     case MESSAGE:
         return {
             ...state,
-            messageBody: ''
+            message_body: ''
         };
     case ADD_MESSAGE_MOJI:
         return {
             ...state,
-            messageBody: state.messageBody + action.payload
+            message_body: state.message_body + action.payload
         };
     case SPLIT_MESSAGE_BODY:
         return {
             ...state,
-            messageSplit: state.messageBody.split(' ')
+            message_split: state.message_body.split(' ')
         };
         
     case MESSAGE_LOADED:
-        let tempLoading = state.convoMessagesLoading;
+        let tempLoading = state.convo_messages_loading;
         tempLoading[action.payload] = false;
         
         return {
             ...state,
-            convoMessagesLoading: [...tempLoading]
+            convo_messages_loading: [...tempLoading]
         };
     case CLEAR_LOADED:
         return {
             ...state,
-            convoMessagesLoading: []
+            convo_messages_loading: []
         };
     case SET_MESSAGE_MOJIS_MAP:
-        let tempMessagesLoading = state.convoMessagesLoading;
+        let tempMessagesLoading = state.convo_messages_loading;
         tempMessagesLoading[action.payload.index] = false;
 
-        let tempMap = state.messageMojisMap;
+        let tempMap = state.message_mojis_map;
         
         function exists(id) {
             for (let j=0; j < tempMap.length; j++) {
@@ -118,8 +118,8 @@ function convoReducer (state = initialState, action) {
 
         return {
             ...state,
-            messageMojisMap: [...tempMap],
-            convoMessagesLoading: tempMessagesLoading,
+            message_mojis_map: [...tempMap],
+            convo_messages_loading: tempMessagesLoading,
         };
 
 

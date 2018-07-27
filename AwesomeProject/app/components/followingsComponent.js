@@ -31,15 +31,15 @@ class Followings extends Component {
     });
 
     componentDidMount() {
-        this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getFollowings(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
     }
 
     refresh = () => {
-        this.props.getFollowings(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getFollowings(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
     }
 
     backHandler() {
-        this.props.getUser(this.props.token, this.props.userStack[this.props.userStack.length - 1]);
+        this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
         this.props.navigation.pop();
     }
 
@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('followings', state.navReducer.userStack);
+    console.log('followings', state.navReducer.user_stack);
     return {
         followings: state.userReducer.followings,
-        userStack: state.navReducer.userStack,
+        user_stack: state.navReducer.user_stack,
         token: state.authReducer.token,
     };
 }

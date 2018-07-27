@@ -47,13 +47,13 @@ class Moji extends Component {
     });
 
     componentDidMount() {
-        this.props.getMoji(this.props.token, this.props.mojiID);
-        this.props.getMojiComments(this.props.token, this.props.mojiID);
+        this.props.getMoji(this.props.token, this.props.moji_id);
+        this.props.getMojiComments(this.props.token, this.props.moji_id);
     }
 
     refresh = () => {
-        this.props.getMoji(this.props.token, this.props.mojiID);
-        this.props.getMojiComments(this.props.token, this.props.mojiID);
+        this.props.getMoji(this.props.token, this.props.moji_id);
+        this.props.getMojiComments(this.props.token, this.props.moji_id);
     }
 
     collecHandler = (login_cred, id, type) => {
@@ -69,9 +69,9 @@ class Moji extends Component {
     
     backHandler() {
         this.props.popNavMoji();
-        if (this.props.mojiStack.length !== 1) {
-            this.props.getMoji(this.props.token, this.props.mojiStack[this.props.mojiStack.length - 2]);
-            this.props.getMojiComments(this.props.token, this.props.mojiStack[this.props.mojiStack.length - 2]);
+        if (this.props.moji_stack.length !== 1) {
+            this.props.getMoji(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 2]);
+            this.props.getMojiComments(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 2]);
         }
         this.props.navigation.pop();
     }    
@@ -124,7 +124,7 @@ class Moji extends Component {
                   style={styles.text}>Dislikes: {this.props.moji.data.dislike_count}</Text>
                 <TouchableOpacity onPress={() => this.collecHandler(
                       this.props.token,
-                      this.props.mojiID,
+                      this.props.moji_id,
                       this.props.moji.type
                   )}>
                   <Text style={styles.link}>{this.props.moji.type}</Text>
@@ -132,62 +132,62 @@ class Moji extends Component {
 
                 <TouchableOpacity onPress={() => this.props.likeMoji(
                       this.props.token,
-                      this.props.mojiID
+                      this.props.moji_id
                   )}>
                   <Text style={styles.link}>Like</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity onPress={() => this.props.dislikeMoji(
                       this.props.token,
-                      this.props.mojiID
+                      this.props.moji_id
                   )}>
                   <Text style={styles.link}>Dislike</Text>
                 </TouchableOpacity>
 
-                {this.props.mojiPreview && <MojiPreview />}
+                {this.props.moji_preview && <MojiPreview />}
                 
                 <TextInput
                   onChangeText={(text) => this.changeTextCommentHandler(text)}
-                  value={this.props.commentBody}
+                  value={this.props.comment_body}
                   placeholder="Comment.."
                   onFocus={() => this.focusCommentHandler()}
                   onEndEditing={() => this.endEditingCommentHandler()}
                   onSubmitEditing={() => this.props.comment(
                       this.props.token,
-                      this.props.mojiID,
-                      this.props.commentBody
+                      this.props.moji_id,
+                      this.props.comment_body
                   )}/>
 
                   <TouchableOpacity onPress={() => this.props.comment(
                       this.props.token,
-                      this.props.mojiID,
-                      this.props.commentBody
+                      this.props.moji_id,
+                      this.props.comment_body
                   )}>
                     <Text style={styles.link}>Comment</Text>
                   </TouchableOpacity>
 
-                  {this.props.mojiKeyboard && <CollecKeyboard />}
+                  {this.props.moji_keyboard && <CollecKeyboard />}
 
                 <TextInput
                   onChangeText={(text) => this.props.setReportBody(text)}
-                  value={this.props.reportBody}
+                  value={this.props.report_body}
                   placeholder="Report.."
                   onSubmitEditing={() => this.props.report(
                       this.props.token,
-                      this.props.mojiID,
-                      this.props.reportBody
+                      this.props.moji_id,
+                      this.props.report_body
                   )}/>
 
                   <TouchableOpacity onPress={() => this.props.report(
                         this.props.token,
-                        this.props.mojiID,
-                        this.props.reportBody
+                        this.props.moji_id,
+                        this.props.report_body
                     )}>
                     <Text style={styles.link}>Report</Text>
                   </TouchableOpacity>
 
                   <FlatList
-                    data={this.props.mojiComments}
+                    data={this.props.moji_comments}
                     renderItem={({item, index}) =>
                                 <CommentItem
                                       item={item}
@@ -214,19 +214,21 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('moji', state.navReducer.mojiStack);
+    console.log('moji', state.navReducer.moji_stack);
     return {
-        token: state.authReducer.token,
         moji: state.mojiReducer.moji,
-        mojiComments: state.mojiReducer.mojiComments,
-        commentBody: state.mojiReducer.commentBody,
-        reportBody: state.mojiReducer.reportBody,
-        mojiID: state.navReducer.mojiID,
-        mojiKeyboard: state.navReducer.mojiKeyboard,
-        mojiPreview: state.navReducer.mojiPreview,
-        commentSplit: state.convoReducer.commentSplit,
+        moji_comments: state.mojiReducer.moji_comments,
+        comment_body: state.mojiReducer.comment_body,
+        report_body: state.mojiReducer.report_body,
         
-        mojiStack: state.navReducer.mojiStack,
+        moji_id: state.navReducer.moji_id,
+        moji_keyboard: state.navReducer.moji_keyboard,
+        moji_preview: state.navReducer.moji_preview,
+        moji_stack: state.navReducer.moji_stack,
+
+        token: state.authReducer.token,
+        
+        // comment_split: state.convoReducer.comment_split,
     };
 }
 

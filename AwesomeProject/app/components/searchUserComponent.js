@@ -30,6 +30,10 @@ class SearchUser extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'SearchUser', header: null
     });
+    
+    refresh = () => {
+        this.props.searchUser(this.props.token, this.props.user_search_body);
+    }
 
     backHandler() {
         this.props.navigation.pop();
@@ -57,14 +61,14 @@ class SearchUser extends Component {
                 
                 <TextInput
                   onChangeText={(text) => this.changeTextSearchUserHandler(text, this.props.token)}
-                  value={this.props.userSearchBody}
+                  value={this.props.user_search_body}
                   placeholder="Search by Username.."
-                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.userSearchBody)}
+                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}
                   />
 
-                  {this.props.searchUserLoaded && <Text onPress={() => this.pushNavUserHandler(this.props.userSearch.data.id)}
+                  {this.props.search_user_loaded && <Text onPress={() => this.pushNavUserHandler(this.props.user_search.data.id)}
                         style={styles.h3}>
-                        {this.props.userSearch.data.name}: {this.props.userSearch.data.username}
+                        {this.props.user_search.data.name}: {this.props.user_search.data.username}
                   </Text>}
                   
               </View>
@@ -88,11 +92,11 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('userSearch', state.userReducer.userSearch);
+    // console.log('user_search', state.userReducer.user_search);
     return {
-        userSearchBody: state.userReducer.userSearchBody,
-        userSearch: state.userReducer.userSearch,
-        searchUserLoaded: state.userReducer.searchUserLoaded,
+        user_search_body: state.userReducer.user_search_body,
+        user_search: state.userReducer.user_search,
+        search_user_loaded: state.userReducer.search_user_loaded,
         token: state.authReducer.token,
     };
 }

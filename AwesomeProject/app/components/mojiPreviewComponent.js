@@ -42,13 +42,13 @@ class MojiPreview extends Component {
     }
 
     dataHandler() {
-        switch (this.props.mojiPreviewType) {
+        switch (this.props.moji_preview_type) {
         case 'Message':
-            return this.props.messageSplit;
+            return this.props.message_split;
         case 'Comment':
-            return this.props.commentSplit;
+            return this.props.comment_split;
         case 'Reply':
-            return this.props.replySplit;
+            return this.props.reply_split;
         default:
             console.log('error: type not found');
             return null;
@@ -82,12 +82,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('preview', state.navReducer.mojiPreviewType);
+    // console.log('preview', state.navReducer.moji_preview_type);
     return {
-        messageSplit: state.convoReducer.messageSplit,
-        commentSplit: state.mojiReducer.commentSplit,
-        replySplit: state.commentReducer.replySplit,
-        mojiPreviewType: state.navReducer.mojiPreviewType,
+        message_split: state.convoReducer.message_split,
+        comment_split: state.mojiReducer.comment_split,
+        reply_split: state.commentReducer.reply_split,
+        moji_preview_type: state.navReducer.moji_preview_type,
         collec: state.userReducer.collec,
         token: state.authReducer.token
     };

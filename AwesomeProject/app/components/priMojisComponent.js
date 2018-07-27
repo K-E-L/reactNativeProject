@@ -30,11 +30,11 @@ class PriMojis extends Component {
     });
 
     componentWillMount() {
-        this.props.getPriMojis(this.props.token, this.props.authUser.id);
+        this.props.getPriMojis(this.props.token, this.props.auth_user.id);
     }
 
     refresh = () => {
-        this.props.getPriMojis(this.props.token, this.props.authUser.id);
+        this.props.getPriMojis(this.props.token, this.props.auth_user.id);
     }
 
     backHandler() {
@@ -50,12 +50,12 @@ class PriMojis extends Component {
                 </TouchableOpacity>
 
                 <FlatList
-                  data={this.props.priMojis}
+                  data={this.props.pri_mojis}
                   horizontal={true}
                   renderItem={({item}) =>
                               <Image style={{width: 20, height: 20}}
                                          source={{uri: 'http://167.99.162.15/mojiStorage/' +
-                                                  this.props.authUser.id + '/' +
+                                                  this.props.auth_user.id + '/' +
                                      item.path}}/>}
                               keyExtractor={item => item.id.toString()}/>
               </View>
@@ -75,11 +75,11 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('priMojis', state.navReducer.userStack);
+    console.log('priMojis', state.navReducer.user_stack);
     return {
-        priMojis: state.userReducer.priMojis,
-        userStack: state.navReducer.userStack,
-        authUser: state.userReducer.authUser,
+        pri_mojis: state.userReducer.pri_mojis,
+        user_stack: state.navReducer.user_stack,
+        auth_user: state.userReducer.auth_user,
         token: state.authReducer.token,
     };
 }

@@ -35,7 +35,7 @@ class ReplyItem extends Component {
     renderItemHandler(item, index) {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
             return <MojiItemImage
-            item={this.props.replyMojisMap.find(object => object.id == item.substring(3, item.length))}
+            item={this.props.reply_mojis_map.find(object => object.id == item.substring(3, item.length))}
             navigation={this.props.navigation}/>;
         }
         else {
@@ -44,7 +44,7 @@ class ReplyItem extends Component {
     }
     
     render() {
-        if (!this.props.commentRepliesLoading[this.props.index]) {
+        if (!this.props.comment_replies_loading[this.props.index]) {
         return (
             <View>
               <Text style={styles.text}>
@@ -60,7 +60,7 @@ class ReplyItem extends Component {
               <TouchableOpacity onPress={() => this.props.likeReply(
                     this.props.token,
                     this.props.item.id,
-                    this.props.commentID
+                    this.props.comment_id
                 )}>
                 <Text style={styles.link}>Like</Text>
               </TouchableOpacity>
@@ -68,7 +68,7 @@ class ReplyItem extends Component {
               <TouchableOpacity onPress={() => this.props.dislikeReply(
                     this.props.token,
                     this.props.item.id,
-                    this.props.commentID
+                    this.props.comment_id
                 )}>
                 <Text style={styles.link}>Dislike</Text>
               </TouchableOpacity>
@@ -104,12 +104,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('replyItem', state.commentReducer.commentRepliesLoading);
+    // console.log('replyItem', state.commentReducer.comment_replies_loading);
     return {
         token: state.authReducer.token,
-        commentID: state.navReducer.commentID,
-        commentRepliesLoading: state.commentReducer.commentRepliesLoading,
-        replyMojisMap: state.commentReducer.replyMojisMap
+        comment_id: state.navReducer.comment_id,
+        comment_replies_loading: state.commentReducer.comment_replies_loading,
+        reply_mojis_map: state.commentReducer.reply_mojis_map
     };
 }
 
