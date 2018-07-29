@@ -23,7 +23,7 @@ class CollecKeyboard extends Component {
         this.funcHandler = this.funcHandler.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getCollec(this.props.token);
     }
 

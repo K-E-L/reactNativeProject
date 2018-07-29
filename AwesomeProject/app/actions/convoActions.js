@@ -1,7 +1,6 @@
 // import: types
 import {
     ADD_MESSAGE_MOJI,
-    CLEAR_LOADED,
     GET_CONVO,
     GET_CONVOS,
     GET_CONVO_MESSAGES,
@@ -252,13 +251,6 @@ export const messageLoaded = (index) => dispatch => {
     dispatch({
         type: MESSAGE_LOADED,
         payload: index
-    });
-};
-
-export const clearLoaded = () => dispatch => {
-    dispatch({
-        type: CLEAR_LOADED,
-        payload: null
     });
 };
 

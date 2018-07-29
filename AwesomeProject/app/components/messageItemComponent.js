@@ -26,28 +26,37 @@ import WordItem from './wordItemComponent';
 // import: dumb component
 import UserItem from './userItemComponent';
 
+// import: dumb component
+import Like from './likeComponent';
+
 class MessageItem extends Component {
     constructor(props) {
         super(props);
         this.renderItemHandler = this.renderItemHandler.bind(this);
-
-        // get from server later
-        this.maxNumber = 2;
+        this.findHandler = this.findHandler.bind(this);
     }
 
-    // stopped here.. rendering from the map but mojis aren't there..
     componentDidMount() {
         this.props.setMessageMojiMap(this.props.token, this.props.item.body, this.props.index);
     }
 
+    findHandler(item) {
+        let result = this.props.message_mojis_map.find(object => object.id == item.substring(3, item.length));
+
+        if (result === undefined) {
+            return this.props.message_mojis_map.find(object => object.id == 1);
+        }
+
+        return result;
+    }
+
     renderItemHandler(item) {
-        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
+        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.props.max_moji)) {
             return <MojiItemImage
-            item={this.props.message_mojis_map.find(object => object.id == item.substring(3, item.length))}
+            item={this.findHandler(item)}
             navigation={this.props.navigation}/>;
         }
         else {
-            // this.props.triggerStateChange();
             return <WordItem word={item}/>;
         }
     }
@@ -71,14 +80,9 @@ class MessageItem extends Component {
                 horizontal={true}
                 renderItem={({item}) => this.renderItemHandler(item)}
                 keyExtractor={(item, index) => index.toString()}/>
+
+              <Like item={this.props.item} prop_id={this.props.convo_id} type={'message'}/>
                 
-              <TouchableOpacity onPress={() => this.props.likeMessage(
-                    this.props.token,
-                    this.props.item.id,
-                    this.props.convo_id
-                )}>
-                <Text style={styles.link}>Like</Text>
-              </TouchableOpacity>
             </View>
         );
         }
@@ -105,12 +109,16 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('messageItem', state.convoReducer.message_mojis_map);
+    // console.log('messageItem', state.mojiReducer.max_moji);
     return {
         token: state.authReducer.token,
+        
         convo_id: state.navReducer.convo_id,
+        
+        max_moji: state.mojiReducer.max_moji,
+        
         convo_messages_loading: state.convoReducer.convo_messages_loading,
-        message_mojis_map: state.convoReducer.message_mojis_map
+        message_mojis_map: state.convoReducer.message_mojis_map,
     };
 }
 

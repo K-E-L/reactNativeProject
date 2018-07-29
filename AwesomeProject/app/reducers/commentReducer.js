@@ -5,6 +5,7 @@ import {
     REPLY,
     REPLY_LOADED,
     SET_REPLY_BODY,
+    SET_REPLY_FIRST_MOJI,
     SET_REPLY_MOJIS_MAP,
     SPLIT_REPLY_BODY
 } from '../types';
@@ -28,7 +29,7 @@ function commentReducer (state = initialState, action) {
         return {
             ...state,
             replies: action.payload,
-            comment_replies_loading: tempReplies
+            comment_replies_loading: [...tempReplies]
         };
     case SET_REPLY_BODY:
         return {
@@ -56,7 +57,7 @@ function commentReducer (state = initialState, action) {
         
         return {
             ...state,
-            comment_replies_loading: tempLoading
+            comment_replies_loading: [...tempLoading]
         };
     case SET_REPLY_MOJIS_MAP:
         let tempRepliesLoading = state.comment_replies_loading;
@@ -82,7 +83,12 @@ function commentReducer (state = initialState, action) {
         return {
             ...state,
             reply_mojis_map: [...tempMap],
-            comment_replies_loading: tempRepliesLoading,
+            comment_replies_loading: [...tempRepliesLoading],
+        };
+    case SET_REPLY_FIRST_MOJI:
+        return {
+            ...state,
+            reply_mojis_map: [...[action.payload.mojis[0]]],
         };
 
 

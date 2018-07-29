@@ -1,7 +1,6 @@
 // import: types
 import {
     ADD_MESSAGE_MOJI,
-    CLEAR_LOADED,
     GET_CONVO,
     GET_CONVOS,
     GET_CONVO_MESSAGES,
@@ -11,6 +10,7 @@ import {
     SET_RENAME_BODY,
     SET_MESSAGE_BODY,
     SET_MESSAGE_MOJIS_MAP,
+    SET_MESSAGE_FIRST_MOJI,
     SPLIT_MESSAGE_BODY
 } from '../types';
 
@@ -90,11 +90,6 @@ function convoReducer (state = initialState, action) {
             ...state,
             convo_messages_loading: [...tempLoading]
         };
-    case CLEAR_LOADED:
-        return {
-            ...state,
-            convo_messages_loading: []
-        };
     case SET_MESSAGE_MOJIS_MAP:
         let tempMessagesLoading = state.convo_messages_loading;
         tempMessagesLoading[action.payload.index] = false;
@@ -119,7 +114,12 @@ function convoReducer (state = initialState, action) {
         return {
             ...state,
             message_mojis_map: [...tempMap],
-            convo_messages_loading: tempMessagesLoading,
+            convo_messages_loading: [...tempMessagesLoading],
+        };
+    case SET_MESSAGE_FIRST_MOJI:
+        return {
+            ...state,
+            message_mojis_map: [...[action.payload.mojis[0]]],
         };
 
 

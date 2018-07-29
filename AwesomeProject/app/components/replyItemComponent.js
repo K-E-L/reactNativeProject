@@ -22,23 +22,36 @@ import MojiItemImage from './mojiItemImageComponent';
 // import: dumb component
 import UserItem from './userItemComponent';
 
+// import: dumb component
+import Like from './likeComponent';
+
+// import: dumb component
+import Dislike from './dislikeComponent';
+
 class ReplyItem extends Component {
     constructor(props) {
         super(props);
         this.renderItemHandler = this.renderItemHandler.bind(this);
-
-        // get from server later
-        this.maxNumber = 2;
     }
 
     componentDidMount() {
         this.props.setReplyMojiMap(this.props.token, this.props.item.body, this.props.index);
     }
+
+    findHandler(item) {
+        let result = this.props.reply_mojis_map.find(object => object.id == item.substring(3, item.length));
+
+        if (result === undefined) {
+            return this.props.reply_mojis_map.find(object => object.id == 1);
+        }
+
+        return result;
+    }
     
     renderItemHandler(item, index) {
-        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
+        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.props.max_moji)) {
             return <MojiItemImage
-            item={this.props.reply_mojis_map.find(object => object.id == item.substring(3, item.length))}
+            item={this.findHandler(item)}
             navigation={this.props.navigation}/>;
         }
         else {
@@ -66,23 +79,10 @@ class ReplyItem extends Component {
                 renderItem={({item, index}) => this.renderItemHandler(item, index)}
                 keyExtractor={(item, index) => index.toString()}/>
 
+              <Like item={this.props.item} prop_id={this.props.comment_id} type={'reply'}/>
 
-              <TouchableOpacity onPress={() => this.props.likeReply(
-                    this.props.token,
-                    this.props.item.id,
-                    this.props.comment_id
-                )}>
-                <Text style={styles.link}>Like</Text>
-              </TouchableOpacity>
+              <Dislike item={this.props.item} prop_id={this.props.comment_id} type={'reply'}/>
               
-              <TouchableOpacity onPress={() => this.props.dislikeReply(
-                    this.props.token,
-                    this.props.item.id,
-                    this.props.comment_id
-                )}>
-                <Text style={styles.link}>Dislike</Text>
-              </TouchableOpacity>
-
               <TouchableOpacity onPress={() => this.props.setReplyBody('@' + this.props.item.creator_username + ' ')}>
                 <Text style={styles.link}>Reply @{this.props.item.creator_username}</Text>
               </TouchableOpacity>
@@ -116,8 +116,12 @@ function mapStateToProps(state, props) {
     // console.log('replyItem', state.commentReducer.comment_replies_loading);
     return {
         token: state.authReducer.token,
+        
         comment_id: state.navReducer.comment_id,
         comment_replies_loading: state.commentReducer.comment_replies_loading,
+        reply_mojis_map: state.commentReducer.reply_mojis_map,
+
+        max_moji: state.mojiReducer.max_moji,
         reply_mojis_map: state.commentReducer.reply_mojis_map
     };
 }

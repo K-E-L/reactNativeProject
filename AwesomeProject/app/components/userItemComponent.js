@@ -31,7 +31,6 @@ class UserItem extends Component {
 
     pushWithNameHandler(id, name) {
         this.props.pushNavUser(id);
-        this.props.setUserName(name);
         this.props.navigation.push('User');
     }
     

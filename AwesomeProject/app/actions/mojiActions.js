@@ -4,6 +4,7 @@ import {
     COMMENT,
     COMMENT_LOADED,
     GET_FOLLOWING_MOJIS,
+    GET_MAX_MOJI,
     GET_MOJI,
     GET_MOJI_COMMENTS,
     GET_POPULAR_MOJIS,
@@ -11,8 +12,11 @@ import {
     REPORT,
     SEARCH_MOJI,
     SET_COMMENT_BODY,
+    SET_COMMENT_FIRST_MOJI,
     SET_COMMENT_MOJIS_MAP,
+    SET_MESSAGE_FIRST_MOJI,
     SET_MOJI_SEARCH_BODY,
+    SET_REPLY_FIRST_MOJI,
     SET_REPORT_BODY,
     SPLIT_COMMENT_BODY
 } from '../types';
@@ -404,6 +408,95 @@ export const upload = (login_cred, data) => dispatch => {
         //       })
         //      )
         // .then(() => {dispatch(getMojiComments(login_cred, id));})
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getMaxMoji = (login_cred) => dispatch => {
+    fetch('http://167.99.162.15/api/mojis/max', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
+    }).then(res => res.json())
+        .then(max =>
+              dispatch({
+                  type: GET_MAX_MOJI,
+                  payload: max
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const setCommentFirstMoji = (login_cred) => dispatch => {
+    return fetch('http://167.99.162.15/api/mojis/collection', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            arr: [1]
+        })
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: SET_COMMENT_FIRST_MOJI,
+                  payload: {mojis: mojis.data}
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const setMessageFirstMoji = (login_cred) => dispatch => {
+    return fetch('http://167.99.162.15/api/mojis/collection', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            arr: [1]
+        })
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: SET_MESSAGE_FIRST_MOJI,
+                  payload: {mojis: mojis.data}
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const setReplyFirstMoji = (login_cred) => dispatch => {
+    return fetch('http://167.99.162.15/api/mojis/collection', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            arr: [1]
+        })
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: SET_REPLY_FIRST_MOJI,
+                  payload: {mojis: mojis.data}
+              })
+             )
         .catch((error) => {
             console.error(error);
         });

@@ -8,7 +8,6 @@ import {
     SELEC_IMAGE,
     SET_COMMENT_ID,
     SET_CONVO_ID,
-    SET_CONVO_NAME,
     SET_CONVO_TYPE,
     SET_IMAGE_NAME_BODY,
     SET_MESSAGE_MOJIS_STACK,
@@ -16,22 +15,18 @@ import {
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
     SET_IMAGES,
-    SET_USER_NAME,
     TOGGLE_MOJI_PREVIEW,
     TOGGLE_MOJI_KEYBOARD,
-    TOGGLE_IMAGE_PRIVATE,
-    TRIGGER_STATE_CHANGE
+    TOGGLE_IMAGE_PRIVATE
 } from '../types';
 
 const initialState = {
     user_stack: [],
-    user_name: '',
     
     moji_stack: [],
     moji_type: '',
     
     convo_id: 0,
-    convo_name: '',
     convo_type: '',
 
     comment_id: 0,
@@ -39,7 +34,6 @@ const initialState = {
     moji_keyboard_type: '',
     moji_preview: false,
     moji_preview_type: '',
-    stateChange: false,
     
     images: [],
     selec_image: {
@@ -77,11 +71,6 @@ function navReducer (state = initialState, action) {
             ...state,
             convo_id: action.payload
         };
-    case SET_CONVO_NAME:
-        return {
-            ...state,
-            convo_name: action.payload
-        };
     case SET_CONVO_TYPE:
         return {
             ...state,
@@ -117,19 +106,6 @@ function navReducer (state = initialState, action) {
             ...state,
             moji_preview_type: action.payload
         };
-    case TRIGGER_STATE_CHANGE:
-        if (state.stateChange === false) {
-            return {
-                ...state,
-                stateChange: true
-            };
-        }
-        else {
-            return {
-                ...state,
-                stateChange: false
-            };
-        }
     case SET_IMAGES:
         return {
             ...state,
@@ -159,12 +135,6 @@ function navReducer (state = initialState, action) {
                 image_private: false,
             };
         }
-    case SET_USER_NAME:
-        return {
-            ...state,
-            user_name: action.payload
-        };
-        
         
     default:
         return state;

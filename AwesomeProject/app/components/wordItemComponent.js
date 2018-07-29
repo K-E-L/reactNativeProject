@@ -18,10 +18,6 @@ import {
 import * as Actions from '../actions/rootActions';
 
 class WordItem extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <View>              

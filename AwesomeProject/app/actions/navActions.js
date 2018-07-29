@@ -7,7 +7,6 @@ import {
     SELEC_IMAGE,
     SET_COMMENT_ID,
     SET_CONVO_ID,
-    SET_CONVO_NAME,
     SET_CONVO_TYPE,
     SET_IMAGES,
     SET_IMAGE_NAME_BODY,
@@ -16,11 +15,9 @@ import {
     SET_MOJI_KEYBOARD_TYPE,
     SET_MOJI_PREVIEW_TYPE,
     SET_MOJI_TYPE,
-    SET_USER_NAME,
     TOGGLE_MOJI_PREVIEW,
     TOGGLE_IMAGE_PRIVATE,
-    TOGGLE_MOJI_KEYBOARD,
-    TRIGGER_STATE_CHANGE,
+    TOGGLE_MOJI_KEYBOARD
 } from '../types';
 
 export const pushNavUser = (id) => dispatch => {
@@ -62,13 +59,6 @@ export const setConvoID = (id) => dispatch => {
     dispatch({
         type: SET_CONVO_ID,
         payload: id
-    });
-};
-
-export const setConvoName = (name) => dispatch => {
-    dispatch({
-        type: SET_CONVO_NAME,
-        payload: name
     });
 };
 
@@ -128,13 +118,6 @@ export const setMojiPreviewType = (type) => dispatch => {
     });
 };
 
-export const triggerStateChange = () => dispatch => {
-    dispatch({
-        type: TRIGGER_STATE_CHANGE,
-        payload: null
-    });
-};
-
 export const setImages = (images) => dispatch => {
     dispatch({
         type: SET_IMAGES,
@@ -160,12 +143,5 @@ export const toggleImagePrivate = () => dispatch => {
     dispatch({
         type: TOGGLE_IMAGE_PRIVATE,
         payload: null
-    });
-};
-
-export const setUserName = (name) => dispatch => {
-    dispatch({
-        type: SET_USER_NAME,
-        payload: name
     });
 };

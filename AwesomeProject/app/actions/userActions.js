@@ -362,4 +362,3 @@ export const setUserSearchBody = (text) => dispatch => {
         payload: text
     });
 };
-

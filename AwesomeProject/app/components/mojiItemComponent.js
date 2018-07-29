@@ -23,12 +23,11 @@ import UserItem from './userItemComponent';
 class MojiItem extends Component {
     constructor(props) {
         super(props);
-        this.setMojiIdHandler = this.setMojiIdHandler.bind(this);
+        this.pushNavMojiHandler = this.pushNavMojiHandler.bind(this);
     }
 
-    setMojiIdHandler(id) {
+    pushNavMojiHandler(id) {
         this.props.pushNavMoji(id);
-        this.props.setMojiID(id);
         this.props.navigation.navigate('Moji');
     }
 
@@ -44,7 +43,7 @@ class MojiItem extends Component {
               <Text style={styles.text}>
                 {this.props.item.name}: {this.props.item.created_at}</Text>
 
-              <TouchableOpacity onPress={() => this.setMojiIdHandler(this.props.item.id)}>
+              <TouchableOpacity onPress={() => this.pushNavMojiHandler(this.props.item.id)}>
                 <Image style={{width: 20, height: 20}}
                        source={{uri: 'http://167.99.162.15/mojiStorage/' +
                                 this.props.item.creator_id + '/' +

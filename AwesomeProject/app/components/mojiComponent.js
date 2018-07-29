@@ -19,8 +19,8 @@ import {
 // import: actions
 import * as Actions from '../actions/rootActions';
 
-// import: dumb component
-import CommentItem from './commentItemComponent';
+// import: pull to refresh
+import PTRView from 'react-native-pull-to-refresh';
 
 // import: keyboard component
 import CollecKeyboard from './collecKeyboardComponent';
@@ -28,11 +28,17 @@ import CollecKeyboard from './collecKeyboardComponent';
 // import: moji input component
 import MojiPreview from './mojiPreviewComponent';
 
-// import: pull to refresh
-import PTRView from 'react-native-pull-to-refresh';
+// import: dumb component
+import CommentItem from './commentItemComponent';
 
 // import: dumb component
 import UserItem from './userItemComponent';
+
+// import: dumb component
+import Like from './likeComponent';
+
+// import: dumb component
+import Dislike from './dislikeComponent';
 
 class Moji extends Component {
     constructor(props) {
@@ -49,11 +55,13 @@ class Moji extends Component {
     });
 
     componentDidMount() {
+        this.props.getMaxMoji(this.props.token);
         this.props.getMoji(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
         this.props.getMojiComments(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
     }
 
     refresh = () => {
+        this.props.getMaxMoji(this.props.token);
         this.props.getMoji(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
         this.props.getMojiComments(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
     }
@@ -130,20 +138,10 @@ class Moji extends Component {
                   <Text style={styles.link}>{this.props.moji.type}</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.props.likeMoji(
-                      this.props.token,
-                      this.props.moji_stack[this.props.moji_stack.length - 1]
-                  )}>
-                  <Text style={styles.link}>Like</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity onPress={() => this.props.dislikeMoji(
-                      this.props.token,
-                      this.props.moji_stack[this.props.moji_stack.length - 1]
-                  )}>
-                  <Text style={styles.link}>Dislike</Text>
-                </TouchableOpacity>
+                <Like item={this.props.moji.data} prop_id={this.props.moji_stack[this.props.moji_stack.length - 1]} type={'moji'}/>
 
+                <Dislike item={this.props.moji.data} prop_id={this.props.moji_stack[this.props.moji_stack.length - 1]} type={'moji'}/>
+                
                 {this.props.moji_preview && <MojiPreview />}
                 
                 <TextInput
@@ -214,21 +212,18 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('moji', state.navReducer.moji_stack);
+    console.log('moji', state.commentReducer.comment_mojis_map);
     return {
         moji: state.mojiReducer.moji,
         moji_comments: state.mojiReducer.moji_comments,
         comment_body: state.mojiReducer.comment_body,
         report_body: state.mojiReducer.report_body,
         
-        // moji_id: state.navReducer.moji_id,
         moji_keyboard: state.navReducer.moji_keyboard,
         moji_preview: state.navReducer.moji_preview,
         moji_stack: state.navReducer.moji_stack,
 
         token: state.authReducer.token,
-        
-        // comment_split: state.convoReducer.comment_split,
     };
 }
 

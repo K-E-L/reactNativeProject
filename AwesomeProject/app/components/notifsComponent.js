@@ -47,6 +47,7 @@ class Notifs extends Component {
     }
 
     backHandler() {
+        this.props.getAuthUser(this.props.token);
         this.props.navigation.pop();
     }
     
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('notifs', state.userReducer.user_notifs);
+    console.log('notifs', state.userReducer.moji_notifs);
     return {
         user_notifs: state.userReducer.user_notifs,
         convo_notifs: state.userReducer.convo_notifs,

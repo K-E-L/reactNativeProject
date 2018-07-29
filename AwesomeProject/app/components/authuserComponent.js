@@ -34,10 +34,19 @@ class AuthUser extends Component {
     componentDidMount() {
         this.props.getAuthUser(this.props.token);
         this.props.getConvos(this.props.token);
+        this.props.getMaxMoji(this.props.token);
+        this.props.setMessageFirstMoji(this.props.token);
+        this.props.setCommentFirstMoji(this.props.token);
+        this.props.setReplyFirstMoji(this.props.token);
     }
 
     refresh = () => {
         this.props.getAuthUser(this.props.token);
+        this.props.getConvos(this.props.token);
+        this.props.getMaxMoji(this.props.token);
+        this.props.setMessageFirstMoji(this.props.token);
+        this.props.setCommentFirstMoji(this.props.token);
+        this.props.setReplyFirstMoji(this.props.token);
     }
 
     pushNavUserHandler(type) {
@@ -126,12 +135,14 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('auth', state.navReducer.user_stack);
+    // console.log('auth', state.commentReducer.reply_mojis_map);
     return {
         auth_user: state.userReducer.auth_user,
         auth_user_email: state.userReducer.auth_user_email,
+        
         user_stack: state.navReducer.user_stack,
-        token: state.authReducer.token
+        
+        token: state.authReducer.token,
     };
 }
 

@@ -22,12 +22,25 @@ class ConvoItem extends Component {
         super(props);
         this.searchConvoNotifs = this.searchConvoNotifs.bind(this);
         this.setConvoHandler = this.setConvoHandler.bind(this);
+        this.convoSearchAndDestroy = this.convoSearchAndDestroy.bind(this);
     }
 
     setConvoHandler(id, name) {
         this.props.setConvoID(id);
-        this.props.setConvoName(name);
         this.props.navigation.push('Convo');
+    }
+
+    setAndDestroyHandler(id, name) {
+        this.props.setConvoID(id);
+        this.convoSearchAndDestroy(this.props.token, name);
+        this.props.navigation.push('Convo');
+    }
+
+    convoSearchAndDestroy(token, name) {
+        let obj = this.props.convo_notifs.find(function (obj) { return (obj.spec_name === name && obj.read === 0); });
+        if (typeof obj !== "undefined") {
+            this.props.destroyNotif(token, obj.id);
+        }
     }
 
     searchConvoNotifs(name) {
@@ -45,7 +58,7 @@ class ConvoItem extends Component {
             return (
                 <View>
                   <Text style={styles.h3}
-                        onPress={() => this.setConvoHandler(this.props.item.id, this.props.item.name)}>
+                        onPress={() => this.setAndDestroyHandler(this.props.item.id, this.props.item.name)}>
                     {this.props.item.name}..dot..</Text>
                 </View>
             );
@@ -77,7 +90,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('convoItem', state.userReducer.convo_notifs);
+    // console.log('convoItem', state.userReducer.convo_notifs);
     return {
         token: state.authReducer.token,
         convo_notifs: state.userReducer.convo_notifs,

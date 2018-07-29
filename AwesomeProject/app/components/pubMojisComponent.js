@@ -28,7 +28,7 @@ class PubMojis extends Component {
         title: 'PubMojis', header: null
     });
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getPubMojis(this.props.token, this.props.auth_user.id);
     }
 
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('pubMojis', state.userReducer.pub_mojis);
+    console.log('pubMojis', state.commentReducer.reply_mojis_map);
     return {
         pub_mojis: state.userReducer.pub_mojis,
         auth_user: state.userReducer.auth_user,

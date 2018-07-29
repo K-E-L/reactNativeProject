@@ -22,24 +22,38 @@ import MojiItemImage from './mojiItemImageComponent';
 // import: dumb component
 import UserItem from './userItemComponent';
 
+// import: dumb component
+import Like from './likeComponent';
+
+// import: dumb component
+import Dislike from './dislikeComponent';
+
 class CommentItem extends Component {
     constructor(props) {
         super(props);
         this.renderItemHandler = this.renderItemHandler.bind(this);
         this.setCommentIdHandler = this.setCommentIdHandler.bind(this);
-
-        // get from server later
-        this.maxNumber = 2;
+        this.findHandler = this.findHandler.bind(this);
     }
 
     componentDidMount() {
         this.props.setCommentMojiMap(this.props.token, this.props.item.body, this.props.index);
     }
 
+    findHandler(item) {
+        let result = this.props.comment_mojis_map.find(object => object.id == item.substring(3, item.length));
+
+        if (result === undefined) {
+            return this.props.comment_mojis_map.find(object => object.id == 1);
+        }
+
+        return result;
+    }
+
     renderItemHandler(item, index) {
-        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.maxNumber)) {
+        if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.props.max_moji)) {
             return <MojiItemImage
-            item={this.props.comment_mojis_map.find(object => object.id == item.substring(3, item.length))}
+            item={this.findHandler(item)}
             navigation={this.props.navigation}/>;
         }
         else {
@@ -75,22 +89,10 @@ class CommentItem extends Component {
                     <Text style={styles.link}>Reply</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => this.props.likeComment(
-                        this.props.token,
-                        this.props.item.id,
-                        this.props.moji.data.id
-                    )}>
-                    <Text style={styles.link}>Like</Text>
-                  </TouchableOpacity>
+                  <Like item={this.props.item} prop_id={this.props.moji.data.id} type={'comment'}/>
 
-                  <TouchableOpacity
-                    onPress={() => this.props.dislikeComment(
-                        this.props.token,
-                        this.props.item.id,
-                        this.props.moji.data.id
-                    )}>
-                    <Text style={styles.link}>Dislike</Text>
-                  </TouchableOpacity>
+                  <Dislike item={this.props.item} prop_id={this.props.moji.data.id} type={'comment'}/>
+
                 </View>
             );
         }
@@ -117,11 +119,15 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('commentItem', state.mojiReducer.moji_comments_loading);
+    console.log('commentItem', state.mojiReducer.comment_mojis_map);
     return {
         token: state.authReducer.token,
+        
         moji: state.mojiReducer.moji,
         moji_comments_loading: state.mojiReducer.moji_comments_loading,
+        comment_mojis_map: state.mojiReducer.comment_mojis_map,
+        max_moji: state.mojiReducer.max_moji,
+
         comment_mojis_map: state.mojiReducer.comment_mojis_map
     };
 }

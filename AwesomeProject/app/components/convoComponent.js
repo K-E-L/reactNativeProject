@@ -43,7 +43,6 @@ class Convo extends Component {
         this.focusMessageHandler = this.focusMessageHandler.bind(this);
         this.endEditingMessageHandler = this.endEditingMessageHandler.bind(this);
         this.changeTextMessageHandler = this.changeTextMessageHandler.bind(this);
-        this.searchAndDestroy = this.searchAndDestroy.bind(this);
     }    
 
     static navigationOptions = ({ navigation }) => ({
@@ -51,24 +50,17 @@ class Convo extends Component {
     });
 
     componentDidMount() {
+        this.props.getMaxMoji(this.props.token);
         this.props.getConvo(this.props.token, this.props.convo_id);
         this.props.getConvoMessages(this.props.token, this.props.convo_id);
         this.props.getConvoUsers(this.props.token, this.props.convo_id);
-        this.searchAndDestroy(this.props.token, this.props.convo_name);
     }
     
     refresh = () => {
+        this.props.getMaxMoji(this.props.token);
         this.props.getConvo(this.props.token, this.props.convo_id);
         this.props.getConvoMessages(this.props.token, this.props.convo_id);
         this.props.getConvoUsers(this.props.token, this.props.convo_id);
-        this.searchAndDestroy(this.props.token, this.props.convo_name);
-    }
-
-    searchAndDestroy(token, name) {
-        let obj = this.props.convo_notifs.find(function (obj) { return (obj.spec_type === name && obj.read === 0); });
-        if (typeof obj !== "undefined") {
-            this.props.destroyNotif(token, obj.id);
-        }
     }
 
     destroyConvoHandler(login_cred, id) {
@@ -86,7 +78,6 @@ class Convo extends Component {
 
     backHandler() {
         this.props.getConvos(this.props.token);
-        this.props.clearLoaded();
         this.props.navigation.pop();
     }
 
@@ -219,7 +210,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('convoCom', state.convoReducer.convo_messages);
+    // console.log('convoCom', state.convoReducer.convo_messages_loading);
     return {
         convo: state.convoReducer.convo,
         convo_messages: state.convoReducer.convo_messages,
@@ -228,11 +219,9 @@ function mapStateToProps(state, props) {
         message_body: state.convoReducer.message_body,
         message_split: state.convoReducer.message_split,
         
-        convo_notifs: state.userReducer.convo_notifs,
         auth_user: state.userReducer.auth_user,
         
         convo_id: state.navReducer.convo_id,
-        convo_name: state.navReducer.convo_name,
         user_stack: state.navReducer.user_stack,
         moji_keyboard: state.navReducer.moji_keyboard,
         moji_preview: state.navReducer.moji_preview,

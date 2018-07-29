@@ -4,6 +4,7 @@ import {
     COMMENT,
     COMMENT_LOADED,
     GET_FOLLOWING_MOJIS,
+    GET_MAX_MOJI,
     GET_MOJI,
     GET_MOJI_COMMENTS,
     GET_POPULAR_MOJIS,
@@ -12,6 +13,7 @@ import {
     SEARCH_MOJI,
     SET_COMMENT_BODY,
     SET_COMMENT_MOJIS_MAP,
+    SET_COMMENT_FIRST_MOJI,
     SET_MOJI_SEARCH_BODY,
     SET_REPORT_BODY,
     SPLIT_COMMENT_BODY
@@ -35,7 +37,9 @@ const initialState = {
         data: {},
         type: ''
     },
-    search_moji_loaded: false
+    search_moji_loaded: false,
+
+    max_moji: 0
 };
 
 function mojiReducer (state = initialState, action) {
@@ -68,7 +72,7 @@ function mojiReducer (state = initialState, action) {
         return {
             ...state,
             moji_comments: action.payload,
-            moji_comments_loading: tempComments,
+            moji_comments_loading: [...tempComments],
         };
     case SET_COMMENT_BODY:
         return {
@@ -107,7 +111,7 @@ function mojiReducer (state = initialState, action) {
         
         return {
             ...state,
-            moji_comments_loading: tempLoading
+            moji_comments_loading: [...tempLoading]
         };
     case SET_COMMENT_MOJIS_MAP:
         let tempCommentsLoading = state.moji_comments_loading;
@@ -133,9 +137,8 @@ function mojiReducer (state = initialState, action) {
         return {
             ...state,
             comment_mojis_map: [...tempMap],
-            moji_comments_loading: tempCommentsLoading,
-        };
-        
+            moji_comments_loading: [...tempCommentsLoading],
+        };        
     case SET_MOJI_SEARCH_BODY:
         return {
             ...state,
@@ -155,7 +158,16 @@ function mojiReducer (state = initialState, action) {
                 search_moji_loaded: true
             };
         }
-
+    case GET_MAX_MOJI:
+        return {
+            ...state,
+            max_moji: action.payload
+        };
+    case SET_COMMENT_FIRST_MOJI:
+        return {
+            ...state,
+            comment_mojis_map: [...[action.payload.mojis[0]]],
+        };
 
         
     default:

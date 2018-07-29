@@ -40,10 +40,12 @@ class Comment extends Component {
     });
 
     componentDidMount() {
+        this.props.getMaxMoji(this.props.token);
         this.props.getCommentReplies(this.props.token, this.props.comment_id);
     }
 
     refresh = () => {
+        this.props.getMaxMoji(this.props.token);
         this.props.getCommentReplies(this.props.token, this.props.comment_id);
     }
 
@@ -130,14 +132,15 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log(state.commentReducer.reply_body);
+    // console.log('comment', state.mojiReducer.max_moji);
     return {
         replies: state.commentReducer.replies,
         reply_body: state.commentReducer.reply_body,
+        
         comment_id: state.navReducer.comment_id,
         moji_keyboard: state.navReducer.moji_keyboard,
         moji_preview: state.navReducer.moji_preview,
-        // replySplit: state.commentReducer.replySplit,
+        
         token: state.authReducer.token
     };
 }
