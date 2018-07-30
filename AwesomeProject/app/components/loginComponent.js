@@ -30,25 +30,36 @@ class Login extends Component {
                 <View>
                   <Text style={styles.h3}>Login</Text>
                   <TextInput
-                    onChangeText={(text) => this.props.setEmail(text)}
-                    value={this.props.email}
-                    placeholder='email'
-                    />
-                   <TextInput
-                     onChangeText={(text) => this.props.setPassword(text)}
-                     value={this.props.password}
-                     placeholder='password'
-                     secureTextEntry={true}
-                     autoCapitalize = 'none'
-                     />
+                    onChangeText={(text) => this.props.setLoginEmail(text)}
+                    value={this.props.login_email}
+                    placeholder='email'/>
+                    
+                  <TextInput
+                    onChangeText={(text) => this.props.setLoginPassword(text)}
+                    value={this.props.login_password}
+                    placeholder='password'
+                    secureTextEntry={this.props.hide_log_password}
+                    autoCapitalize = 'none'/>
+                    
+                  <TouchableOpacity
+                    onPress={() => this.props.toggleHideLogPassword()}>
+                    <Text style={styles.link}>Show Password</Text>
+                  </TouchableOpacity>
 
-                     <TouchableOpacity
-                       onPress={() => this.props.login(
-                           this.props.email,
-                           this.props.password
-                       )}>
-                       <Text style={styles.link}>Login</Text>
-                     </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.props.login(
+                        this.props.login_email,
+                        this.props.login_password
+                    )}>
+                    <Text style={styles.link}>Login</Text>
+                  </TouchableOpacity>
+
+                  <Text style={styles.text}>Don't have an account?</Text>
+                  <TouchableOpacity
+                    onPress={() => this.props.toggleShowRegister()}>
+                    <Text style={styles.link}>Go to Register</Text>
+                  </TouchableOpacity>
+
                 </View>
             );
         }
@@ -80,10 +91,11 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, props) {
     return {
-        email: state.authReducer.email,
-        password: state.authReducer.password,
+        login_email: state.authReducer.login_email,
+        login_password: state.authReducer.login_password,
         logged_in: state.authReducer.logged_in,
-        login_loading: state.authReducer.login_loading
+        login_loading: state.authReducer.login_loading,
+        hide_log_password: state.authReducer.hide_log_password
     };
 }
 

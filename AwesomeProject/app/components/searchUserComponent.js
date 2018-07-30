@@ -60,7 +60,8 @@ class SearchUser extends Component {
                   onChangeText={(text) => this.changeTextSearchUserHandler(text, this.props.token)}
                   value={this.props.user_search_body}
                   placeholder="Search by Username.."
-                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}/>
+                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}
+                  autoCapitalize = 'none'/>
 
                   {this.props.search_user_loaded &&
                       <UserItem

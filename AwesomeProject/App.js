@@ -6,7 +6,10 @@ import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 // import: store
 import store from './app/store';
 
-// import: components
+// import: component
+import Root from './app/components/rootComponent.js';
+
+// import: component
 import Login from './app/components/loginComponent.js';
 
 // disable navigator warning.. kinda sux
@@ -20,7 +23,7 @@ class App extends Component {
         return (
             <Provider store={store}>
               <MenuProvider>
-                <Login/>
+                <Root />
               </MenuProvider>
             </Provider>
         );

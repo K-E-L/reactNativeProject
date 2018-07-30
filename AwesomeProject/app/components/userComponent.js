@@ -28,6 +28,9 @@ import * as Actions from '../actions/rootActions';
 // import: pull to refresh
 import PTRView from 'react-native-pull-to-refresh';
 
+// import: dumb component
+import FollowButton from './followButtonComponent';
+
 // import: menu testing..
 import { renderers } from 'react-native-popup-menu';
 const { SlideInMenu } = renderers;
@@ -97,14 +100,8 @@ class User extends Component {
                                 
               <Text style={styles.h3}>{this.props.user.data.name}</Text>
               <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
-              <Text
-                style={styles.link}
-                onPress={() => this.followUnfollowHandler(
-                    this.props.token,
-                    this.props.user.data.id,
-                    this.props.user.type,
-                    this.props.auth_user.id
-                )}>{this.props.user.type}</Text>
+              
+              <FollowButton />
 
               <Text
                 onPress={() => this.props.navigation.push('Followings')}

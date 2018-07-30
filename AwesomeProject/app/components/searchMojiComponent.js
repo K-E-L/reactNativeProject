@@ -61,7 +61,7 @@ class SearchMoji extends Component {
                   value={this.props.moji_search_body}
                   placeholder="Search by Moji name.."
                   onSubmitEditing={() => this.props.searchMoji(this.props.token, this.props.moji_search_body)}
-                  />
+                  autoCapitalize = 'none'/>
 
                   {this.props.search_moji_loaded && <Text onPress={() => this.pushNavMojiHandler(this.props.moji_search.data.id)}
                         style={styles.h3}>

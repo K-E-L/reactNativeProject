@@ -40,10 +40,12 @@ import Like from './likeComponent';
 // import: dumb component
 import Dislike from './dislikeComponent';
 
+// import: dumb component
+import CollecButton from './collecButtonComponent';
+
 class Moji extends Component {
     constructor(props) {
         super(props);
-        this.collecHandler = this.collecHandler.bind(this);
         this.backHandler = this.backHandler.bind(this);
         this.focusCommentHandler = this.focusCommentHandler.bind(this);
         this.endEditingCommentHandler = this.endEditingCommentHandler.bind(this);
@@ -66,17 +68,6 @@ class Moji extends Component {
         this.props.getMojiComments(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
     }
 
-    collecHandler = (login_cred, id, type) => {
-        Alert.alert(
-            this.props.moji.type + 'ting',
-            this.props.moji.type + 'ted',
-            [{text: 'Ok'}],
-            { cancelable: false }
-        );
-
-        this.props.CollecUncollec(login_cred, id, type);
-    }
-    
     backHandler() {
         this.props.popNavMoji();
         if (this.props.moji_stack.length !== 1) {
@@ -130,14 +121,9 @@ class Moji extends Component {
                   style={styles.text}>Likes: {this.props.moji.data.like_count}</Text>
                 <Text
                   style={styles.text}>Dislikes: {this.props.moji.data.dislike_count}</Text>
-                <TouchableOpacity onPress={() => this.collecHandler(
-                      this.props.token,
-                      this.props.moji_stack[this.props.moji_stack.length - 1],
-                      this.props.moji.type
-                  )}>
-                  <Text style={styles.link}>{this.props.moji.type}</Text>
-                </TouchableOpacity>
 
+                <CollecButton type={this.props.moji.type}/>
+                
                 <Like item={this.props.moji.data} prop_id={this.props.moji_stack[this.props.moji_stack.length - 1]} type={'moji'}/>
 
                 <Dislike item={this.props.moji.data} prop_id={this.props.moji_stack[this.props.moji_stack.length - 1]} type={'moji'}/>

@@ -77,7 +77,7 @@ class MessageItem extends Component {
 
               <FlatList
                 data={this.props.item.body}
-                horizontal={true}
+                style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}
                 renderItem={({item}) => this.renderItemHandler(item)}
                 keyExtractor={(item, index) => index.toString()}/>
 

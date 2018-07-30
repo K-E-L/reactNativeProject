@@ -7,7 +7,9 @@ import {
     Button,
     FlatList,
     Keyboard,
+    KeyboardAvoidingView,
     ListItem,
+    Platform,
     ScrollView,
     StyleSheet,
     Text,
@@ -45,9 +47,9 @@ class Convo extends Component {
         this.changeTextMessageHandler = this.changeTextMessageHandler.bind(this);
     }    
 
-    static navigationOptions = ({ navigation }) => ({
-        title: 'Convo', header: null
-    });
+    // static navigationOptions = ({ navigation }) => ({
+    //     title: 'Convo', header: null
+    // });
 
     componentDidMount() {
         this.props.getMaxMoji(this.props.token);
@@ -106,8 +108,12 @@ class Convo extends Component {
 
     render() {
         return (
-            <PTRView onRefresh={this.refresh}
-              keyboardShouldPersistTaps='handled'>
+            // <PTRView onRefresh={this.refresh}
+            // keyboardShouldPersistTaps='handled'>
+            // <KeyboardAvoidingView
+            //   behavior= {(Platform.OS === '')? "padding" : null}
+            //   style={{flex: 1}}>
+            <ScrollView>
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
@@ -157,6 +163,15 @@ class Convo extends Component {
                   <Text style={styles.link}>Leave Convo</Text>
                 </TouchableOpacity>
 
+                <FlatList
+                  data={this.props.convo_messages}
+                  renderItem={({item, index}) =>
+                              <MessageItem
+                                    item={item}
+                                    index={index}
+                                navigation={this.props.navigation}/>}
+                              keyExtractor={(item, index) => index.toString()}/>
+
                 {this.props.moji_preview && <MojiPreview />}
 
                 <TextInput
@@ -182,15 +197,8 @@ class Convo extends Component {
 
                 {this.props.moji_keyboard && <CollecKeyboard />}
 
-                <FlatList
-                  data={this.props.convo_messages}
-                  renderItem={({item, index}) =>
-                              <MessageItem
-                                    item={item}
-                                    index={index}
-                                navigation={this.props.navigation}/>}
-                              keyExtractor={(item, index) => index.toString()}/>
-              </PTRView>
+            </ScrollView>
+            // </PTRView>
         );
     }
 };
