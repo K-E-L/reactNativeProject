@@ -21,7 +21,7 @@ import {
 import * as Actions from '../actions/rootActions';
 
 // import: components
-import { TabNavigator } from './navComponent';
+import { TabNav } from './navComponent';
 
 class Login extends Component {
     render() {
@@ -70,7 +70,7 @@ class Login extends Component {
         }
         else {
             return (
-                <TabNavigator />
+                <TabNav />
             );
         }
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Keyboard } from 'react-native';
-import { TabView } from 'react-navigation';
+import { BottomTabBar } from 'react-navigation-tabs';
 
 class TabBar extends React.PureComponent {
     constructor(props) {
@@ -38,7 +38,7 @@ class TabBar extends React.PureComponent {
 
     render() {
         return this.state.isVisible ?
-            <TabView.TabBarBottom {...this.props} />
+            <BottomTabBar {...this.props} />
             :
         null;
     }

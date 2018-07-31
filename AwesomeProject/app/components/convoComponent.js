@@ -10,6 +10,7 @@ import {
     KeyboardAvoidingView,
     ListItem,
     Platform,
+    RefreshControl,
     ScrollView,
     StyleSheet,
     Text,
@@ -45,11 +46,15 @@ class Convo extends Component {
         this.focusMessageHandler = this.focusMessageHandler.bind(this);
         this.endEditingMessageHandler = this.endEditingMessageHandler.bind(this);
         this.changeTextMessageHandler = this.changeTextMessageHandler.bind(this);
+
+        this.state = {
+            refreshing: false,
+        };
     }    
 
-    // static navigationOptions = ({ navigation }) => ({
-    //     title: 'Convo', header: null
-    // });
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Convo', header: null
+    });
 
     componentDidMount() {
         this.props.getMaxMoji(this.props.token);
@@ -108,25 +113,38 @@ class Convo extends Component {
 
     render() {
         return (
+              //           <KeyboardAvoidingView
+              // behavior={'padding'}
+              // keyboardVerticalOffset={Platform.select({ios: 0, android: 0})}
+            // style={{flex: 1}}>
             // <PTRView onRefresh={this.refresh}
-            // keyboardShouldPersistTaps='handled'>
-            // <KeyboardAvoidingView
-            //   behavior= {(Platform.OS === '')? "padding" : null}
-            //   style={{flex: 1}}>
-            <ScrollView>
+            //          keyboardShouldPersistTaps='handled'>
+            // <View>
+              <ScrollView
+                keyboardShouldPersistTaps='handled'
+                ref={ref => this.scrollView = ref}
+                overScrollMode="never"
+                onContentSizeChange={(contentWidth, contentHeight)=>{                         this.scrollView.scrollToEnd({animated: true});
+                }}
+                // contentContainerStyle={{flexGrow: 1, justifyContent: 'flex-end'}}
+                refreshControl={<RefreshControl
+                              refreshing={this.state.refreshing}
+                              onRefresh={this.refresh}/>}>
+
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
-                <TextInput
-                  style={styles.h3}
-                  onChangeText={(text) => this.props.setRenameBody(text)}
-                  value={this.props.rename_body}
-                  placeholder="Rename Convo"
-                  onSubmitEditing={() => this.props.renameConvo(
-                      this.props.token,
-                      this.props.convo_id,
-                      this.props.rename_body
-                  )}/>
+
+              <TextInput
+                style={styles.h3}
+                onChangeText={(text) => this.props.setRenameBody(text)}
+                value={this.props.rename_body}
+                placeholder="Rename Convo"
+                onSubmitEditing={() => this.props.renameConvo(
+                    this.props.token,
+                    this.props.convo_id,
+                    this.props.rename_body
+                )}/>
 
                 <TouchableOpacity
                   onPress={() => this.props.renameConvo(
@@ -197,8 +215,10 @@ class Convo extends Component {
 
                 {this.props.moji_keyboard && <CollecKeyboard />}
 
-            </ScrollView>
+              </ScrollView>
+            // </View>
             // </PTRView>
+            // </KeyboardAvoidingView>
         );
     }
 };

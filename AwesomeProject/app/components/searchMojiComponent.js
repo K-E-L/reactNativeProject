@@ -48,7 +48,8 @@ class SearchMoji extends Component {
     
     render() {
         return (
-            <PTRView onRefresh={this.refresh}>
+            <PTRView onRefresh={this.refresh}
+                     keyboardShouldPersistTaps='handled'>
               <View>
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>

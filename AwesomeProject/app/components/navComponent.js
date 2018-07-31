@@ -16,10 +16,11 @@ import PriMojis from './priMojisComponent';
 import PubMojis from './pubMojisComponent';
 import SearchMoji from './searchMojiComponent';
 import SearchUser from './searchUserComponent';
+import TabBar from './tabBarComponent';
 import User from './userComponent';
 
 // import: navigator
-import { createStackNavigator, createBottomTabNavigator, TabView } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 // export: user navigator
 export const UserStackNavigator = createStackNavigator({
@@ -64,12 +65,12 @@ export const MojiStackNavigator = createStackNavigator({
     initialRouteName: 'MojiChoose',
 });
 
-// export: tab navigator
-export const TabNavigator = createBottomTabNavigator({
+export const TabNav = createBottomTabNavigator({
     Convos: { screen: ConvoStackNavigator },
     Profile: { screen: UserStackNavigator },
     Mojis: { screen: MojiStackNavigator }
 }, {
     initialRouteName: 'Profile',
+    tabBarComponent: TabBar,
     tabBarPosition: 'bottom'
 });
