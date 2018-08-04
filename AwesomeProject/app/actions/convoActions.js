@@ -67,7 +67,8 @@ export const getConvoMessages = (login_cred, id) => dispatch => {
         .then(messages =>
               dispatch({
                   type: GET_CONVO_MESSAGES,
-                  payload: messages.data
+                  payload: messages.data,
+                  payload1: id
               })
              )
         .catch((error) => {
@@ -254,18 +255,7 @@ export const messageLoaded = (index) => dispatch => {
     });
 };
 
-export const setMessageMojiMap = (login_cred, body, index) => dispatch => {
-    const temp = body.filter(string => string.substring(0,3) === 'm/#');
-    if (!Array.isArray(temp) || !temp.length) {
-        dispatch({
-            type: MESSAGE_LOADED,
-            payload: index
-        });
-        return null;
-    }
-    const temp1 = temp.map(string => string.replace('m/#', ''));
-    const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
-
+export const setMessageMojiMap = (login_cred, arrMojis, index) => dispatch => {
     return fetch('http://167.99.162.15/api/mojis/collection', {
         method: 'POST',
         headers: {
@@ -274,7 +264,7 @@ export const setMessageMojiMap = (login_cred, body, index) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            arr: temp2
+            arr: arrMojis
         })
     }).then(res => res.json())
         .then(mojis =>

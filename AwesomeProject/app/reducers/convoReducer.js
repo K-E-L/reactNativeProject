@@ -24,7 +24,22 @@ const initialState = {
     message_split: [],
     
     convo_messages_loading: [],
-    message_mojis_map: []
+    message_mojis_map: [],
+    convo_messages_map: [
+        {
+            itemID: 0,
+            itemMessages: [
+                {
+                    id: 0,
+                    creator_id: 0,
+                    creator_name: 'God',
+                    body: ['Loading'],
+                    like_count: 0,
+                    created_at: 'now'
+                }
+            ]
+        }
+    ]
 };
 
 function convoReducer (state = initialState, action) {
@@ -42,14 +57,41 @@ function convoReducer (state = initialState, action) {
         };
     case GET_CONVO_MESSAGES:
         let tempMessages = state.convo_messages_loading;
-        for(let i = state.convo_messages_loading.length; i < action.payload.length; i++) {
-            tempMessages.push(true);
+        if (action.payload !== undefined) {
+            for(let i = state.convo_messages_loading.length; i < action.payload.length; i++) {
+                tempMessages.push(true);
+            }
+        }
+
+        let tempMessagesMap = state.convo_messages_map;
+        
+        function messageExists(id) {
+            for (let j=0; j < tempMessagesMap.length; j++) {
+                if (tempMessagesMap[j].itemMessages[0].id === id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if (action.payload !== undefined) {
+            if (messageExists(action.payload[0].id) === false) {
+                let wrappedActionPayload = {
+                    itemID: action.payload1,
+                    itemMessages: [...action.payload]
+                };
+
+                tempMessagesMap.push(wrappedActionPayload);
+            }
         }
 
         return {
             ...state,
             convo_messages: action.payload,
-            convo_messages_loading: [...tempMessages]
+            convo_messages_loading: [...tempMessages],
+            
+            convo_messages_map: [...tempMessagesMap]
+
         };
     case GET_CONVO_USERS:
         return {
@@ -91,6 +133,7 @@ function convoReducer (state = initialState, action) {
             convo_messages_loading: [...tempLoading]
         };
     case SET_MESSAGE_MOJIS_MAP:
+        // console.log('reducer', action.payload);
         let tempMessagesLoading = state.convo_messages_loading;
         tempMessagesLoading[action.payload.index] = false;
 
@@ -105,9 +148,11 @@ function convoReducer (state = initialState, action) {
             return false;
         }
 
-        for (let i=0; i < action.payload.mojis.length; i++) {
-            if (exists(action.payload.mojis[i].id) === false) {
-                tempMap.push(action.payload.mojis[i]);
+        if (action.payload.mojis !== undefined) {
+            for (let i=0; i < action.payload.mojis.length; i++) {
+                if (exists(action.payload.mojis[i].id) === false) {
+                    tempMap.push(action.payload.mojis[i]);
+                }
             }
         }
 

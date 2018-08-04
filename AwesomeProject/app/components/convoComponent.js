@@ -46,6 +46,7 @@ class Convo extends Component {
         this.focusMessageHandler = this.focusMessageHandler.bind(this);
         this.endEditingMessageHandler = this.endEditingMessageHandler.bind(this);
         this.changeTextMessageHandler = this.changeTextMessageHandler.bind(this);
+        this.findHandler = this.findHandler.bind(this);
 
         this.state = {
             refreshing: false,
@@ -111,6 +112,17 @@ class Convo extends Component {
         this.props.splitMessageBody();
     }
 
+    findHandler() {
+        let result = this.props.convo_messages_map.find(object => object.itemID === this.props.convo_id);
+
+        if (result === undefined) {
+            return this.props.convo_messages_map.find(object => object.itemID === 0);
+        }
+
+        return result;
+    }
+
+
     render() {
         return (
               //           <KeyboardAvoidingView
@@ -167,7 +179,7 @@ class Convo extends Component {
                               
                 <TouchableOpacity
                   onPress={() => this.setConvoHandler(
-                      this.props.convo.id,
+                      this.props.convo_id,
                   'addUser')}>
                   
                   <Text style={styles.link}>Add User</Text>
@@ -176,13 +188,14 @@ class Convo extends Component {
                 <TouchableOpacity
                   onPress={() => this.destroyConvoHandler(
                       this.props.token,
-                      this.props.convo.id
+                      this.props.convo_id
                   )}>
                   <Text style={styles.link}>Leave Convo</Text>
                 </TouchableOpacity>
 
-                <FlatList
-                  data={this.props.convo_messages}
+                <FlatList                  
+                  // data={this.props.convo_messages}
+                  data={this.findHandler().itemMessages}
                   renderItem={({item, index}) =>
                               <MessageItem
                                     item={item}
@@ -238,7 +251,9 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('convoCom', state.convoReducer.convo_messages_loading);
+    // console.log('convoCom', state.navReducer.convo_id,);
+    // console.log('convoCom2', state.convoReducer.convo_messages[1]);
+    // console.log('convoCom2', state.convoReducer.convo_messages_loading[1]);
     return {
         convo: state.convoReducer.convo,
         convo_messages: state.convoReducer.convo_messages,
@@ -246,6 +261,8 @@ function mapStateToProps(state, props) {
         rename_body: state.convoReducer.rename_body,
         message_body: state.convoReducer.message_body,
         message_split: state.convoReducer.message_split,
+        
+        convo_messages_map: state.convoReducer.convo_messages_map,
         
         auth_user: state.userReducer.auth_user,
         
