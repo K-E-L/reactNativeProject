@@ -1,6 +1,7 @@
 // import: types
 import {
     ADD_REPLY_MOJI,
+    CLEAR_REPLY_SPLIT,
     GET_COMMENT_REPLIES,
     REPLY,
     REPLY_LOADED,
@@ -58,6 +59,7 @@ export const reply = (login_cred, id, body) => dispatch => {
               })
              )
         .then(() => {dispatch(getCommentReplies(login_cred, id));})
+        .then(() => {dispatch(clearReplySplit());})
         .catch((error) => {
             console.error(error);
         });
@@ -120,18 +122,7 @@ export const replyLoaded = (index) => dispatch => {
     });
 };
 
-export const setReplyMojiMap = (login_cred, body, index) => dispatch => {
-    const temp = body.filter(string => string.substring(0,3) === 'm/#');
-    if (!Array.isArray(temp) || !temp.length) {
-        dispatch({
-            type: REPLY_LOADED,
-            payload: index
-        });
-        return null;
-    }
-    const temp1 = temp.map(string => string.replace('m/#', ''));
-    const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
-
+export const setReplyMojiMap = (login_cred, arrMojis, index) => dispatch => {
     return fetch('http://167.99.162.15/api/mojis/collection', {
         method: 'POST',
         headers: {
@@ -140,7 +131,7 @@ export const setReplyMojiMap = (login_cred, body, index) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            arr: temp2
+            arr: arrMojis
         })
     }).then(res => res.json())
         .then(mojis =>
@@ -153,3 +144,11 @@ export const setReplyMojiMap = (login_cred, body, index) => dispatch => {
             console.error(error);
         });
 };
+
+export const clearReplySplit = () => dispatch => {
+    dispatch({
+        type: CLEAR_REPLY_SPLIT,
+        payload: null
+    });
+};
+

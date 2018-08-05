@@ -1,6 +1,7 @@
 // import: types
 import {
     ADD_REPLY_MOJI,
+    CLEAR_REPLY_SPLIT,
     GET_COMMENT_REPLIES,
     REPLY,
     REPLY_LOADED,
@@ -89,6 +90,11 @@ function commentReducer (state = initialState, action) {
         return {
             ...state,
             reply_mojis_map: [...[action.payload.mojis[0]]],
+        };
+    case CLEAR_REPLY_SPLIT:
+        return {
+            ...state,
+            reply_split: []
         };
 
 

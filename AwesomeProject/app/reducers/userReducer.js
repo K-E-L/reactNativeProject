@@ -19,12 +19,19 @@ import {
 const initialState = {
     auth_user: {},
     auth_user_email: '',
+    
     user: {
         data: {},
         type: ''
     },
     followings: [],
     followers: [],
+
+    user_convo_tab: {
+        data: {},
+        type: ''
+    },
+    
     messagable: [],
     
     user_notifs: [],
@@ -41,7 +48,8 @@ const initialState = {
         data: {},
         type: ''
     },
-    search_user_loaded: false
+    search_user_loaded: false,
+    search_user_searching: false
 };
 
 function userReducer (state = initialState, action) {
@@ -113,23 +121,19 @@ function userReducer (state = initialState, action) {
             user_search_body: action.payload
         };
     case SEARCH_USER:
-        console.log('reducer', action.payload);
         if (action.payload.error === 'User not found') {
             return {
-                ...state
+                ...state,
+                search_user_loaded: false,
+                search_user_searching: true
             };
         }
-        // else if (action.payload.error === { username: [ 'The username field is required.' ] }) {
-        //     console.log('here');
-        //     return {
-        //         ...state
-        //     };
-        // }
         else {
             return {
                 ...state,
                 user_search: action.payload,
-                search_user_loaded: true
+                search_user_loaded: true,
+                search_user_searching: true
             };
         }
             

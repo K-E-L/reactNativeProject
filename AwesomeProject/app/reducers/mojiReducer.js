@@ -3,6 +3,7 @@ import {
     ADD_COMMENT_MOJI,
     COMMENT,
     COMMENT_LOADED,
+    CLEAR_COMMENT_SPLIT,
     GET_FOLLOWING_MOJIS,
     GET_MAX_MOJI,
     GET_MOJI,
@@ -38,6 +39,7 @@ const initialState = {
         type: ''
     },
     search_moji_loaded: false,
+    search_moji_searching: false,
 
     max_moji: 0
 };
@@ -140,22 +142,24 @@ function mojiReducer (state = initialState, action) {
             moji_comments_loading: [...tempCommentsLoading],
         };        
     case SET_MOJI_SEARCH_BODY:
-        return {
-            ...state,
-            moji_search_body: action.payload
-        };
+            return {
+                ...state,
+                moji_search_body: action.payload,
+            };
     case SEARCH_MOJI:
-        console.log('reducer', action.payload);
         if (action.payload.error === 'Moji not found') {
             return {
-                ...state
+                ...state,
+                search_moji_loaded: false,
+                search_moji_searching: true
             };
         }
         else {
             return {
                 ...state,
                 moji_search: action.payload,
-                search_moji_loaded: true
+                search_moji_loaded: true,
+                search_moji_searching: true
             };
         }
     case GET_MAX_MOJI:
@@ -167,6 +171,11 @@ function mojiReducer (state = initialState, action) {
         return {
             ...state,
             comment_mojis_map: [...[action.payload.mojis[0]]],
+        };
+    case CLEAR_COMMENT_SPLIT:
+        return {
+            ...state,
+            comment_split: []
         };
 
         

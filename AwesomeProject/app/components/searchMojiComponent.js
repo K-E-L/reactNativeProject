@@ -47,30 +47,55 @@ class SearchMoji extends Component {
     }
     
     render() {
-        return (
-            <PTRView onRefresh={this.refresh}
-                     keyboardShouldPersistTaps='handled'>
-              <View>
-                <TouchableOpacity onPress={() => this.backHandler()}>
-                  <Text style={styles.h3}>Back</Text>
-                </TouchableOpacity>
+        if (this.props.search_moji_loaded === true) {
+            return (
+                <PTRView onRefresh={this.refresh}
+                         keyboardShouldPersistTaps='handled'>
+                  <View>
+                    <TouchableOpacity onPress={() => this.backHandler()}>
+                      <Text style={styles.h3}>Back</Text>
+                    </TouchableOpacity>
 
-                <Text style={styles.h3}>Search Moji</Text>
-                
-                <TextInput
-                  onChangeText={(text) => this.changeTextSearchMojiHandler(text, this.props.token)}
-                  value={this.props.moji_search_body}
-                  placeholder="Search by Moji name.."
-                  onSubmitEditing={() => this.props.searchMoji(this.props.token, this.props.moji_search_body)}
-                  autoCapitalize = 'none'/>
+                    <Text style={styles.h3}>Search Moji</Text>
+                    
+                    <TextInput
+                      onChangeText={(text) => this.changeTextSearchMojiHandler(text, this.props.token)}
+                      value={this.props.moji_search_body}
+                      placeholder="Search by Moji name.."
+                      onSubmitEditing={() => this.props.searchMoji(this.props.token, this.props.moji_search_body)}
+                      autoCapitalize = 'none'/>
 
-                  {this.props.search_moji_loaded && <Text onPress={() => this.pushNavMojiHandler(this.props.moji_search.data.id)}
+                      <Text onPress={() => this.pushNavMojiHandler(this.props.moji_search.data.id)}
                         style={styles.h3}>
                         {this.props.moji_search.data.name}: {this.props.moji_search.data.creator_username}
-                  </Text>}
-              </View>
-            </PTRView>
-        );            
+                      </Text>
+                  </View>
+                </PTRView>
+            );            
+        }
+        else {
+            return (
+                <PTRView onRefresh={this.refresh}
+                         keyboardShouldPersistTaps='handled'>
+                  <View>
+                    <TouchableOpacity onPress={() => this.backHandler()}>
+                      <Text style={styles.h3}>Back</Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.h3}>Search Moji</Text>
+                    
+                    <TextInput
+                      onChangeText={(text) => this.changeTextSearchMojiHandler(text, this.props.token)}
+                      value={this.props.moji_search_body}
+                      placeholder="Search by Moji name.."
+                      onSubmitEditing={() => this.props.searchMoji(this.props.token, this.props.moji_search_body)}
+                      autoCapitalize = 'none'/>
+
+                      {this.props.search_moji_searching && <Text style={styles.h3}>Moji not found..</Text>}
+                  </View>
+                </PTRView>
+            );
+        }
     }
 };
 
@@ -89,11 +114,13 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('moji_search', state.mojiReducer.moji_search);
+    console.log('moji_search', state.mojiReducer.moji_search);
     return {
         moji_search_body: state.mojiReducer.moji_search_body,
         moji_search: state.mojiReducer.moji_search,
         search_moji_loaded: state.mojiReducer.search_moji_loaded,
+        moji_search: state.mojiReducer.moji_search,
+        search_moji_searching: state.mojiReducer.search_moji_searching,
         
         token: state.authReducer.token,
     };

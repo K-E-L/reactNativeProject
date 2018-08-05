@@ -32,6 +32,16 @@ class MojiChoose extends Component {
         title: 'Moji Choose', header: null
     });
 
+    componentDidMount() {
+        this.props.getAuthUser(this.props.token);
+        this.props.getConvos(this.props.token);
+        this.props.getMaxMoji(this.props.token);
+        
+        this.props.setMessageFirstMoji(this.props.token);
+        this.props.setCommentFirstMoji(this.props.token);
+        this.props.setReplyFirstMoji(this.props.token);
+    }
+
     setMojiTypeHandler(type) {
         this.props.setMojiType(type);
         this.props.navigation.push('Mojis');

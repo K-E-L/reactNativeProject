@@ -142,15 +142,15 @@ class Moji extends Component {
                       this.props.comment_body
                   )}/>
 
-                  <TouchableOpacity onPress={() => this.props.comment(
+                {this.props.moji_keyboard && <CollecKeyboard />}
+
+                <TouchableOpacity onPress={() => this.props.comment(
                       this.props.token,
                       this.props.moji_stack[this.props.moji_stack.length - 1],
                       this.props.comment_body
                   )}>
-                    <Text style={styles.link}>Comment</Text>
-                  </TouchableOpacity>
-
-                  {this.props.moji_keyboard && <CollecKeyboard />}
+                  <Text style={styles.link}>Comment</Text>
+                </TouchableOpacity>
 
                 <TextInput
                   onChangeText={(text) => this.props.setReportBody(text)}

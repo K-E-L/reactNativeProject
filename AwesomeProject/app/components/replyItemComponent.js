@@ -35,7 +35,36 @@ class ReplyItem extends Component {
     }
 
     componentDidMount() {
-        this.props.setReplyMojiMap(this.props.token, this.props.item.body, this.props.index);
+        const temp = this.props.item.body.filter(string => string.substring(0,3) === 'm/#');
+        if (!Array.isArray(temp) || !temp.length) {
+            // no mojis in body
+            console.log('no mojis', this.props.index);
+            this.props.replyLoaded(this.props.index);
+            return;
+        }
+        const temp1 = temp.map(string => string.replace('m/#', ''));
+        const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
+
+        let findMojis = [];
+        for(let i = 0; i < temp2.length; i++) {
+            let result = {};
+            result = this.props.reply_mojis_map.find(object => object.id == temp2[i]);
+
+            if (result === undefined) {
+                findMojis.push(temp2[i]);
+            }
+        }
+
+        if (!Array.isArray(findMojis) || !findMojis.length) {
+            // mojis already found in local
+            console.log('mojis found', this.props.index);
+            this.props.replyLoaded(this.props.index);
+            return;
+        }
+
+        // get mojis from back end
+        console.log('get mojis', this.props.index);
+        this.props.setReplyMojiMap(this.props.token, findMojis, this.props.index);
     }
 
     findHandler(item) {

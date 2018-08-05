@@ -60,14 +60,14 @@ class Convo extends Component {
     componentDidMount() {
         this.props.getMaxMoji(this.props.token);
         this.props.getConvo(this.props.token, this.props.convo_id);
-        this.props.getConvoMessages(this.props.token, this.props.convo_id);
+        this.props.setConvoMessagesMap(this.props.token, this.props.convo_id);
         this.props.getConvoUsers(this.props.token, this.props.convo_id);
     }
     
     refresh = () => {
         this.props.getMaxMoji(this.props.token);
         this.props.getConvo(this.props.token, this.props.convo_id);
-        this.props.getConvoMessages(this.props.token, this.props.convo_id);
+        this.props.setConvoMessagesMap(this.props.token, this.props.convo_id);
         this.props.getConvoUsers(this.props.token, this.props.convo_id);
     }
 
@@ -121,7 +121,6 @@ class Convo extends Component {
 
         return result;
     }
-
 
     render() {
         return (
@@ -194,7 +193,6 @@ class Convo extends Component {
                 </TouchableOpacity>
 
                 <FlatList                  
-                  // data={this.props.convo_messages}
                   data={this.findHandler().itemMessages}
                   renderItem={({item, index}) =>
                               <MessageItem
@@ -216,6 +214,8 @@ class Convo extends Component {
                       this.props.convo_id,
                       this.props.message_body
                   )}/>
+                  
+                {this.props.moji_keyboard && <CollecKeyboard />}
 
                 <TouchableOpacity
                   onPress={() => this.props.message(
@@ -225,8 +225,6 @@ class Convo extends Component {
                   )}>
                   <Text style={styles.link}>Message</Text>
                 </TouchableOpacity>
-
-                {this.props.moji_keyboard && <CollecKeyboard />}
 
               </ScrollView>
             // </View>
@@ -252,11 +250,9 @@ const styles = StyleSheet.create({
 // Pass: redux state to props
 function mapStateToProps(state, props) {
     // console.log('convoCom', state.navReducer.convo_id,);
-    // console.log('convoCom2', state.convoReducer.convo_messages[1]);
-    // console.log('convoCom2', state.convoReducer.convo_messages_loading[1]);
+    // console.log('convoCom2', state.convoReducer.convo_messages_map);
     return {
         convo: state.convoReducer.convo,
-        convo_messages: state.convoReducer.convo_messages,
         convo_users: state.convoReducer.convo_users,
         rename_body: state.convoReducer.rename_body,
         message_body: state.convoReducer.message_body,

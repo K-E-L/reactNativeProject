@@ -40,6 +40,7 @@ class MessageItem extends Component {
         const temp = this.props.item.body.filter(string => string.substring(0,3) === 'm/#');
         if (!Array.isArray(temp) || !temp.length) {
             // no mojis in body
+            console.log('no mojis', this.props.index);
             this.props.messageLoaded(this.props.index);
             return;
         }
@@ -47,8 +48,8 @@ class MessageItem extends Component {
         const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
 
         let findMojis = [];
-        let result = {};
         for(let i = 0; i < temp2.length; i++) {
+            let result = {};
             result = this.props.message_mojis_map.find(object => object.id == temp2[i]);
 
             if (result === undefined) {
@@ -57,12 +58,14 @@ class MessageItem extends Component {
         }
 
         if (!Array.isArray(findMojis) || !findMojis.length) {
-            // mojis found in local
+            // mojis already found in local
+            console.log('mojis found', this.props.index);
             this.props.messageLoaded(this.props.index);
             return;
         }
 
         // get mojis from back end
+        console.log('get mojis', this.props.index);
         this.props.setMessageMojiMap(this.props.token, findMojis, this.props.index);
     }
 

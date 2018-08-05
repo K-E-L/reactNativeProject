@@ -47,34 +47,59 @@ class SearchUser extends Component {
     }
     
     render() {
-        return (
-            <PTRView onRefresh={this.refresh}
-                     keyboardShouldPersistTaps='handled'>
-              <View>
-                <TouchableOpacity onPress={() => this.backHandler()}>
-                  <Text style={styles.h3}>Back</Text>
-                </TouchableOpacity>
+        if (this.props.search_user_loaded === true) {
+            return (
+                <PTRView onRefresh={this.refresh}
+                         keyboardShouldPersistTaps='handled'>
+                  <View>
+                    <TouchableOpacity onPress={() => this.backHandler()}>
+                      <Text style={styles.h3}>Back</Text>
+                    </TouchableOpacity>
 
-                <Text style={styles.h3}>Search User</Text>
-                
-                <TextInput
-                  onChangeText={(text) => this.changeTextSearchUserHandler(text, this.props.token)}
-                  value={this.props.user_search_body}
-                  placeholder="Search by Username.."
-                  onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}
-                  autoCapitalize = 'none'/>
+                    <Text style={styles.h3}>Search User</Text>
+                    
+                    <TextInput
+                      onChangeText={(text) => this.changeTextSearchUserHandler(text, this.props.token)}
+                      value={this.props.user_search_body}
+                      placeholder="Search by Username.."
+                      onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}
+                      autoCapitalize = 'none'/>
 
-                  {this.props.search_user_loaded &&
-                      <UserItem
-                            id={this.props.user_search.data.id}
-                            username={this.props.user_search.data.username}
-                            name={this.props.user_search.data.name}
-                            type={'name'}
-                        navigation={this.props.navigation}/>}
-                  
-              </View>
-            </PTRView>
-        );            
+                      {this.props.search_user_loaded &&
+                          <UserItem
+                                id={this.props.user_search.data.id}
+                                username={this.props.user_search.data.username}
+                                name={this.props.user_search.data.name}
+                                type={'name'}
+                            navigation={this.props.navigation}/>}
+                          
+                  </View>
+                </PTRView>
+            );
+        }
+        else {
+            return (
+                <PTRView onRefresh={this.refresh}
+                         keyboardShouldPersistTaps='handled'>
+                  <View>
+                    <TouchableOpacity onPress={() => this.backHandler()}>
+                      <Text style={styles.h3}>Back</Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.h3}>Search User</Text>
+                    
+                    <TextInput
+                      onChangeText={(text) => this.changeTextSearchUserHandler(text, this.props.token)}
+                      value={this.props.user_search_body}
+                      placeholder="Search by Username.."
+                      onSubmitEditing={() => this.props.searchUser(this.props.token, this.props.user_search_body)}
+                      autoCapitalize = 'none'/>
+
+                      {this.props.search_user_searching && <Text style={styles.h3}>User not found..</Text>}
+                  </View>
+                </PTRView>
+            );
+        }
     }
 };
 
@@ -98,6 +123,8 @@ function mapStateToProps(state, props) {
         user_search_body: state.userReducer.user_search_body,
         user_search: state.userReducer.user_search,
         search_user_loaded: state.userReducer.search_user_loaded,
+        search_user_searching: state.userReducer.search_user_searching,
+        
         token: state.authReducer.token,
     };
 }

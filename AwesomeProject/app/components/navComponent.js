@@ -25,9 +25,11 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 // export: user navigator
 export const UserStackNavigator = createStackNavigator({
     AuthUser: { screen: AuthUser },
-    User: { screen: User },
+
     Followings: { screen: Followings },
     Followers: { screen: Followers },
+    User: { screen: User },
+    
     Notifs: { screen: Notifs },
     Collec: { screen: Collec },
     PubMojis: { screen: PubMojis },
@@ -42,9 +44,11 @@ export const UserStackNavigator = createStackNavigator({
 export const ConvoStackNavigator = createStackNavigator({
     Convos: { screen: Convos },
     Convo: { screen: Convo },
+    
     // User: { screen: User },
     // Followings: { screen: Followings },
     // Followers: { screen: Followers },
+    
     Messagable: { screen: Messagable }
 }, {
     initialRouteName: 'Convos',
@@ -53,12 +57,15 @@ export const ConvoStackNavigator = createStackNavigator({
 // export: moji navigator
 export const MojiStackNavigator = createStackNavigator({
     MojiChoose: { screen: MojiChoose },
+    
     Mojis: { screen: Mojis },
     Moji: { screen: Moji },
+    Comment: { screen: Comment },
+    
     // User: { screen: User },
     // Followings: { screen: Followings },
     // Followers: { screen: Followers },
-    Comment: { screen: Comment },
+
     SearchMoji: { screen: SearchMoji },
     Images: { screen: Images }
 }, {
@@ -67,10 +74,10 @@ export const MojiStackNavigator = createStackNavigator({
 
 export const TabNav = createBottomTabNavigator({
     Convos: { screen: ConvoStackNavigator },
-    Profile: { screen: UserStackNavigator },
+    Users: { screen: UserStackNavigator },
     Mojis: { screen: MojiStackNavigator }
 }, {
-    initialRouteName: 'Profile',
+    initialRouteName: 'Users',
     tabBarComponent: TabBar,
     tabBarPosition: 'bottom'
 });

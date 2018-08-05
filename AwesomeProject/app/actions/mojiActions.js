@@ -3,6 +3,7 @@ import {
     ADD_COMMENT_MOJI,
     COMMENT,
     COMMENT_LOADED,
+    CLEAR_COMMENT_SPLIT,
     GET_FOLLOWING_MOJIS,
     GET_MAX_MOJI,
     GET_MOJI,
@@ -152,6 +153,7 @@ export const comment = (login_cred, id, body) => dispatch => {
               })
              )
         .then(() => {dispatch(getMojiComments(login_cred, id));})
+        .then(() => {dispatch(clearCommentSplit());})
         .catch((error) => {
             console.error(error);
         });
@@ -315,18 +317,7 @@ export const splitCommentBody = () => dispatch => {
     });
 };
 
-export const setCommentMojiMap = (login_cred, body, index) => dispatch => {
-    const temp = body.filter(string => string.substring(0,3) === 'm/#');
-    if (!Array.isArray(temp) || !temp.length) {
-        dispatch({
-            type: COMMENT_LOADED,
-            payload: index
-        });
-        return null;
-    }
-    const temp1 = temp.map(string => string.replace('m/#', ''));
-    const temp2 = temp1.reduce((acc, val) => acc.concat(val), []);
-
+export const setCommentMojiMap = (login_cred, arrMojis, index) => dispatch => {
     return fetch('http://167.99.162.15/api/mojis/collection', {
         method: 'POST',
         headers: {
@@ -335,7 +326,7 @@ export const setCommentMojiMap = (login_cred, body, index) => dispatch => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            arr: temp2
+            arr: arrMojis
         })
     }).then(res => res.json())
         .then(mojis =>
@@ -377,7 +368,6 @@ export const searchMoji = (login_cred, name) => dispatch => {
         .catch((error) => {
             console.error(error);
         });
-    
 };
 
 export const setMojiSearchBody = (text) => dispatch => {
@@ -501,3 +491,11 @@ export const setReplyFirstMoji = (login_cred) => dispatch => {
             console.error(error);
         });
 };
+
+export const clearCommentSplit = () => dispatch => {
+    dispatch({
+        type: CLEAR_COMMENT_SPLIT,
+        payload: null
+    });
+};
+

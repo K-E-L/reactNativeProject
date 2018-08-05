@@ -1,9 +1,10 @@
 // import: types
 import {
     ADD_MESSAGE_MOJI,
+    CLEAR_MESSAGE_SPLIT,
     GET_CONVO,
     GET_CONVOS,
-    GET_CONVO_MESSAGES,
+    SET_CONVO_MESSAGES_MAP,
     GET_CONVO_USERS,
     MESSAGE,
     MESSAGE_LOADED,
@@ -17,7 +18,6 @@ import {
 const initialState = {
     convos: [],
     convo: {},
-    convo_messages: [],
     convo_users: [],
     rename_body: '',
     message_body: '',
@@ -55,44 +55,45 @@ function convoReducer (state = initialState, action) {
             convo: action.payload,
             rename_body: action.payload.name
         };
-    case GET_CONVO_MESSAGES:
+    case SET_CONVO_MESSAGES_MAP:
+        // handle loading
         let tempMessages = state.convo_messages_loading;
-        if (action.payload !== undefined) {
-            for(let i = state.convo_messages_loading.length; i < action.payload.length; i++) {
-                tempMessages.push(true);
-            }
+        for(let i = state.convo_messages_loading.length; i < action.payload.length; i++) {
+            tempMessages.push(true);
         }
 
+        // handle messages map
         let tempMessagesMap = state.convo_messages_map;
-        
-        function messageExists(id) {
-            for (let j=0; j < tempMessagesMap.length; j++) {
-                if (tempMessagesMap[j].itemMessages[0].id === id) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        if (action.payload !== undefined) {
-            if (messageExists(action.payload[0].id) === false) {
-                let wrappedActionPayload = {
-                    itemID: action.payload1,
-                    itemMessages: [...action.payload]
-                };
-
-                tempMessagesMap.push(wrappedActionPayload);
+        let id = -1;
+        for (let j=0; j < tempMessagesMap.length; j++) {
+            if (tempMessagesMap[j].itemMessages[0].id === action.payload[0].id) {
+                id = j;
             }
         }
+        if (id === -1) {
+            // convo doesn't exist in local memory
+            // add: convo
+            let wrappedActionPayload = {
+                itemID: action.payload1,
+                itemMessages: [...action.payload]
+            };
+            tempMessagesMap.push(wrappedActionPayload);
+            return {
+                ...state,
+                convo_messages_loading: [...tempMessages],
+                convo_messages_map: [...tempMessagesMap]
+            };
+        }
 
+        // convo does exist in local memory
+        // update: convo
+        tempMessagesMap[id].itemMessages = action.payload;
         return {
             ...state,
-            convo_messages: action.payload,
             convo_messages_loading: [...tempMessages],
-            
             convo_messages_map: [...tempMessagesMap]
-
         };
+        
     case GET_CONVO_USERS:
         return {
             ...state,
@@ -133,7 +134,6 @@ function convoReducer (state = initialState, action) {
             convo_messages_loading: [...tempLoading]
         };
     case SET_MESSAGE_MOJIS_MAP:
-        // console.log('reducer', action.payload);
         let tempMessagesLoading = state.convo_messages_loading;
         tempMessagesLoading[action.payload.index] = false;
 
@@ -148,11 +148,9 @@ function convoReducer (state = initialState, action) {
             return false;
         }
 
-        if (action.payload.mojis !== undefined) {
-            for (let i=0; i < action.payload.mojis.length; i++) {
-                if (exists(action.payload.mojis[i].id) === false) {
-                    tempMap.push(action.payload.mojis[i]);
-                }
+        for (let i=0; i < action.payload.mojis.length; i++) {
+            if (exists(action.payload.mojis[i].id) === false) {
+                tempMap.push(action.payload.mojis[i]);
             }
         }
 
@@ -164,7 +162,12 @@ function convoReducer (state = initialState, action) {
     case SET_MESSAGE_FIRST_MOJI:
         return {
             ...state,
-            message_mojis_map: [...[action.payload.mojis[0]]],
+            message_mojis_map: [...[action.payload.mojis[0]]]
+        };
+    case CLEAR_MESSAGE_SPLIT:
+        return {
+            ...state,
+            message_split: []
         };
 
 

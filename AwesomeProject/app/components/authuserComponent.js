@@ -33,20 +33,10 @@ class AuthUser extends Component {
 
     componentDidMount() {
         this.props.getAuthUser(this.props.token);
-        this.props.getConvos(this.props.token);
-        this.props.getMaxMoji(this.props.token);
-        this.props.setMessageFirstMoji(this.props.token);
-        this.props.setCommentFirstMoji(this.props.token);
-        this.props.setReplyFirstMoji(this.props.token);
     }
 
     refresh = () => {
         this.props.getAuthUser(this.props.token);
-        this.props.getConvos(this.props.token);
-        this.props.getMaxMoji(this.props.token);
-        this.props.setMessageFirstMoji(this.props.token);
-        this.props.setCommentFirstMoji(this.props.token);
-        this.props.setReplyFirstMoji(this.props.token);
     }
 
     pushNavUserHandler(type) {

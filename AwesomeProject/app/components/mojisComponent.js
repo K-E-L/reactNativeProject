@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('mojis', state.mojiReducer.mojis);
+    // console.log('mojis', state.mojiReducer.mojis);
     return {
         mojis: state.mojiReducer.mojis,
         moji_type: state.navReducer.moji_type,

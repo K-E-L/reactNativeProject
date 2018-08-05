@@ -1,9 +1,10 @@
 // import: types
 import {
     ADD_MESSAGE_MOJI,
+    CLEAR_MESSAGE_SPLIT,
     GET_CONVO,
     GET_CONVOS,
-    GET_CONVO_MESSAGES,
+    SET_CONVO_MESSAGES_MAP,
     GET_CONVO_USERS,
     MESSAGE,
     MESSAGE_LOADED,
@@ -53,7 +54,7 @@ export const getConvo = (login_cred, id) => dispatch => {
         });
 };
 
-export const getConvoMessages = (login_cred, id) => dispatch => {
+export const setConvoMessagesMap = (login_cred, id) => dispatch => {
     return fetch('http://167.99.162.15/api/convos/' +
           id +
           '/messages', {
@@ -66,7 +67,7 @@ export const getConvoMessages = (login_cred, id) => dispatch => {
     }).then(res => res.json())
         .then(messages =>
               dispatch({
-                  type: GET_CONVO_MESSAGES,
+                  type: SET_CONVO_MESSAGES_MAP,
                   payload: messages.data,
                   payload1: id
               })
@@ -156,7 +157,7 @@ export const renameConvo = (login_cred, id, body) => dispatch => {
     }).then(res => res.json())
         .then(() => {dispatch(getConvo(login_cred, id));})
         .then(() => {dispatch(getConvos(login_cred));})
-        .then(() => {dispatch(getConvoMessages(login_cred, id));})
+        .then(() => {dispatch(setConvoMessagesMap(login_cred, id));})
 
         .catch((error) => {
             console.error(error);
@@ -189,7 +190,8 @@ export const message = (login_cred, id, body) => dispatch => {
                   payload: convos
               })
              )
-        .then(() => {dispatch(getConvoMessages(login_cred, id));})
+        .then(() => {dispatch(setConvoMessagesMap(login_cred, id));})
+        .then(() => {dispatch(clearMessageSplit());})
         .catch((error) => {
             console.error(error);
         });
@@ -207,7 +209,7 @@ export const likeMessage = (login_cred, message_id, convo_id) => dispatch => {
             id: message_id
         })
     }).then(res => res.json())
-        .then(() => {dispatch(getConvoMessages(login_cred, convo_id));})
+        .then(() => {dispatch(setConvoMessagesMap(login_cred, convo_id));})
         .catch((error) => {
             console.error(error);
         });
@@ -228,7 +230,7 @@ export const addUser = (login_cred, add_id, convo_id) => dispatch => {
           }).then(res => res.json())
         .then(() => {dispatch(getConvo(login_cred, convo_id));})
         .then(() => {dispatch(getConvoUsers(login_cred, convo_id));})
-        .then(() => {dispatch(getConvoMessages(login_cred, convo_id));})
+        .then(() => {dispatch(setConvoMessagesMap(login_cred, convo_id));})
         .catch((error) => {
             console.error(error);
         });
@@ -277,3 +279,11 @@ export const setMessageMojiMap = (login_cred, arrMojis, index) => dispatch => {
             console.error(error);
         });
 };
+
+export const clearMessageSplit = () => dispatch => {
+    dispatch({
+        type: CLEAR_MESSAGE_SPLIT,
+        payload: null
+    });
+};
+

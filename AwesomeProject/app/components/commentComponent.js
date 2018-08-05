@@ -93,6 +93,8 @@ class Comment extends Component {
                       this.props.reply_body
                   )}/>
 
+                {this.props.moji_keyboard && <CollecKeyboard />}
+
                 <TouchableOpacity onPress={() => this.props.reply(
                       this.props.token,
                       this.props.comment_id,
@@ -101,8 +103,6 @@ class Comment extends Component {
                   <Text style={styles.link}>Reply</Text>
                 </TouchableOpacity>
 
-                {this.props.moji_keyboard && <CollecKeyboard />}
-                
                 <FlatList
                   data={this.props.replies}
                   renderItem={({item, index}) =>
