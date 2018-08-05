@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('commentItem', state.mojiReducer.comment_mojis_map);
+    // console.log('commentItem', state.mojiReducer.comment_mojis_map);
     return {
         token: state.authReducer.token,
         

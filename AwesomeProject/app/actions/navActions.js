@@ -2,8 +2,12 @@ import {
     GET_NAV_USER_STACK,
     POP_NAV_MOJI,
     POP_NAV_USER,
+    POP_NAV_USER_CONVO_TAB,
     PUSH_NAV_MOJI,
     PUSH_NAV_USER,
+    PUSH_NAV_USER_CONVO_TAB,
+    PUSH_NAV_USER_MOJI_TAB,
+    POP_NAV_USER_MOJI_TAB,
     SELEC_IMAGE,
     SET_COMMENT_ID,
     SET_CONVO_ID,
@@ -30,6 +34,34 @@ export const pushNavUser = (id) => dispatch => {
 export const popNavUser = () => dispatch => {
     dispatch({
         type: POP_NAV_USER,
+        payload: 0
+    });
+};
+
+export const pushNavUserConvoTab = (id) => dispatch => {
+    dispatch({
+        type: PUSH_NAV_USER_CONVO_TAB,
+        payload: id
+    });
+};
+
+export const popNavUserConvoTab = () => dispatch => {
+    dispatch({
+        type: POP_NAV_USER_CONVO_TAB,
+        payload: 0
+    });
+};
+
+export const pushNavUserMojiTab = (id) => dispatch => {
+    dispatch({
+        type: PUSH_NAV_USER_MOJI_TAB,
+        payload: id
+    });
+};
+
+export const popNavUserMojiTab = () => dispatch => {
+    dispatch({
+        type: POP_NAV_USER_MOJI_TAB,
         payload: 0
     });
 };

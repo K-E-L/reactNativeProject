@@ -19,22 +19,29 @@ import SearchUser from './searchUserComponent';
 import TabBar from './tabBarComponent';
 import User from './userComponent';
 
+import UserConvoTab from './userComponentConvoTab';
+import FollowingsConvoTab from './followingsComponentConvoTab';
+import FollowersConvoTab from './followersComponentConvoTab';
+
+import UserMojiTab from './userComponentMojiTab';
+import FollowingsMojiTab from './followingsComponentMojiTab';
+import FollowersMojiTab from './followersComponentMojiTab';
+
 // import: navigator
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 // export: user navigator
 export const UserStackNavigator = createStackNavigator({
     AuthUser: { screen: AuthUser },
-
-    Followings: { screen: Followings },
-    Followers: { screen: Followers },
-    User: { screen: User },
-    
     Notifs: { screen: Notifs },
     Collec: { screen: Collec },
     PubMojis: { screen: PubMojis },
     PriMojis: { screen: PriMojis },
-    SearchUser: { screen: SearchUser }
+    SearchUser: { screen: SearchUser },
+
+    Followings: { screen: Followings },
+    Followers: { screen: Followers },
+    User: { screen: User }
 }, {
     initialRouteName: 'AuthUser',
     headerMode: 'screen'
@@ -45,9 +52,9 @@ export const ConvoStackNavigator = createStackNavigator({
     Convos: { screen: Convos },
     Convo: { screen: Convo },
     
-    // User: { screen: User },
-    // Followings: { screen: Followings },
-    // Followers: { screen: Followers },
+    Followings: { screen: FollowingsConvoTab },
+    Followers: { screen: FollowersConvoTab },
+    User: { screen: UserConvoTab },
     
     Messagable: { screen: Messagable }
 }, {
@@ -57,17 +64,16 @@ export const ConvoStackNavigator = createStackNavigator({
 // export: moji navigator
 export const MojiStackNavigator = createStackNavigator({
     MojiChoose: { screen: MojiChoose },
+    SearchMoji: { screen: SearchMoji },
+    Images: { screen: Images },
     
     Mojis: { screen: Mojis },
     Moji: { screen: Moji },
     Comment: { screen: Comment },
     
-    // User: { screen: User },
-    // Followings: { screen: Followings },
-    // Followers: { screen: Followers },
-
-    SearchMoji: { screen: SearchMoji },
-    Images: { screen: Images }
+    Followings: { screen: FollowingsMojiTab },
+    Followers: { screen: FollowersMojiTab },
+    User: { screen: UserMojiTab }
 }, {
     initialRouteName: 'MojiChoose',
 });

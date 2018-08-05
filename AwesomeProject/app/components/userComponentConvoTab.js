@@ -48,11 +48,11 @@ class UserConvoTab extends Component {
     });
     
     componentDidMount() {
-        this.props.getUser(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 1]);
+        this.props.getUserConvoTab(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 1]);
     }
 
     refresh = () => {
-        this.props.getUser(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 1]);
+        this.props.getUserConvoTab(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 1]);
     }
 
     followUnfollowHandler(login_cred, user_id, type, auth_id) {
@@ -81,11 +81,11 @@ class UserConvoTab extends Component {
     }
 
     backHandler() {
-        this.props.popNavUser();
-        if (this.props.user_stack_convo_tab.length !== 1) {
-            this.props.getFollowings(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 2]);
-            this.props.getFollowers(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 2]);
-            this.props.getUser(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 2]);
+        this.props.popNavUserConvoTab();
+        if (!Array.isArray(this.props.user_stack_convo_tab) || !this.props.user_stack_convo_tab.length) {
+            this.props.getFollowingsConvoTab(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 2]);
+            this.props.getFollowersConvoTab(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 2]);
+            this.props.getUserConvoTab(this.props.token, this.props.user_stack_convo_tab[this.props.user_stack_convo_tab.length - 2]);
         }
         this.props.navigation.pop();
     }
@@ -101,22 +101,22 @@ class UserConvoTab extends Component {
               <Text style={styles.h3}>{this.props.user_convo_tab.data.name}</Text>
               <Text style={styles.text}>Username: {this.props.user_convo_tab.data.username}</Text>
               
-              <FollowButton />
+              <FollowButton user={this.props.user_convo_tab}/>
 
-              <Text
-                onPress={() => this.props.navigation.push('Followings')}
-                style={styles.link}>Followings: {this.props.user_convo_tab.data.followingsCount}</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.push('Followings')}>
+              <Text style={styles.link}>Followings: {this.props.user_convo_tab.data.followingsCount}</Text>
+              </TouchableOpacity>
 
-              <Text
-                onPress={() => this.props.navigation.push('Followers')}
-                style={styles.link}>Followers: {this.props.user_convo_tab.data.followersCount}</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.push('Followers')}>
+              <Text style={styles.link}>Followers: {this.props.user_convo_tab.data.followersCount}</Text>
+              </TouchableOpacity>
 
-              <Text
-                style={styles.link}
-                onPress={() => this.createConvoHandler(
+              <TouchableOpacity onPress={() => this.createConvoHandler(
                     this.props.token,
                     this.props.user_convo_tab.data.id
-                )}>Message</Text>
+                )}>
+              <Text style={styles.link}>Message</Text>
+              </TouchableOpacity>
               
               <TouchableOpacity onPress={() => this.props.navigation.push('PubMojis')}>
                 <Text style={styles.link}>Public Mojis: {this.props.user_convo_tab.data.pubMojisCount}</Text>

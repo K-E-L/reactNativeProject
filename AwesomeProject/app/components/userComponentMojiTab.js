@@ -35,23 +35,36 @@ import FollowButton from './followButtonComponent';
 import { renderers } from 'react-native-popup-menu';
 const { SlideInMenu } = renderers;
 
-class User extends Component {
+class UserMojiTab extends Component {
     constructor(props) {
         super(props);
+        this.followUnfollowHandler = this.followUnfollowHandler.bind(this);
         this.createConvoHandler = this.createConvoHandler.bind(this);
         this.backHandler = this.backHandler.bind(this);
     }
     
     static navigationOptions = ({ navigation }) => ({
-        title: 'User', header: null
+        title: 'UserComponentMojiTab', header: null
     });
     
     componentDidMount() {
-        this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
+        this.props.getUserMojiTab(this.props.token, this.props.user_stack_moji_tab[this.props.user_stack_moji_tab.length - 1]);
     }
 
     refresh = () => {
-        this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 1]);
+        this.props.getUserMojiTab(this.props.token, this.props.user_stack_moji_tab[this.props.user_stack_moji_tab.length - 1]);
+    }
+
+    followUnfollowHandler(login_cred, user_id, type, auth_id) {
+        // alert
+        Alert.alert(
+            this.props.user_moji_tab.type + 'ing',
+            this.props.user_moji_tab.type + 'ed',
+            [{text: 'Ok'}],
+            { cancelable: false }
+        );
+        
+        this.props.FollowUnfollow(login_cred, user_id, type, auth_id);
     }
 
     createConvoHandler(login_cred, id) {
@@ -68,11 +81,11 @@ class User extends Component {
     }
 
     backHandler() {
-        this.props.popNavUser();
-        if (this.props.user_stack.length !== 1) {
-            this.props.getFollowings(this.props.token, this.props.user_stack[this.props.user_stack.length - 2]);
-            this.props.getFollowers(this.props.token, this.props.user_stack[this.props.user_stack.length - 2]);
-            this.props.getUser(this.props.token, this.props.user_stack[this.props.user_stack.length - 2]);
+        this.props.popNavUserMojiTab();
+        if (!Array.isArray(this.props.user_stack_moji_tab) || !this.props.user_stack_moji_tab.length) {
+            this.props.getFollowingsMojiTab(this.props.token, this.props.user_stack_moji_tab[this.props.user_stack_moji_tab.length - 2]);
+            this.props.getFollowersMojiTab(this.props.token, this.props.user_stack_moji_tab[this.props.user_stack_moji_tab.length - 2]);
+            this.props.getUserMojiTab(this.props.token, this.props.user_stack_moji_tab[this.props.user_stack_moji_tab.length - 2]);
         }
         this.props.navigation.pop();
     }
@@ -85,28 +98,28 @@ class User extends Component {
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
                                 
-              <Text style={styles.h3}>{this.props.user.data.name}</Text>
-              <Text style={styles.text}>Username: {this.props.user.data.username}</Text>
+              <Text style={styles.h3}>{this.props.user_moji_tab.data.name}</Text>
+              <Text style={styles.text}>Username: {this.props.user_moji_tab.data.username}</Text>
               
-              <FollowButton user={this.props.user}/>
+              <FollowButton user={this.props.user_moji_tab}/>
 
               <TouchableOpacity onPress={() => this.props.navigation.push('Followings')}>
-                <Text style={styles.link}>Followings: {this.props.user.data.followingsCount}</Text>
+              <Text style={styles.link}>Followings: {this.props.user_moji_tab.data.followingsCount}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => this.props.navigation.push('Followers')}>
-                <Text style={styles.link}>Followers: {this.props.user.data.followersCount}</Text>
+              <Text style={styles.link}>Followers: {this.props.user_moji_tab.data.followersCount}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => this.createConvoHandler(
                     this.props.token,
-                    this.props.user.data.id
+                    this.props.user_moji_tab.data.id
                 )}>
-                <Text style={styles.link}>Message</Text>
+              <Text style={styles.link}>Message</Text>
               </TouchableOpacity>
               
               <TouchableOpacity onPress={() => this.props.navigation.push('PubMojis')}>
-                <Text style={styles.link}>Public Mojis: {this.props.user.data.pubMojisCount}</Text>
+                <Text style={styles.link}>Public Mojis: {this.props.user_moji_tab.data.pubMojisCount}</Text>
               </TouchableOpacity>
               
               <Text style={styles.text}>Public Collection</Text>
@@ -152,13 +165,12 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('user', state.navReducer.user_stack);
-    console.log('user2', state.userReducer.user);
+    console.log('userMojiTab', state.navReducer.user_stack_moji_tab);
     return {
-        user: state.userReducer.user,
+        user_moji_tab: state.userReducer.user_moji_tab,
         auth_user: state.userReducer.auth_user,
 
-        user_stack: state.navReducer.user_stack,
+        user_stack_moji_tab: state.navReducer.user_stack_moji_tab,
 
         token: state.authReducer.token,
     };
@@ -170,4 +182,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default connect(mapStateToProps, mapDispatchToProps)(UserMojiTab);

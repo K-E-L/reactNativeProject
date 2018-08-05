@@ -1,10 +1,13 @@
 // import: types
 import {
-    GET_NAV_USER_STACK,
     POP_NAV_MOJI,
     POP_NAV_USER,
+    POP_NAV_USER_CONVO_TAB,
     PUSH_NAV_MOJI,
     PUSH_NAV_USER,
+    PUSH_NAV_USER_CONVO_TAB,
+    PUSH_NAV_USER_MOJI_TAB,
+    POP_NAV_USER_MOJI_TAB,
     SELEC_IMAGE,
     SET_COMMENT_ID,
     SET_CONVO_ID,
@@ -22,6 +25,8 @@ import {
 
 const initialState = {
     user_stack: [],
+    user_stack_convo_tab: [],
+    user_stack_moji_tab: [],
     
     moji_stack: [],
     moji_type: '',
@@ -55,6 +60,26 @@ function navReducer (state = initialState, action) {
         return {
             ...state,
             user_stack: state.user_stack.slice(0, (state.user_stack.length - 1))
+        };
+    case PUSH_NAV_USER_CONVO_TAB:
+        return {
+            ...state,
+            user_stack_convo_tab: [...state.user_stack_convo_tab, action.payload]
+        };
+    case POP_NAV_USER_CONVO_TAB:
+        return {
+            ...state,
+            user_stack_convo_tab: state.user_stack_convo_tab.slice(0, (state.user_stack_convo_tab.length - 1))
+        };
+    case PUSH_NAV_USER_MOJI_TAB:
+        return {
+            ...state,
+            user_stack_moji_tab: [...state.user_stack_moji_tab, action.payload]
+        };
+    case POP_NAV_USER_MOJI_TAB:
+        return {
+            ...state,
+            user_stack_moji_tab: state.user_stack_moji_tab.slice(0, (state.user_stack_moji_tab.length - 1))
         };
     case PUSH_NAV_MOJI:
         return {

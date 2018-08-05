@@ -113,6 +113,7 @@ class Moji extends Component {
                   id={this.props.moji.data.creator_id}
                   username={this.props.moji.data.creator_username}
                   type={'username'}
+                  stack={'moji'}
                   navigation={this.props.navigation}/>
 
                 <Text

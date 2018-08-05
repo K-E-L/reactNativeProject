@@ -5,10 +5,16 @@ import {
     GET_COLLEC,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
+    GET_FOLLOWINGS_CONVO_TAB,
+    GET_FOLLOWERS_CONVO_TAB,
+    GET_USER_MOJI_TAB,
+    GET_FOLLOWINGS_MOJI_TAB,
+    GET_FOLLOWERS_MOJI_TAB,
     GET_MESSAGABLE,
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
     GET_USER,
+    GET_USER_CONVO_TAB,
     GET_USER_NOTIFS,
     GET_CONVO_NOTIFS,
     GET_MOJI_NOTIFS,
@@ -56,6 +62,46 @@ export const getUser = (login_cred, id) => dispatch => {
         });
 };
 
+export const getUserConvoTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/' + id.toString(), {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(user =>
+              dispatch({
+                  type: GET_USER_CONVO_TAB,
+                  payload: user
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getUserMojiTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/' + id.toString(), {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(user =>
+              dispatch({
+                  type: GET_USER_MOJI_TAB,
+                  payload: user
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
 export const getFollowings = (login_cred, id) => dispatch => {
     return fetch('http://167.99.162.15/api/users/'
           + id.toString()
@@ -78,6 +124,50 @@ export const getFollowings = (login_cred, id) => dispatch => {
         });
 };
 
+export const getFollowingsConvoTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/'
+          + id.toString()
+          + '/followings', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+          }).then(res => res.json())
+        .then(followings =>
+              dispatch({
+                  type: GET_FOLLOWINGS_CONVO_TAB,
+                  payload: followings.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getFollowingsMojiTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/'
+          + id.toString()
+          + '/followings', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+          }).then(res => res.json())
+        .then(followings =>
+              dispatch({
+                  type: GET_FOLLOWINGS_MOJI_TAB,
+                  payload: followings.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
 export const getFollowers = (login_cred, id) => dispatch => {
     return fetch('http://167.99.162.15/api/users/'
           + id.toString()
@@ -92,6 +182,50 @@ export const getFollowers = (login_cred, id) => dispatch => {
         .then(followers =>
               dispatch({
                   type: GET_FOLLOWERS,
+                  payload: followers.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getFollowersConvoTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/'
+          + id.toString()
+          + '/followers', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+          }).then(res => res.json())
+        .then(followers =>
+              dispatch({
+                  type: GET_FOLLOWERS_CONVO_TAB,
+                  payload: followers.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getFollowersMojiTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/users/'
+          + id.toString()
+          + '/followers', {
+              method: 'POST',
+              headers: {
+                  'Authorization': 'Bearer ' + login_cred.success.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+          }).then(res => res.json())
+        .then(followers =>
+              dispatch({
+                  type: GET_FOLLOWERS_MOJI_TAB,
                   payload: followers.data
               })
              )

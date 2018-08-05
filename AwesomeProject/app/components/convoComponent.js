@@ -173,6 +173,7 @@ class Convo extends Component {
                                     id={item.id}
                                     name={item.name}
                                     type={'smallName'}
+                                    stack={'convo'}
                                 navigation={this.props.navigation}/>}
                               keyExtractor={item => item.id.toString()}/>
                               

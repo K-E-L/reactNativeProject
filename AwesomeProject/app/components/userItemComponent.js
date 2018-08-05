@@ -21,17 +21,17 @@ class UserItem extends Component {
     constructor(props) {
         super(props);
         this.pushNavUserHandler = this.pushNavUserHandler.bind(this);
-        this.pushWithNameHandler = this.pushWithNameHandler.bind(this);
     }
 
     pushNavUserHandler(id) {
-        this.props.pushNavUser(id);
         this.props.navigation.push('User');
-    }
 
-    pushWithNameHandler(id, name) {
-        this.props.pushNavUser(id);
-        this.props.navigation.push('User');
+        if (this.props.stack === 'convo') 
+            this.props.pushNavUserConvoTab(id);
+        else if (this.props.stack === 'moji') 
+            this.props.pushNavUserMojiTab(id);
+        else 
+            this.props.pushNavUser(id);
     }
     
     render() {
@@ -39,7 +39,7 @@ class UserItem extends Component {
             return (
                 <View>
                   <Text
-                    onPress={() => this.pushWithNameHandler(this.props.id, this.props.name)}
+                    onPress={() => this.pushNavUserHandler(this.props.id)}
                     style={styles.h3}>
                     {this.props.name}: {this.props.username}
                   </Text>
@@ -50,7 +50,7 @@ class UserItem extends Component {
             return (
                 <View>
                   <Text
-                    onPress={() => this.pushWithNameHandler(this.props.id, this.props.name)}
+                    onPress={() => this.pushNavUserHandler(this.props.id)}
                     style={styles.text}>
                     {this.props.name}
                   </Text>

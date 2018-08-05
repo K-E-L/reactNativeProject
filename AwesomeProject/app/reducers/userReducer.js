@@ -5,10 +5,16 @@ import {
     GET_COLLEC,
     GET_FOLLOWERS,
     GET_FOLLOWINGS,
+    GET_FOLLOWINGS_CONVO_TAB,
+    GET_FOLLOWERS_CONVO_TAB,
+    GET_USER_MOJI_TAB,
+    GET_FOLLOWINGS_MOJI_TAB,
+    GET_FOLLOWERS_MOJI_TAB,
     GET_MESSAGABLE,
     GET_PRI_MOJIS,
     GET_PUB_MOJIS,
     GET_USER,
+    GET_USER_CONVO_TAB,
     GET_USER_NOTIFS,
     GET_CONVO_NOTIFS,
     GET_MOJI_NOTIFS,
@@ -31,6 +37,15 @@ const initialState = {
         data: {},
         type: ''
     },
+    followings_convo_tab: [],
+    followers_convo_tab: [],
+
+    user_moji_tab: {
+        data: {},
+        type: ''
+    },
+    followings_moji_tab: [],
+    followers_moji_tab: [],
     
     messagable: [],
     
@@ -65,15 +80,45 @@ function userReducer (state = initialState, action) {
             ...state,
             user: action.payload
         };
+    case GET_USER_CONVO_TAB:
+        return {
+            ...state,
+            user_convo_tab: action.payload
+        };
+    case GET_USER_MOJI_TAB:
+        return {
+            ...state,
+            user_moji_tab: action.payload
+        };
     case GET_FOLLOWINGS:
         return {
             ...state,
             followings: action.payload
         };
+    case GET_FOLLOWINGS_CONVO_TAB:
+        return {
+            ...state,
+            followings_convo_tab: action.payload
+        };
+    case GET_FOLLOWINGS_MOJI_TAB:
+        return {
+            ...state,
+            followings_moji_tab: action.payload
+        };
     case GET_FOLLOWERS:
         return {
             ...state,
             followers: action.payload
+        };
+    case GET_FOLLOWERS_CONVO_TAB:
+        return {
+            ...state,
+            followers_convo_tab: action.payload
+        };
+    case GET_FOLLOWERS_MOJI_TAB:
+        return {
+            ...state,
+            followers_moji_tab: action.payload
         };
     case GET_MESSAGABLE:
         return {
