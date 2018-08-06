@@ -52,7 +52,10 @@ class PubMojis extends Component {
                   data={this.props.pub_mojis}
                   horizontal={true}
                   renderItem={({item}) =>
-                  <MojiItemImage item={item} navigation={this.props.navigation}/>}
+                              <MojiItemImage
+                                    item={item}
+                                    tab={'user'}
+                                    navigation={this.props.navigation}/>}
                   keyExtractor={item => item.id.toString()}/>
               </View>
             </PTRView>
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    console.log('pubMojis', state.commentReducer.reply_mojis_map);
+    // console.log('pubMojis', state.commentReducer.reply_mojis_map);
     return {
         pub_mojis: state.userReducer.pub_mojis,
         auth_user: state.userReducer.auth_user,

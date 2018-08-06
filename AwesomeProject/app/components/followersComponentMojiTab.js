@@ -63,7 +63,7 @@ class FollowersMojiTab extends Component {
                                    username={item.username}
                                    name={item.name}
                                    type={'name'}
-                                   stack={'moji'}
+                                   tab={'moji'}
                                    navigation={this.props.navigation}/>}
                               keyExtractor={item => item.id.toString()}/>
               </View>

@@ -20,18 +20,22 @@ import * as Actions from '../actions/rootActions';
 class MojiItemImage extends Component {
     constructor(props) {
         super(props);
-        this.setMojiIdHandler = this.setMojiIdHandler.bind(this);
+        this.pushNavMojiHandler = this.pushNavMojiHandler.bind(this);
     }
 
-    setMojiIdHandler(id) {
-        this.props.pushNavMoji(id);
+    pushNavMojiHandler(id) {
         this.props.navigation.push('Moji');
+
+        if (this.props.tab === 'user')
+            this.props.pushNavMojiUserTab(id);
+        else
+            this.props.pushNavMoji(id);
     }
 
     render() {
         return (
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => this.setMojiIdHandler(this.props.item.id)}>
+              <TouchableOpacity onPress={() => this.pushNavMojiHandler(this.props.item.id)}>
                 <Image style={{width: 20, height: 20}}
                        source={{uri: 'http://167.99.162.15/mojiStorage/' +
                                 this.props.item.creator_id + '/' +

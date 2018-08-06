@@ -26,9 +26,9 @@ class UserItem extends Component {
     pushNavUserHandler(id) {
         this.props.navigation.push('User');
 
-        if (this.props.stack === 'convo') 
+        if (this.props.tab === 'convo') 
             this.props.pushNavUserConvoTab(id);
-        else if (this.props.stack === 'moji') 
+        else if (this.props.tab === 'moji') 
             this.props.pushNavUserMojiTab(id);
         else 
             this.props.pushNavUser(id);

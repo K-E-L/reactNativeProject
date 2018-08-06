@@ -27,6 +27,8 @@ import UserMojiTab from './userComponentMojiTab';
 import FollowingsMojiTab from './followingsComponentMojiTab';
 import FollowersMojiTab from './followersComponentMojiTab';
 
+import MojiUserTab from './mojiComponentUserTab';
+
 // import: navigator
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
@@ -41,7 +43,11 @@ export const UserStackNavigator = createStackNavigator({
 
     Followings: { screen: Followings },
     Followers: { screen: Followers },
-    User: { screen: User }
+    User: { screen: User },
+
+    Moji: { screen: MojiUserTab },
+    // Comment: { screen: Comment }
+
 }, {
     initialRouteName: 'AuthUser',
     headerMode: 'screen'
@@ -64,10 +70,10 @@ export const ConvoStackNavigator = createStackNavigator({
 // export: moji navigator
 export const MojiStackNavigator = createStackNavigator({
     MojiChoose: { screen: MojiChoose },
+    Mojis: { screen: Mojis },
     SearchMoji: { screen: SearchMoji },
     Images: { screen: Images },
-    
-    Mojis: { screen: Mojis },
+
     Moji: { screen: Moji },
     Comment: { screen: Comment },
     

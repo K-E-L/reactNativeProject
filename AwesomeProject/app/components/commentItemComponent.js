@@ -83,6 +83,7 @@ class CommentItem extends Component {
         if(item.substring(0,3) === 'm/#' && item.length > 3 && Number(item.substring(3, item.length) <= this.props.max_moji)) {
             return <MojiItemImage
             item={this.findHandler(item)}
+            tab={this.props.tab}
             navigation={this.props.navigation}/>;
         }
         else {
@@ -121,7 +122,7 @@ class CommentItem extends Component {
                   <Like item={this.props.item} prop_id={this.props.moji.data.id} type={'comment'}/>
 
                   <Dislike item={this.props.item} prop_id={this.props.moji.data.id} type={'comment'}/>
-
+                  
                 </View>
             );
         }

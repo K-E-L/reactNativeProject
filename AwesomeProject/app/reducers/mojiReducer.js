@@ -8,6 +8,8 @@ import {
     GET_MAX_MOJI,
     GET_MOJI,
     GET_MOJI_COMMENTS,
+    GET_MOJI_COMMENTS_USER_TAB,
+    GET_MOJI_USER_TAB,
     GET_POPULAR_MOJIS,
     GET_RECENT_MOJIS,
     REPORT,
@@ -22,15 +24,24 @@ import {
 
 const initialState = {
     mojis: [],
+    
     moji: {
         data: {},
         type: ''
     },
     moji_comments: [],
+    moji_comments_loading: [],
+    
+    moji_user_tab: {
+        data: {},
+        type: ''
+    },
+    moji_comments_user_tab: [],
+    moji_comments_loading_user_tab: [],
+    
     report_body: '',
     comment_body: '',
     comment_split: [],
-    moji_comments_loading: [],
     comment_mojis_map: [],
     
     moji_search_body: '',
@@ -66,6 +77,11 @@ function mojiReducer (state = initialState, action) {
             ...state,
             moji: action.payload
         };
+    case GET_MOJI_USER_TAB:
+        return {
+            ...state,
+            moji_user_tab: action.payload
+        };
     case GET_MOJI_COMMENTS:
         let tempComments = state.moji_comments_loading;
         for(let i = state.moji_comments_loading.length; i < action.payload.length; i++) {
@@ -75,6 +91,16 @@ function mojiReducer (state = initialState, action) {
             ...state,
             moji_comments: action.payload,
             moji_comments_loading: [...tempComments],
+        };
+    case GET_MOJI_COMMENTS_USER_TAB:
+        let tempCommentsUserTab = state.moji_comments_loading_user_tab;
+        for(let i = state.moji_comments_loading_user_tab.length; i < action.payload.length; i++) {
+            tempCommentsUserTab.push(true);
+        }
+        return {
+            ...state,
+            moji_comments_user_tab: action.payload,
+            moji_comments_loading_user_tab: [...tempCommentsUserTab],
         };
     case SET_COMMENT_BODY:
         return {

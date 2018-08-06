@@ -43,7 +43,7 @@ import Dislike from './dislikeComponent';
 // import: dumb component
 import CollecButton from './collecButtonComponent';
 
-class Moji extends Component {
+class MojiUserTab extends Component {
     constructor(props) {
         super(props);
         this.backHandler = this.backHandler.bind(this);
@@ -58,21 +58,21 @@ class Moji extends Component {
 
     componentDidMount() {
         this.props.getMaxMoji(this.props.token);
-        this.props.getMoji(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
-        this.props.getMojiComments(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
+        this.props.getMojiUserTab(this.props.token, this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1]);
+        this.props.getMojiCommentsUserTab(this.props.token, this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1]);
     }
 
     refresh = () => {
         this.props.getMaxMoji(this.props.token);
-        this.props.getMoji(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
-        this.props.getMojiComments(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 1]);
+        this.props.getMojiUserTab(this.props.token, this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1]);
+        this.props.getMojiCommentsUserTab(this.props.token, this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1]);
     }
 
     backHandler() {
-        this.props.popNavMoji();
-        if (this.props.moji_stack.length !== 1) {
-            this.props.getMoji(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 2]);
-            this.props.getMojiComments(this.props.token, this.props.moji_stack[this.props.moji_stack.length - 2]);
+        this.props.popNavMojiUserTab();
+        if (this.props.moji_stack_user_tab.length !== 1) {
+            this.props.getMojiUserTab(this.props.token, this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 2]);
+            this.props.getMojiCommentsUserTab(this.props.token, this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 2]);
         }
         this.props.navigation.pop();
     }    
@@ -101,33 +101,33 @@ class Moji extends Component {
                 <TouchableOpacity onPress={() => this.backHandler()}>
                   <Text style={styles.h3}>Back</Text>
                 </TouchableOpacity>
-                  <Text style={styles.h3}>{this.props.moji.data.name}</Text>
+                  <Text style={styles.h3}>{this.props.moji_user_tab.data.name}</Text>
                 <Image
                   style={{width: 20, height: 20}}
                   source={{uri: 'http://167.99.162.15/mojiStorage/' +
-                           this.props.moji.data.creator_id + '/' +
-                  this.props.moji.data.path}}/>
-                <Text style={styles.text}>Moji #{this.props.moji.data.id}</Text>
+                           this.props.moji_user_tab.data.creator_id + '/' +
+                  this.props.moji_user_tab.data.path}}/>
+                <Text style={styles.text}>Moji #{this.props.moji_user_tab.data.id}</Text>
 
                 <UserItem
-                  id={this.props.moji.data.creator_id}
-                  username={this.props.moji.data.creator_username}
+                  id={this.props.moji_user_tab.data.creator_id}
+                  username={this.props.moji_user_tab.data.creator_username}
                   type={'username'}
-                  tab={'moji'}
+                  stack={'moji'}
                   navigation={this.props.navigation}/>
 
                 <Text
-                  style={styles.text}>Collecs: {this.props.moji.data.collec_count}</Text>
+                  style={styles.text}>Collecs: {this.props.moji_user_tab.data.collec_count}</Text>
                 <Text
-                  style={styles.text}>Likes: {this.props.moji.data.like_count}</Text>
+                  style={styles.text}>Likes: {this.props.moji_user_tab.data.like_count}</Text>
                 <Text
-                  style={styles.text}>Dislikes: {this.props.moji.data.dislike_count}</Text>
+                  style={styles.text}>Dislikes: {this.props.moji_user_tab.data.dislike_count}</Text>
 
-                <CollecButton type={this.props.moji.type}/>
+                <CollecButton type={this.props.moji_user_tab.type}/>
                 
-                <Like item={this.props.moji.data} prop_id={this.props.moji_stack[this.props.moji_stack.length - 1]} type={'moji'}/>
+                <Like item={this.props.moji_user_tab.data} prop_id={this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1]} type={'moji'}/>
 
-                <Dislike item={this.props.moji.data} prop_id={this.props.moji_stack[this.props.moji_stack.length - 1]} type={'moji'}/>
+                <Dislike item={this.props.moji_user_tab.data} prop_id={this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1]} type={'moji'}/>
                 
                 {this.props.moji_preview && <MojiPreview />}
                 
@@ -139,7 +139,7 @@ class Moji extends Component {
                   onEndEditing={() => this.endEditingCommentHandler()}
                   onSubmitEditing={() => this.props.comment(
                       this.props.token,
-                      this.props.moji_stack[this.props.moji_stack.length - 1],
+                      this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1],
                       this.props.comment_body
                   )}/>
 
@@ -147,7 +147,7 @@ class Moji extends Component {
 
                 <TouchableOpacity onPress={() => this.props.comment(
                       this.props.token,
-                      this.props.moji_stack[this.props.moji_stack.length - 1],
+                      this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1],
                       this.props.comment_body
                   )}>
                   <Text style={styles.link}>Comment</Text>
@@ -159,25 +159,25 @@ class Moji extends Component {
                   placeholder="Report.."
                   onSubmitEditing={() => this.props.report(
                       this.props.token,
-                      this.props.moji_stack[this.props.moji_stack.length - 1],
+                      this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1],
                       this.props.report_body
                   )}/>
 
                   <TouchableOpacity onPress={() => this.props.report(
                         this.props.token,
-                        this.props.moji_stack[this.props.moji_stack.length - 1],
+                        this.props.moji_stack_user_tab[this.props.moji_stack_user_tab.length - 1],
                         this.props.report_body
                     )}>
                     <Text style={styles.link}>Report</Text>
                   </TouchableOpacity>
 
                   <FlatList
-                    data={this.props.moji_comments}
+                    data={this.props.moji_comments_user_tab}
                     renderItem={({item, index}) =>
                                 <CommentItem
                                       item={item}
                                       index={index}
-                                      tab={'moji'}
+                                      tab={'user'}
                                   navigation={this.props.navigation}/>}
                                 keyExtractor={(item, index) => index.toString()}/>
             </PTRView>
@@ -200,16 +200,17 @@ const styles = StyleSheet.create({
 
 // Pass: redux state to props
 function mapStateToProps(state, props) {
-    // console.log('moji', state.mojiReducer.moji);
+    console.log('mojiUserTab', state.navReducer.moji_stack_user_tab);
     return {
-        moji: state.mojiReducer.moji,
-        moji_comments: state.mojiReducer.moji_comments,
+        moji_user_tab: state.mojiReducer.moji_user_tab,
+        moji_comments_user_tab: state.mojiReducer.moji_comments_user_tab,
+        
         comment_body: state.mojiReducer.comment_body,
         report_body: state.mojiReducer.report_body,
-        
         moji_keyboard: state.navReducer.moji_keyboard,
         moji_preview: state.navReducer.moji_preview,
-        moji_stack: state.navReducer.moji_stack,
+        
+        moji_stack_user_tab: state.navReducer.moji_stack_user_tab,
 
         token: state.authReducer.token,
     };
@@ -221,4 +222,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Connect: everything
-export default connect(mapStateToProps, mapDispatchToProps)(Moji);
+export default connect(mapStateToProps, mapDispatchToProps)(MojiUserTab);

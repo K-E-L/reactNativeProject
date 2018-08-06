@@ -7,6 +7,8 @@ import {
     PUSH_NAV_USER,
     PUSH_NAV_USER_CONVO_TAB,
     PUSH_NAV_USER_MOJI_TAB,
+    PUSH_NAV_MOJI_USER_TAB,
+    POP_NAV_MOJI_USER_TAB,
     POP_NAV_USER_MOJI_TAB,
     SELEC_IMAGE,
     SET_COMMENT_ID,
@@ -29,6 +31,9 @@ const initialState = {
     user_stack_moji_tab: [],
     
     moji_stack: [],
+    
+    moji_stack_user_tab: [],
+
     moji_type: '',
     
     convo_id: 0,
@@ -90,6 +95,16 @@ function navReducer (state = initialState, action) {
         return {
             ...state,
             moji_stack: state.moji_stack.slice(0, (state.moji_stack.length - 1))
+        };
+    case PUSH_NAV_MOJI_USER_TAB:
+        return {
+            ...state,
+            moji_stack_user_tab: [...state.moji_stack_user_tab, action.payload]
+        };
+    case POP_NAV_MOJI_USER_TAB:
+        return {
+            ...state,
+            moji_stack_user_tab: state.moji_stack_user_tab.slice(0, (state.moji_stack_user_tab.length - 1))
         };
     case SET_CONVO_ID:
         return {

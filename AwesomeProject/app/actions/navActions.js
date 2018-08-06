@@ -7,6 +7,8 @@ import {
     PUSH_NAV_USER,
     PUSH_NAV_USER_CONVO_TAB,
     PUSH_NAV_USER_MOJI_TAB,
+    PUSH_NAV_MOJI_USER_TAB,
+    POP_NAV_MOJI_USER_TAB,
     POP_NAV_USER_MOJI_TAB,
     SELEC_IMAGE,
     SET_COMMENT_ID,
@@ -76,6 +78,20 @@ export const pushNavMoji = (id) => dispatch => {
 export const popNavMoji = () => dispatch => {
     dispatch({
         type: POP_NAV_MOJI,
+        payload: 0
+    });
+};
+
+export const pushNavMojiUserTab = (id) => dispatch => {
+    dispatch({
+        type: PUSH_NAV_MOJI_USER_TAB,
+        payload: id
+    });
+};
+
+export const popNavMojiUserTab = () => dispatch => {
+    dispatch({
+        type: POP_NAV_MOJI_USER_TAB,
         payload: 0
     });
 };

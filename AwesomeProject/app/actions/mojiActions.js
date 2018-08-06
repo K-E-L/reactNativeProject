@@ -1,13 +1,15 @@
 // import: types
 import {
     ADD_COMMENT_MOJI,
+    CLEAR_COMMENT_SPLIT,
     COMMENT,
     COMMENT_LOADED,
-    CLEAR_COMMENT_SPLIT,
     GET_FOLLOWING_MOJIS,
     GET_MAX_MOJI,
     GET_MOJI,
     GET_MOJI_COMMENTS,
+    GET_MOJI_COMMENTS_USER_TAB,
+    GET_MOJI_USER_TAB,
     GET_POPULAR_MOJIS,
     GET_RECENT_MOJIS,
     REPORT,
@@ -104,6 +106,26 @@ export const getMoji = (login_cred, id) => dispatch => {
         });
 };
 
+export const getMojiUserTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/mojis/' + id, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(mojis =>
+              dispatch({
+                  type: GET_MOJI_USER_TAB,
+                  payload: mojis
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
 export const getMojiComments = (login_cred, id) => dispatch => {
     return fetch('http://167.99.162.15/api/mojis/' +
           id +
@@ -118,6 +140,28 @@ export const getMojiComments = (login_cred, id) => dispatch => {
         .then(comments =>
               dispatch({
                   type: GET_MOJI_COMMENTS,
+                  payload: comments.data
+              })
+             )
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const getMojiCommentsUserTab = (login_cred, id) => dispatch => {
+    return fetch('http://167.99.162.15/api/mojis/' +
+          id +
+          '/comments', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + login_cred.success.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }).then(res => res.json())
+        .then(comments =>
+              dispatch({
+                  type: GET_MOJI_COMMENTS_USER_TAB,
                   payload: comments.data
               })
              )
@@ -153,6 +197,7 @@ export const comment = (login_cred, id, body) => dispatch => {
               })
              )
         .then(() => {dispatch(getMojiComments(login_cred, id));})
+    // also get mojiCommentsUserTab?? or make another action
         .then(() => {dispatch(clearCommentSplit());})
         .catch((error) => {
             console.error(error);
